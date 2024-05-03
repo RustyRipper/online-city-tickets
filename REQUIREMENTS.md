@@ -37,43 +37,43 @@ _The translations are based on the ["Public transport step by step"](https://www
 
 _The [MoSCoW method](https://en.wikipedia.org/wiki/MoSCoW_method#Prioritization_of_requirements) introduces the following requirement categories: must have, should have, could have, won't have. The requirements were synthesized from: a) project description from the course site, b) project requirements from the course site, c) an exploration of [jakdojade.pl](https://jakdojade.pl). The planned milestone is listed next to the MoSCoW category._
 
-| **ID**   | **Parent** | **Requirement / rule**                                                                        | **Scope** | **MoSCoW**      |
-| -------- | ---------- | --------------------------------------------------------------------------------------------- | --------- | --------------- |
-| **R001** |            | The passenger can register an account.                                                        | FE / BE   | MUST (**M1**)   |
-| **R002** |            | The passenger and the inspector can log in to their accounts.                                 | FE / BE   | MUST (**M1**)   |
-| **R003** |            | The passenger can browse through the ticket offers.                                           | FE / BE   | MUST (**M1**)   |
-| **R004** |            | The system stores ticket offers and tickets.                                                  | BE        | MUST (**M1**)   |
-| **R005** | R004       | There are three available ticket scopes: single-fare, time-limited and long-term.             | BE        | MUST (**M1**)   |
-| **R006** | R004       | There are two available ticket kinds: standard and reduced.                                   | BE        | MUST (**M1**)   |
-| **R007** | R004       | Each ticket contains a unique code, allowing for its inspection.                              | BE        | MUST (**M1**)   |
-| **R008** |            | The passenger can select and purchase any available ticket.                                   | FE / BE   | MUST (**M2**)   |
-| **R009** |            | The passenger can view their tickets (active and past) in the "My tickets" view.              | FE / BE   | MUST (**M2**)   |
-| **R010** |            | The system exposes a REST API for integration with the validators.                            | BE        | MUST (**M2**)   |
-| **R011** |            | The inspector can inspect (check validity of) a ticket using its code.                        | FE / BE   | MUST (**M3**)   |
-| **R012** | R011       | A single-fare ticket is valid if it was validated in the same vehicle.                        | BE        | MUST (**M3**)   |
-| **R013** | R011       | A time-limited ticket is valid if its duration did not expire yet.                            | BE        | MUST (**M3**)   |
-| **R014** | R011       | A long-term ticket is valid if used within its interval.                                      | BE        | MUST (**M3**)   |
-| **R015** |            | The system offers different payment options.                                                  | BE        | MUST (**M2**)   |
-| **R016** | R015       | Credit card is an allowed payment option.                                                     | FE / BE   | MUST (**M2**)   |
-| **R017** |            | The system uses GitHub Actions to test using CI/CD.                                           | BE        | MUST (**M1**)   |
-| **R018** | R017       | The system is tested using unit/integration tests.                                            | FE / BE   | MUST (ALL)      |
-| **R019** | R016       | Credit card details are validated using the Luhn algorithm.                                   | BE        | SHOULD (**M2**) |
-| **R020** | R007       | The ticket code is displayed in the form of QR code.                                          | FE        | SHOULD (**M2**) |
-| **R021** |            | The web app is mobile-first and looks good on a mobile phone.                                 | FE        | SHOULD (ALL)    |
-| **R022** |            | The system uses Docker Compose to ensure single-command startup.                              | BE        | SHOULD (**M1**) |
-| **R023** |            | The system exposes a REST API for inspector registration.                                     | BE        | SHOULD (**M1**) |
-| **R024** | R011       | The inspector can inspect a ticked by scanning the QR code.                                   | FE        | COULD (**M3**)  |
-| **R025** | R015       | The BLIK codes are an allowed payment option.                                                 | FE / BE   | COULD (**M3**)  |
-| **R026** | R015       | The app introduces a "wallet" feature, letting you top up a virtual account and pay using it. | FE / BE   | COULD (**M3**)  |
-| **R027** | R016       | The credit card details can be stored for future use.                                         | FE / BE   | COULD (**M2**)  |
-| **R028** | R003       | The passenger can set the preferred ticket kind (standard/reduced) in their settings.         | FE        | COULD (**M1**)  |
-| **R029** |            | The web app is usable on a bigger screen (e.g. a desktop).                                    | FE        | COULD (ALL)     |
-| **R030** |            | The web app uses two different color themes.                                                  | FE        | COULD (**M1**)  |
-| **R031** |            | The system is hosted online using a cloud provider                                            | BE        | COULD (**M3**)  |
-| **R032** |            | The system is tested using E2E tests.                                                         | FE / BE   | COULD (ALL)     |
-| **R033** |            | The payment system mock is held as a separate app to simulate real usage.                     | BE        | COULD (**M2**)  |
-|          |            | The system is integrated with a real payment system, instead of a mock.                       |           | WON'T           |
-|          |            | The system is integrated with a navigation / timetable system.                                |           | WON'T           |
-|          |            | The system provides a city selection with different offers for different cities.              |           | WON'T           |
+| **ID**   | **Requirement / rule**                                                                        | **Part** | **MoSCoW (MS)** |
+| -------- | --------------------------------------------------------------------------------------------- | -------- | --------------- |
+| **R001** | The passenger can register an account.                                                        | ALL      | MUST (M1)       |
+| **R002** | The passenger and the inspector can log in to their accounts.                                 | ALL      | MUST (M1)       |
+| **R003** | The passenger can browse through the ticket offers.                                           | ALL      | MUST (M1)       |
+| **R004** | The system stores ticket offers and tickets.                                                  | BE       | MUST (M1)       |
+| **R005** | There are three available ticket scopes: single-fare, time-limited and long-term.             | BE       | MUST (M1)       |
+| **R006** | There are two available ticket kinds: standard and reduced.                                   | BE       | MUST (M1)       |
+| **R007** | Each ticket contains a unique code, allowing for its inspection.                              | BE       | MUST (M1)       |
+| **R008** | The passenger can select and purchase any available ticket.                                   | ALL      | MUST (M2)       |
+| **R009** | The passenger can view their tickets (active and past) in the "My tickets" view.              | ALL      | MUST (M2)       |
+| **R010** | The system exposes a REST API for integration with the validators.                            | BE       | MUST (M2)       |
+| **R011** | The inspector can inspect (check validity of) a ticket using its code.                        | ALL      | MUST (M3)       |
+| **R012** | A single-fare ticket is valid if it was validated in the same vehicle.                        | BE       | MUST (M3)       |
+| **R013** | A time-limited ticket is valid if its duration did not expire yet.                            | BE       | MUST (M3)       |
+| **R014** | A long-term ticket is valid if used within its interval.                                      | BE       | MUST (M3)       |
+| **R015** | The system offers different payment options.                                                  | BE       | MUST (M2)       |
+| **R016** | Credit card is an allowed payment option.                                                     | ALL      | MUST (M2)       |
+| **R017** | The system uses GitHub Actions to test using CI/CD.                                           | BE       | MUST (M1)       |
+| **R018** | The system is tested using unit/integration tests.                                            | ALL      | MUST            |
+| **R019** | Credit card details are validated using the Luhn algorithm.                                   | BE       | SHOULD (M2)     |
+| **R020** | The ticket code is displayed in the form of QR code.                                          | FE       | SHOULD (M2)     |
+| **R021** | The web app is mobile-first and looks good on a mobile phone.                                 | FE       | SHOULD          |
+| **R022** | The system uses Docker Compose to ensure single-command startup.                              | BE       | SHOULD (M1)     |
+| **R023** | The system exposes a REST API for inspector registration.                                     | BE       | SHOULD (M1)     |
+| **R024** | The inspector can inspect a ticked by scanning the QR code.                                   | FE       | COULD (M3)      |
+| **R025** | The BLIK codes are an allowed payment option.                                                 | ALL      | COULD (M3)      |
+| **R026** | The app introduces a "wallet" feature, letting you top up a virtual account and pay using it. | ALL      | COULD (M3)      |
+| **R027** | The credit card details can be stored for future use.                                         | ALL      | COULD (M2)      |
+| **R028** | The passenger can set the preferred ticket kind (standard/reduced) in their settings.         | FE       | COULD (M1)      |
+| **R029** | The web app is usable on a bigger screen (e.g. a desktop).                                    | FE       | COULD           |
+| **R030** | The web app uses two different color themes.                                                  | FE       | COULD (M1)      |
+| **R031** | The system is hosted online using a cloud provider                                            | BE       | COULD (M3)      |
+| **R032** | The system is tested using E2E tests.                                                         | ALL      | COULD           |
+| **R033** | The payment system mock is held as a separate app to simulate real usage.                     | BE       | COULD (M2)      |
+|          | The system is integrated with a real payment system, instead of a mock.                       |          | WON'T           |
+|          | The system is integrated with a navigation / timetable system.                                |          | WON'T           |
+|          | The system provides a city selection with different offers for different cities.              |          | WON'T           |
 
-Note that requirements **R018**, **R021**, **R029** and **R032** belong to all milestones, since they don't have their separate tasks and instead should be upheld during the realization of all the other requirements.
+Note that requirements **R018**, **R021**, **R029** and **R032** belong to all milestones, since they are the non-functional requirements, which don't have their separate tasks and instead should be upheld during the realization of all the other (functional) requirements.
