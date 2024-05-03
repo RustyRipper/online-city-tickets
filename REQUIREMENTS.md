@@ -71,6 +71,6 @@ _The [MoSCoW method](https://en.wikipedia.org/wiki/MoSCoW_method#Prioritization_
 | **R030** |            | The web app uses two different color themes.                                                  | FE        | COULD      |
 | **R031** |            | The system is hosted online using a cloud provider                                            | BE        | COULD      |
 | **R032** |            | The system is tested using E2E tests.                                                         | FE / BE   | COULD      |
-| N/A      |            | The system is integrated with a real payment system, instead of a mock.                       | BE        | WON'T      |
-| N/A      |            | The system is integrated with a navigation / timetable system.                                | FE / BE   | WON'T      |
-| N/A      |            | The system provides a city selection with different offers for different cities.              | FE / BE   | WON'T      |
+|          |            | The system is integrated with a real payment system, instead of a mock.                       | BE        | WON'T      |
+|          |            | The system is integrated with a navigation / timetable system.                                | FE / BE   | WON'T      |
+|          |            | The system provides a city selection with different offers for different cities.              | FE / BE   | WON'T      |

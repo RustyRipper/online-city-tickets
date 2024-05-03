@@ -9,6 +9,10 @@
 
 ## Back end
 
+### Component diagram
+
+TODO
+
 ### Domain class diagram
 
 TODO
