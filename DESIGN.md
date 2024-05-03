@@ -20,3 +20,7 @@ TODO
 ### Database diagram
 
 TODO
+
+### Endpoints
+
+TODO
