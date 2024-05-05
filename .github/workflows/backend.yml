@@ -1,0 +1,26 @@
+on:
+  push:
+    paths:
+      - online-city-tickets-backend/**
+      - .github/workflows/backend.yml
+
+jobs:
+  build:
+    runs-on: self-hosted
+    name: Build and test project
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Running Build and Tests
+        run: |
+          cd online-city-tickets-backend
+          ./gradlew build
