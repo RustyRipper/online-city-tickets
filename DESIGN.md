@@ -72,6 +72,7 @@ classDiagram
         <<enumeration>>
         Standard
         Reduced
+        double getDiscountPercent()
     }
 
     class Validation {
