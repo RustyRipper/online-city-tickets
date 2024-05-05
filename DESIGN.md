@@ -107,7 +107,7 @@ classDiagram
     class Vehicle {
         long id [1] #lcub;id, readonly#rcub;
         boolean isActive [1] = true
-        int sideNumber [1] #lcub;readonly#rcub;
+        String sideCode [1] #lcub;readonly#rcub;
     }
 ```
 
