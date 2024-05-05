@@ -3,11 +3,12 @@ on:
     paths:
       - online-city-tickets-backend/**
       - .github/workflows/backend.yml
+      - compose.yml
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  spring-boot:
     name: Build and test project
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,7 +21,7 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Running Build and Tests
+      - name: Run Build and Tests
         run: |
           cd online-city-tickets-backend
           ./gradlew build

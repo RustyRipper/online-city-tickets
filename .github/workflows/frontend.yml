@@ -3,27 +3,32 @@ on:
     paths:
       - online-city-tickets-frontend/**
       - .github/workflows/frontend.yml
+      - compose.yml
 
 jobs:
   angular:
-    name: Angular Build
+    name: Build and test project
     runs-on: ubuntu-latest
     timeout-minutes: 15
     defaults:
       run:
         working-directory: online-city-tickets-frontend
     steps:
-      - name: Checkout the source code
+      - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: online-city-tickets-frontend/.nvmrc
           cache: npm
           cache-dependency-path: online-city-tickets-frontend/package-lock.json
+
       - name: Install dependencies
         run: npm ci
-      - name: Build
+
+      - name: Run Build
         run: npm run build
-      - name: Run tests
+
+      - name: Run Tests
         run: npm test
