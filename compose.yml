@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgresql:
+    image: 'postgres'
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+  springboot:
+    container_name: springboot
+    image: spring
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresql
+
+  angular:
+    restart: always
+    container_name: angular
+    image: angular
+    ports:
+      - "8000:80"
+    stdin_open: true
+    depends_on:
+      - springboot
