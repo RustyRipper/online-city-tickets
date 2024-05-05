@@ -5,25 +5,26 @@ on:
       - .github/workflows/frontend.yml
 
 jobs:
-  build:
-    runs-on: self-hosted
-    name: Build and test project
+  angular:
+    name: Angular Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
     steps:
-      - name: Checkout code
+      - name: Checkout the source code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Build Angular app
-        run: npm run build
-
+        run: npm ci
       - name: Run tests
-        run: npm run test -- --no-watch --no-progress
+        run: npm run test:ci
+      - name: Build
+        run: npm run build
