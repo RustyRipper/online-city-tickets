@@ -8,23 +8,22 @@ jobs:
   angular:
     name: Angular Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20]
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: online-city-tickets-frontend
     steps:
       - name: Checkout the source code
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
-
+          node-version-file: online-city-tickets-frontend/.nvmrc
+          cache: npm
+          cache-dependency-path: online-city-tickets-frontend/package-lock.json
       - name: Install dependencies
         run: npm ci
-      - name: Run tests
-        run: npm run test:ci
       - name: Build
         run: npm run build
+      - name: Run tests
+        run: npm test
