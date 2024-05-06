@@ -5,7 +5,7 @@
     "start": "ng serve",
     "build": "ng build",
     "format": "prettier --write .",
-    "test": "ng test"
+    "test": "ng test --no-watch --no-progress --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {

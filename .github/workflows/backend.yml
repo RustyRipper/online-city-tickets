@@ -1,0 +1,28 @@
+on:
+  push:
+    paths:
+      - online-city-tickets-backend/**
+      - .github/workflows/backend.yml
+      - compose.yml
+
+jobs:
+  spring-boot:
+    name: Build and test project
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Run Build and Tests
+        run: |
+          cd online-city-tickets-backend
+          ./gradlew build
