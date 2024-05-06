@@ -3,6 +3,7 @@
     "angular.ng-template",
     "esbenp.prettier-vscode",
     "vscjava.vscode-java-pack",
-    "vscjava.vscode-gradle"
+    "vscjava.vscode-gradle",
+    "42Crunch.vscode-openapi"
   ]
 }

@@ -1,0 +1,634 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Online City Tickets - API Gateway",
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080/api/v1",
+            "description": "Development Server"
+        }
+    ],
+    "paths": {
+        "/auth/register/passenger": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Register a new passenger account.",
+                "operationId": "registerAsPassenger",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterAsPassengerReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Account created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PassengerDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body."
+                    }
+                }
+            }
+        },
+        "/auth/register/inspector": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Register a new inspector account.",
+                "operationId": "registerAsInspector",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterAsInspectorReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Account created successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InspectorDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body."
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Log in to the system.",
+                "description": "Returns a JWT, which should be included in the Authorization header of all subsequent requests.<br/>Can be used by both passengers and inspectors.",
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginRes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid credentials."
+                    }
+                }
+            }
+        },
+        "/account": {
+            "get": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Get current account's details.",
+                "operationId": "getAccount",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Update current account's details.",
+                "operationId": "updateAccount",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/credit-cards": {
+            "get": {
+                "tags": [
+                    "cards"
+                ],
+                "summary": "List all saved credit cards of the current account.",
+                "operationId": "listCreditCards",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Save a new credit card on the current account.",
+                "operationId": "saveCreditCard",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/credit-cards/{id}": {
+            "get": {
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Get details of a saved credit card.",
+                "operationId": "getCreditCard",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Update details of a saved credit card.",
+                "operationId": "updateCreditCard",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "cards"
+                ],
+                "summary": "Delete a saved credit card.",
+                "operationId": "deleteCreditCard",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/cardId"
+                }
+            ]
+        },
+        "/recharge/new-credit-card": {
+            "post": {
+                "tags": [
+                    "recharging"
+                ],
+                "summary": "Recharge the virtual wallet using a new credit card.",
+                "description": "This operation does not save the credit card on the account.<br/>Use the `/account/credit-cards` endpoint instead.<br/>This operation is propagated to the payment service.",
+                "operationId": "rechargeWithNewCreditCard",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/recharge/saved-credit-card": {
+            "post": {
+                "tags": [
+                    "recharging"
+                ],
+                "summary": "Recharge the virtual wallet using a saved credit card.",
+                "description": "This operation is propagated to the payment service.",
+                "operationId": "rechargeWithSavedCreditCard",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/recharge/blik": {
+            "post": {
+                "tags": [
+                    "recharging"
+                ],
+                "summary": "Recharge the virtual wallet using BLIK.",
+                "description": "This operation is propagated to the payment service.",
+                "operationId": "rechargeWithBlik",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/offers": {
+            "get": {
+                "tags": [
+                    "offers"
+                ],
+                "summary": "List all available ticket offers.",
+                "operationId": "listTicketOffers"
+            }
+        },
+        "/offers/{id}": {
+            "get": {
+                "tags": [
+                    "offers"
+                ],
+                "summary": "Get details of a single ticket offer.",
+                "operationId": "getTicketOffer"
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/offerId"
+                }
+            ]
+        },
+        "/tickets": {
+            "get": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "List all tickets of the current account.",
+                "operationId": "listTickets",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Purchase a new ticket.",
+                "description": "This operation charges the ticket price from the virtual wallet.",
+                "operationId": "purchaseTicket",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/tickets/{code}": {
+            "get": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Get details of a single ticket of the current account.",
+                "operationId": "getTicket",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/code"
+                }
+            ]
+        },
+        "/tickets/{code}/validate": {
+            "post": {
+                "tags": [
+                    "validation"
+                ],
+                "summary": "Validate a ticket.",
+                "description": "Ensures that a single-fare or time-limited ticket becomes valid. Does nothing for long-term tickets.",
+                "operationId": "validateTicket",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ValidateTicketReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "204": {
+                        "description": "Ticket successfully validated."
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/code"
+                }
+            ]
+        },
+        "/tickets/{code}/inspect": {
+            "post": {
+                "tags": [
+                    "inspection"
+                ],
+                "summary": "Inspect a ticket.",
+                "description": "Checks if the ticket was correctly validated.",
+                "operationId": "inspectTicket",
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/code"
+                }
+            ]
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegisterAsPassengerReq": {
+                "required": [
+                    "fullName",
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "fullName": {
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "$ref": "#/components/schemas/password"
+                    },
+                    "phoneNumber": {
+                        "$ref": "#/components/schemas/phoneNumber"
+                    }
+                }
+            },
+            "PassengerDto": {
+                "required": [
+                    "id",
+                    "type",
+                    "fullName",
+                    "email",
+                    "walletBalanceGrosze"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "passenger"
+                        ]
+                    },
+                    "fullName": {
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "walletBalanceGrosze": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 1000
+                    },
+                    "phoneNumber": {
+                        "$ref": "#/components/schemas/phoneNumber"
+                    }
+                }
+            },
+            "RegisterAsInspectorReq": {
+                "required": [
+                    "fullName",
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "fullName": {
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "$ref": "#/components/schemas/password"
+                    }
+                }
+            },
+            "InspectorDto": {
+                "required": [
+                    "id",
+                    "type",
+                    "fullName",
+                    "email"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "inspector"
+                        ]
+                    },
+                    "fullName": {
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    }
+                }
+            },
+            "LoginReq": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "$ref": "#/components/schemas/password"
+                    }
+                }
+            },
+            "LoginRes": {
+                "required": [
+                    "jwt"
+                ],
+                "type": "object",
+                "properties": {
+                    "jwt": {
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    }
+                }
+            },
+            "ValidateTicketReq": {
+                "required": [
+                    "sideCode"
+                ],
+                "type": "object",
+                "properties": {
+                    "vehicleSideNumber": {
+                        "$ref": "#/components/schemas/vehicleSideNumber"
+                    }
+                }
+            },
+            "id": {
+                "type": "number",
+                "minimum": 0,
+                "example": 1
+            },
+            "password": {
+                "type": "string",
+                "format": "password",
+                "minLength": 8,
+                "example": "password"
+            },
+            "phoneNumber": {
+                "type": "string",
+                "pattern": "^[0-9]{9}$"
+            },
+            "vehicleSideNumber": {
+                "type": "string",
+                "pattern": "^[0-9]{4}$"
+            }
+        },
+        "parameters": {
+            "code": {
+                "name": "code",
+                "in": "path",
+                "description": "Unique code of the ticket.",
+                "required": true,
+                "schema": {
+                    "pattern": "^[0-9A-Z]{8}$",
+                    "type": "string"
+                },
+                "example": "3K7G9T2E"
+            },
+            "cardId": {
+                "name": "id",
+                "in": "path",
+                "description": "Unique identifier of the credit card.",
+                "required": true,
+                "schema": {
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "type": "string"
+                },
+                "example": "1"
+            },
+            "offerId": {
+                "name": "id",
+                "in": "path",
+                "description": "Unique identifier of the offer.",
+                "required": true,
+                "schema": {
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "type": "string"
+                },
+                "example": "1"
+            }
+        },
+        "securitySchemes": {
+            "jwt": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "auth",
+            "description": "Operations related to authentication."
+        },
+        {
+            "name": "accounts",
+            "description": "Operations related to user accounts."
+        },
+        {
+            "name": "cards",
+            "description": "Operations related to credit cards."
+        },
+        {
+            "name": "recharging",
+            "description": "Operations related to the virtual wallet recharging."
+        },
+        {
+            "name": "offers",
+            "description": "Operations related to ticket offers."
+        },
+        {
+            "name": "tickets",
+            "description": "Operations related to tickets."
+        },
+        {
+            "name": "validation",
+            "description": "Operations related to ticket validation."
+        },
+        {
+            "name": "inspection",
+            "description": "Operations related to ticket inspection."
+        }
+    ],
+    "externalDocs": {
+        "description": "GitHub Repository",
+        "url": "https://github.com/RustyRipper/online-city-tickets"
+    }
+}

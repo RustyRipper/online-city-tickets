@@ -17,13 +17,6 @@ TODO
 
 ```mermaid
 classDiagram
-    class PaymentSource {
-        <<enumeration>>
-        CreditCard
-        BlikCode
-        Wallet
-    }
-
     class Account {
         <<abstract>>
         long id [1] #lcub;id, readonly#rcub;
@@ -33,8 +26,7 @@ classDiagram
     }
 
     class Passenger {
-        BigDecimal walletBalance [1] = BigDecimal.ZERO
-        TicketKind preferredTicketKind [1] = TicketKind.Standard
+        BigDecimal walletBalancePln [1] = BigDecimal.ZERO
         String phoneNumber [0..1]
     }
     Account <|-- Passenger
@@ -59,7 +51,6 @@ classDiagram
         long id [1] #lcub;id, readonly#rcub;
         String code [1] #lcub;readonly#rcub;
         Instant purchaseTime [1] = Instant.now#lpar;#rpar; #lcub;readonly#rcub;
-        PaymentSource paymentSource [1] #lcub;readonly#rcub;
         boolean getIsValid(Instant now, int vehicleSideNumber)
         Instant getValidFromTime()
         Instant getValidUntilTime()
@@ -88,7 +79,7 @@ classDiagram
         String displayNameEn [1]
         String displayNamePl [1]
         TicketKind kind [1] #lcub;readonly#rcub;
-        BigDecimal price [1] #lcub;readonly#rcub;
+        BigDecimal pricePln [1] #lcub;readonly#rcub;
     }
 
     class SingleFareOffer {
@@ -108,7 +99,7 @@ classDiagram
     class Vehicle {
         long id [1] #lcub;id, readonly#rcub;
         boolean isActive [1] = true
-        String sideCode [1] #lcub;readonly#rcub;
+        String sideNumber [1] #lcub;readonly#rcub;
     }
 ```
 
