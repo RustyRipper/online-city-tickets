@@ -176,7 +176,7 @@
                         }
                     },
                     "400": {
-                        "description": "Invalid request body."
+                        "description": "Invalid request body or phone number was supplied for an inspector account."
                     },
                     "401": {
                         "description": "Unauthorized."
@@ -211,7 +211,7 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or used on a inspector account."
                     }
                 },
                 "security": [
@@ -248,10 +248,10 @@
                         }
                     },
                     "400": {
-                        "description": "Invalid request body."
+                        "description": "Invalid request body or card is invalid/expired."
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or used on a inspector account."
                     },
                     "409": {
                         "description": "Credit card already saved."
@@ -283,7 +283,7 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     },
                     "404": {
                         "description": "Credit card not found."
@@ -323,10 +323,10 @@
                         }
                     },
                     "400": {
-                        "description": "Invalid request body."
+                        "description": "Invalid request body or card is invalid/expired."
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     },
                     "404": {
                         "description": "Credit card not found."
@@ -349,7 +349,7 @@
                         "description": "Credit card deleted successfully."
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     },
                     "404": {
                         "description": "Credit card not found."
@@ -386,14 +386,21 @@
                     "required": true
                 },
                 "responses": {
-                    "204": {
-                        "description": "Recharge successful."
+                    "200": {
+                        "description": "Recharge successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RechargeDto"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Invalid request body or invalid payment data."
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     }
                 },
                 "security": [
@@ -422,14 +429,21 @@
                     "required": true
                 },
                 "responses": {
-                    "204": {
-                        "description": "Recharge successful."
+                    "200": {
+                        "description": "Recharge successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RechargeDto"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Invalid request body or invalid payment data."
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     },
                     "404": {
                         "description": "Credit card not found."
@@ -461,14 +475,21 @@
                     "required": true
                 },
                 "responses": {
-                    "204": {
-                        "description": "Recharge successful."
+                    "200": {
+                        "description": "Recharge successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RechargeDto"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Invalid request body or invalid payment data."
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     }
                 },
                 "security": [
@@ -553,7 +574,7 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     }
                 },
                 "security": [
@@ -594,7 +615,7 @@
                         "description": "Invalid request body."
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     },
                     "402": {
                         "description": "Insufficient funds in virtual wallet."
@@ -629,7 +650,7 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized."
+                        "description": "Unauthorized or on a inspector account."
                     },
                     "404": {
                         "description": "Ticket not found."
@@ -746,15 +767,11 @@
         "schemas": {
             "BaseAccountDto": {
                 "required": [
-                    "id",
                     "fullName",
                     "email"
                 ],
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/id"
-                    },
                     "fullName": {
                         "$ref": "#/components/schemas/fullName"
                     },
@@ -970,6 +987,7 @@
             },
             "RechargeWithNewCreditCardReq": {
                 "required": [
+                    "amountGrosze",
                     "number",
                     "holderName",
                     "expirationDate",
@@ -977,6 +995,11 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "amountGrosze": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 300
+                    },
                     "number": {
                         "$ref": "#/components/schemas/creditCardNumber"
                     },
@@ -993,11 +1016,17 @@
             },
             "RechargeWithSavedCreditCardReq": {
                 "required": [
+                    "amountGrosze",
                     "creditCardId",
                     "csc"
                 ],
                 "type": "object",
                 "properties": {
+                    "amountGrosze": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 300
+                    },
                     "creditCardId": {
                         "$ref": "#/components/schemas/id"
                     },
@@ -1008,13 +1037,37 @@
             },
             "RechargeWithBlikReq": {
                 "required": [
+                    "amountGrosze",
                     "blikCode"
                 ],
                 "type": "object",
                 "properties": {
+                    "amountGrosze": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 300
+                    },
                     "blikCode": {
                         "type": "string",
                         "pattern": "^[0-9]{6}$"
+                    }
+                }
+            },
+            "RechargeDto": {
+                "required": [
+                    "time",
+                    "newWalletBalanceGrosze"
+                ],
+                "type": "object",
+                "properties": {
+                    "time": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "newWalletBalanceGrosze": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 3000
                     }
                 }
             },
@@ -1149,16 +1202,12 @@
             },
             "TicketDto": {
                 "required": [
-                    "id",
                     "code",
                     "purchaseTime",
                     "offer"
                 ],
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/id"
-                    },
                     "code": {
                         "$ref": "#/components/schemas/ticketCode"
                     },
@@ -1187,15 +1236,11 @@
             },
             "ValidationDto": {
                 "required": [
-                    "id",
                     "time",
                     "vehicleSideNumber"
                 ],
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/id"
-                    },
                     "time": {
                         "type": "string",
                         "format": "date-time"
