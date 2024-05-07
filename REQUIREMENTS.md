@@ -31,7 +31,7 @@ _The translations are based on the ["Public transport step by step"](https://www
 - **Validation** (pl. _skasowanie_) - the process of using a _validator_ to ensure a _single-fare_ or _time-limited ticket_ becomes valid.
 - **Validator** (pl. _kasownik_) - a physical machine located in a _vehicle_ which allows the _passenger_ to _validate_ a _ticket_.
 - **Validity** (pl. _ważność_) - a _ticket_ is either valid or invalid, only a valid ticket grants a right to travel.
-- **Vehicle** (pl. _pojazd_) - a bus or a tram, for which a _passenger_ buys _tickets_, and within which _validators_ are mounted.
+- **Vehicle** (pl. _pojazd_) - a bus or a tram identified by a unique side number, for which a _passenger_ buys _tickets_, and within which _validators_ are mounted.
 
 ## Requirements and rules
 
