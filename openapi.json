@@ -121,6 +121,21 @@
                 ],
                 "summary": "Get current account's details.",
                 "operationId": "getAccount",
+                "responses": {
+                    "200": {
+                        "description": "Fetched current account's details successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountDto"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -133,6 +148,34 @@
                 ],
                 "summary": "Update current account's details.",
                 "operationId": "updateAccount",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAccountReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Account updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -147,6 +190,24 @@
                 ],
                 "summary": "List all saved credit cards of the current account.",
                 "operationId": "listCreditCards",
+                "responses": {
+                    "200": {
+                        "description": "Fetched saved credit cards successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CreditCardDto"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -159,6 +220,34 @@
                 ],
                 "summary": "Save a new credit card on the current account.",
                 "operationId": "saveCreditCard",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SaveCreditCardReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Credit card saved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreditCardDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -173,6 +262,24 @@
                 ],
                 "summary": "Get details of a saved credit card.",
                 "operationId": "getCreditCard",
+                "responses": {
+                    "200": {
+                        "description": "Fetched credit card details successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreditCardDto"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Credit card not found."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -185,6 +292,37 @@
                 ],
                 "summary": "Update details of a saved credit card.",
                 "operationId": "updateCreditCard",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCreditCardReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Credit card updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreditCardDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Credit card not found."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -197,6 +335,17 @@
                 ],
                 "summary": "Delete a saved credit card.",
                 "operationId": "deleteCreditCard",
+                "responses": {
+                    "204": {
+                        "description": "Credit card deleted successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Credit card not found."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -519,6 +668,103 @@
                     }
                 }
             },
+            "AccountDto": {
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/PassengerDto"
+                    },
+                    {
+                        "$ref": "#/components/schemas/InspectorDto"
+                    }
+                ],
+                "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                        "passenger": "#/components/schemas/PassengerDto",
+                        "inspector": "#/components/schemas/InspectorDto"
+                    }
+                }
+            },
+            "UpdateAccountReq": {
+                "type": "object",
+                "properties": {
+                    "fullName": {
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "newPassword": {
+                        "$ref": "#/components/schemas/password"
+                    },
+                    "phoneNumber": {
+                        "$ref": "#/components/schemas/phoneNumber"
+                    }
+                }
+            },
+            "CreditCardDto": {
+                "required": [
+                    "id",
+                    "lastFourDigits",
+                    "holderName",
+                    "expirationDate"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "My favourite card"
+                    },
+                    "lastFourDigits": {
+                        "type": "string",
+                        "pattern": "^[0-9]{4}$"
+                    },
+                    "holderName": {
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "expirationDate": {
+                        "$ref": "#/components/schemas/expirationDate"
+                    }
+                }
+            },
+            "SaveCreditCardReq": {
+                "required": [
+                    "number",
+                    "holderName",
+                    "expirationDate"
+                ],
+                "type": "object",
+                "properties": {
+                    "label": {
+                        "type": "string",
+                        "example": "My favourite card"
+                    },
+                    "number": {
+                        "type": "string",
+                        "pattern": "\\d{16}"
+                    },
+                    "holderName": {
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "expirationDate": {
+                        "$ref": "#/components/schemas/expirationDate"
+                    }
+                }
+            },
+            "UpdateCreditCardReq": {
+                "type": "object",
+                "properties": {
+                    "label": {
+                        "type": "string"
+                    },
+                    "expirationDate": {
+                        "$ref": "#/components/schemas/expirationDate"
+                    }
+                }
+            },
             "ValidateTicketReq": {
                 "required": [
                     "sideCode"
@@ -544,6 +790,10 @@
             "phoneNumber": {
                 "type": "string",
                 "pattern": "^[0-9]{9}$"
+            },
+            "expirationDate": {
+                "type": "string",
+                "pattern": "^(0[1-9]|1[0-2])/\\d{2}$"
             },
             "vehicleSideNumber": {
                 "type": "string",

@@ -41,8 +41,7 @@ classDiagram
         String label [0..1]
         String number [1] #lcub;readonly#rcub;
         String holderName [1] #lcub;readonly#rcub;
-        int expirationMonth [1]
-        int expirationYear [1]
+        String expirationDate [1]
     }
     CreditCardInfo "*" --> "1 owner {readonly}" Passenger
     CreditCardInfo "0..1 defaultCreditCard" <-- "1" Passenger
