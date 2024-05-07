@@ -41,6 +41,9 @@
                     },
                     "400": {
                         "description": "Invalid request body."
+                    },
+                    "409": {
+                        "description": "Email already in use."
                     }
                 }
             }
@@ -75,6 +78,9 @@
                     },
                     "400": {
                         "description": "Invalid request body."
+                    },
+                    "409": {
+                        "description": "Email already in use."
                     }
                 }
             }
@@ -246,6 +252,9 @@
                     },
                     "401": {
                         "description": "Unauthorized."
+                    },
+                    "409": {
+                        "description": "Credit card already saved."
                     }
                 },
                 "security": [
@@ -475,7 +484,22 @@
                     "offers"
                 ],
                 "summary": "List all available ticket offers.",
-                "operationId": "listTicketOffers"
+                "operationId": "listTicketOffers",
+                "responses": {
+                    "200": {
+                        "description": "Fetched ticket offers successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TicketOfferDto"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/offers/{id}": {
@@ -484,7 +508,22 @@
                     "offers"
                 ],
                 "summary": "Get details of a single ticket offer.",
-                "operationId": "getTicketOffer"
+                "operationId": "getTicketOffer",
+                "responses": {
+                    "200": {
+                        "description": "Fetched ticket offer successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketOfferDto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ticket offer not found."
+                    }
+                }
             },
             "parameters": [
                 {
@@ -499,6 +538,24 @@
                 ],
                 "summary": "List all tickets of the current account.",
                 "operationId": "listTickets",
+                "responses": {
+                    "200": {
+                        "description": "Fetched tickets successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TicketDto"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -512,6 +569,40 @@
                 "summary": "Purchase a new ticket.",
                 "description": "This operation charges the ticket price from the virtual wallet.",
                 "operationId": "purchaseTicket",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PurchaseTicketReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ticket purchased successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "402": {
+                        "description": "Insufficient funds in virtual wallet."
+                    },
+                    "404": {
+                        "description": "Ticket offer not found."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -526,6 +617,24 @@
                 ],
                 "summary": "Get details of a single ticket of the current account.",
                 "operationId": "getTicket",
+                "responses": {
+                    "200": {
+                        "description": "Fetched ticket successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketDto"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Ticket not found."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -544,7 +653,7 @@
                     "validation"
                 ],
                 "summary": "Validate a ticket.",
-                "description": "Ensures that a single-fare or time-limited ticket becomes valid. Does nothing for long-term tickets.",
+                "description": "Ensures that a single-fare or time-limited ticket becomes valid.",
                 "operationId": "validateTicket",
                 "requestBody": {
                     "content": {
@@ -557,15 +666,26 @@
                     "required": true
                 },
                 "responses": {
-                    "204": {
-                        "description": "Ticket successfully validated."
+                    "200": {
+                        "description": "Ticket successfully validated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body or invalid vehicle specified."
+                    },
+                    "404": {
+                        "description": "Ticket not found or it is a long-term ticket."
+                    },
+                    "409": {
+                        "description": "Ticket already validated."
                     }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
+                }
             },
             "parameters": [
                 {
@@ -581,6 +701,34 @@
                 "summary": "Inspect a ticket.",
                 "description": "Checks if the ticket was correctly validated.",
                 "operationId": "inspectTicket",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InspectTicketReq"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ticket inspected with a returned result.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InspectTicketRes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body or invalid vehicle specified."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                },
                 "security": [
                     {
                         "jwt": []
@@ -596,6 +744,84 @@
     },
     "components": {
         "schemas": {
+            "BaseAccountDto": {
+                "required": [
+                    "id",
+                    "fullName",
+                    "email"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "fullName": {
+                        "$ref": "#/components/schemas/fullName"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    }
+                }
+            },
+            "PassengerDto": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseAccountDto"
+                    },
+                    {
+                        "required": [
+                            "type",
+                            "walletBalanceGrosze"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "passenger"
+                                ]
+                            },
+                            "walletBalanceGrosze": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "phoneNumber": {
+                                "$ref": "#/components/schemas/phoneNumber"
+                            }
+                        }
+                    }
+                ]
+            },
+            "InspectorDto": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseAccountDto"
+                    },
+                    {
+                        "required": [
+                            "type"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "inspector"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "AccountDto": {
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/PassengerDto"
+                    },
+                    {
+                        "$ref": "#/components/schemas/InspectorDto"
+                    }
+                ]
+            },
             "RegisterAsPassengerReq": {
                 "required": [
                     "fullName",
@@ -619,42 +845,6 @@
                     }
                 }
             },
-            "PassengerDto": {
-                "required": [
-                    "id",
-                    "type",
-                    "fullName",
-                    "email",
-                    "walletBalanceGrosze"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/id"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "passenger"
-                        ]
-                    },
-                    "fullName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "walletBalanceGrosze": {
-                        "type": "integer",
-                        "minimum": 0,
-                        "example": 1000
-                    },
-                    "phoneNumber": {
-                        "$ref": "#/components/schemas/phoneNumber"
-                    }
-                }
-            },
             "RegisterAsInspectorReq": {
                 "required": [
                     "fullName",
@@ -672,33 +862,6 @@
                     },
                     "password": {
                         "$ref": "#/components/schemas/password"
-                    }
-                }
-            },
-            "InspectorDto": {
-                "required": [
-                    "id",
-                    "type",
-                    "fullName",
-                    "email"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/id"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "inspector"
-                        ]
-                    },
-                    "fullName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email"
                     }
                 }
             },
@@ -726,23 +889,6 @@
                 "properties": {
                     "jwt": {
                         "$ref": "#/components/schemas/jwt"
-                    }
-                }
-            },
-            "AccountDto": {
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/PassengerDto"
-                    },
-                    {
-                        "$ref": "#/components/schemas/InspectorDto"
-                    }
-                ],
-                "discriminator": {
-                    "propertyName": "type",
-                    "mapping": {
-                        "passenger": "#/components/schemas/PassengerDto",
-                        "inspector": "#/components/schemas/InspectorDto"
                     }
                 }
             },
@@ -872,9 +1018,165 @@
                     }
                 }
             },
+            "BaseTicketOfferDto": {
+                "required": [
+                    "id",
+                    "displayNameEn",
+                    "displayNamePl",
+                    "kind",
+                    "priceGrosze"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "displayNameEn": {
+                        "type": "string",
+                        "example": "30-minute, reduced"
+                    },
+                    "displayNamePl": {
+                        "type": "string",
+                        "example": "30-minutowy, ulgowy"
+                    },
+                    "kind": {
+                        "type": "string",
+                        "enum": [
+                            "standard",
+                            "reduced"
+                        ]
+                    },
+                    "priceGrosze": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 320
+                    }
+                }
+            },
+            "SingleFareTicketOfferDto": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseTicketOfferDto"
+                    },
+                    {
+                        "required": [
+                            "scope"
+                        ],
+                        "properties": {
+                            "scope": {
+                                "type": "string",
+                                "enum": [
+                                    "single-fare"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "TimeLimitedTicketOfferDto": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseTicketOfferDto"
+                    },
+                    {
+                        "required": [
+                            "scope",
+                            "durationMinutes"
+                        ],
+                        "properties": {
+                            "scope": {
+                                "type": "string",
+                                "enum": [
+                                    "time-limited"
+                                ]
+                            },
+                            "durationMinutes": {
+                                "type": "integer",
+                                "minimum": 1
+                            }
+                        }
+                    }
+                ]
+            },
+            "LongTermTicketOfferDto": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseTicketOfferDto"
+                    },
+                    {
+                        "required": [
+                            "scope",
+                            "intervalInDays"
+                        ],
+                        "properties": {
+                            "scope": {
+                                "type": "string",
+                                "enum": [
+                                    "long-term"
+                                ]
+                            },
+                            "intervalInDays": {
+                                "type": "integer",
+                                "minimum": 1
+                            }
+                        }
+                    }
+                ]
+            },
+            "TicketOfferDto": {
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/SingleFareTicketOfferDto"
+                    },
+                    {
+                        "$ref": "#/components/schemas/TimeLimitedTicketOfferDto"
+                    },
+                    {
+                        "$ref": "#/components/schemas/LongTermTicketOfferDto"
+                    }
+                ]
+            },
+            "PurchaseTicketReq": {
+                "required": [
+                    "offerId"
+                ],
+                "type": "object",
+                "properties": {
+                    "offerId": {
+                        "$ref": "#/components/schemas/id"
+                    }
+                }
+            },
+            "TicketDto": {
+                "required": [
+                    "id",
+                    "code",
+                    "purchaseTime",
+                    "offer"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "code": {
+                        "$ref": "#/components/schemas/ticketCode"
+                    },
+                    "purchaseTime": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "offer": {
+                        "$ref": "#/components/schemas/TicketOfferDto"
+                    },
+                    "validation": {
+                        "$ref": "#/components/schemas/ValidationDto"
+                    }
+                }
+            },
             "ValidateTicketReq": {
                 "required": [
-                    "sideCode"
+                    "vehicleSideNumber"
                 ],
                 "type": "object",
                 "properties": {
@@ -882,6 +1184,85 @@
                         "$ref": "#/components/schemas/vehicleSideNumber"
                     }
                 }
+            },
+            "ValidationDto": {
+                "required": [
+                    "id",
+                    "time",
+                    "vehicleSideNumber"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/id"
+                    },
+                    "time": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "vehicleSideNumber": {
+                        "$ref": "#/components/schemas/vehicleSideNumber"
+                    }
+                }
+            },
+            "InspectTicketReq": {
+                "required": [
+                    "vehicleSideNumber"
+                ],
+                "type": "object",
+                "properties": {
+                    "vehicleSideNumber": {
+                        "$ref": "#/components/schemas/vehicleSideNumber"
+                    }
+                }
+            },
+            "InspectTicketValidRes": {
+                "required": [
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "valid"
+                        ]
+                    }
+                }
+            },
+            "InspectTicketInvalidRes": {
+                "required": [
+                    "status",
+                    "reason"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "invalid"
+                        ]
+                    },
+                    "reason": {
+                        "type": "string",
+                        "enum": [
+                            "ticket-not-found",
+                            "ticket-not-validated",
+                            "ticket-expired",
+                            "vehicle-mismatch"
+                        ]
+                    }
+                }
+            },
+            "InspectTicketRes": {
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/InspectTicketValidRes"
+                    },
+                    {
+                        "$ref": "#/components/schemas/InspectTicketInvalidRes"
+                    }
+                ]
             },
             "id": {
                 "type": "number",
@@ -919,6 +1300,10 @@
                 "type": "string",
                 "pattern": "^[0-9]{3}$"
             },
+            "ticketCode": {
+                "type": "string",
+                "pattern": "^[0-9A-Z]{8}$"
+            },
             "vehicleSideNumber": {
                 "type": "string",
                 "pattern": "^[0-9]{4}$"
@@ -931,8 +1316,7 @@
                 "description": "Unique code of the ticket.",
                 "required": true,
                 "schema": {
-                    "pattern": "^[0-9A-Z]{8}$",
-                    "type": "string"
+                    "$ref": "#/components/schemas/ticketCode"
                 },
                 "example": "3K7G9T2E"
             },
