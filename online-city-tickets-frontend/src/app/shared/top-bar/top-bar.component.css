@@ -1,6 +1,6 @@
 ::ng-deep .p-toolbar {
   background: var(--surface-card);
-  border: none;
+  border-radius: 0;
 }
 
 ::ng-deep .p-toolbar .p-toolbar-group-start {

@@ -1,5 +1,6 @@
 ::ng-deep .p-toolbar {
   padding-bottom: 0.25rem;
+  border: none;
 }
 
 div[right] {
@@ -24,4 +25,8 @@ div[right] a {
 
 ::ng-deep .p-avatar .p-avatar-icon {
   font-size: 0.75rem;
+}
+
+::ng-deep .p-tabmenu {
+  border-bottom: var(--fbc-borders);
 }
