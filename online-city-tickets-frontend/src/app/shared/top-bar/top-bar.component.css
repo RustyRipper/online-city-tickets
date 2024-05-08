@@ -1,0 +1,25 @@
+::ng-deep .p-toolbar {
+  background: var(--surface-card);
+  border: none;
+}
+
+::ng-deep .p-toolbar .p-toolbar-group-start {
+  flex: 1;
+  justify-content: flex-start;
+}
+
+::ng-deep .p-toolbar .p-toolbar-group-center {
+  flex: 1;
+  justify-content: center;
+}
+
+::ng-deep .p-toolbar .p-toolbar-group-end {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}

@@ -1,0 +1,27 @@
+::ng-deep .p-toolbar {
+  padding-bottom: 0.25rem;
+}
+
+div[right] {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+div[right] a {
+  color: inherit;
+}
+
+::ng-deep .p-chip {
+  font-size: 0.75rem;
+  padding-block: 0.25rem;
+}
+
+::ng-deep .p-avatar {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+::ng-deep .p-avatar .p-avatar-icon {
+  font-size: 0.75rem;
+}

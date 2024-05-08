@@ -1,0 +1,30 @@
+@import "primeicons/primeicons.css";
+
+:root {
+  font-size: 14px;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+.p-tabmenu .p-tabmenu-nav {
+  background: var(--surface-card);
+}
+
+.p-tabmenu .p-tabmenuitem {
+  flex: 1;
+}
+
+.p-tabmenu .p-menuitem-link {
+  width: 100%;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.p-tabmenu .p-tabmenu-ink-bar {
+  height: 2px;
+  bottom: 0px;
+}
