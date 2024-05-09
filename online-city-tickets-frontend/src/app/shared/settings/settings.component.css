@@ -1,0 +1,25 @@
+h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 1.5rem 0 0.25rem 1rem;
+}
+
+.item {
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item > * {
+  flex: 1;
+}
+
+.item ::ng-deep .p-button,
+.item ::ng-deep .p-dropdown {
+  width: 100%;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  margin: -0.75rem 0;
+}
