@@ -19,7 +19,7 @@ import { BackButtonComponent } from "../back-button/back-button.component";
     BackButtonComponent,
   ],
   templateUrl: "./settings.component.html",
-  styleUrl: "./settings.component.scss",
+  styleUrl: "./settings.component.css",
 })
 export class SettingsComponent {
   protected readonly ticketKinds = [
