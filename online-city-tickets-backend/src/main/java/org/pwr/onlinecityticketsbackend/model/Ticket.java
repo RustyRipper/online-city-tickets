@@ -39,8 +39,7 @@ public class Ticket {
     @ManyToOne
     private TicketOffer offer;
 
-    @JoinColumn(nullable = false, name = "validation_id")
-    @NotNull(message = "Validation is required")
+    @JoinColumn(name = "validation_id")
     @OneToOne
     private Validation validation;
 
