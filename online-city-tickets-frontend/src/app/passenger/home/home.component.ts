@@ -16,14 +16,14 @@ import { TopBarComponent } from "../../shared/top-bar/top-bar.component";
 export class HomeComponent {
   protected readonly tabs: MenuItem[] = [
     {
-      label: "Shop",
-      icon: "pi pi-shopping-cart",
-      routerLink: "shop",
-    },
-    {
       label: "Tickets",
       icon: "pi pi-ticket",
       routerLink: "tickets",
+    },
+    {
+      label: "Shop",
+      icon: "pi pi-shopping-cart",
+      routerLink: "shop",
     },
   ];
 }

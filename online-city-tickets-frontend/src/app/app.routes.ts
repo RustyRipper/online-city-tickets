@@ -3,12 +3,12 @@ import { Routes } from "@angular/router";
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "/passenger/shop", // TODO: change to '/login' when login page is ready
+    redirectTo: "/passenger/tickets", // TODO: change to '/login' when login page is ready
     pathMatch: "full",
   },
   {
     path: "passenger",
-    redirectTo: "/passenger/shop",
+    redirectTo: "/passenger/tickets",
     pathMatch: "full",
   },
   {
@@ -17,17 +17,17 @@ export const routes: Routes = [
       import("./passenger/home/home.component").then((m) => m.HomeComponent),
     children: [
       {
-        path: "shop",
-        loadComponent: () =>
-          import("./passenger/shop/shop.component").then(
-            (m) => m.ShopComponent,
-          ),
-      },
-      {
         path: "tickets",
         loadComponent: () =>
           import("./passenger/tickets/tickets.component").then(
             (m) => m.TicketsComponent,
+          ),
+      },
+      {
+        path: "shop",
+        loadComponent: () =>
+          import("./passenger/shop/shop.component").then(
+            (m) => m.ShopComponent,
           ),
       },
     ],
