@@ -21,11 +21,11 @@ public class CreditCardInfo {
     @NotNull(message = "Card number is required")
     private String cardNumber;
 
-    @Column(updatable = false, nullable = false)
+    @Column(nullable = false)
     @NotNull(message = "Expiration date is required")
     private String expirationDate;
 
-    @Column(nullable = false)
+    @Column(updatable = false, nullable = false)
     @NotNull(message = "Holder name is required")
     private String holderName;
 
