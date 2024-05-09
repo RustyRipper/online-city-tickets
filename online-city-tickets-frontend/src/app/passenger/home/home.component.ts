@@ -18,12 +18,12 @@ export class HomeComponent {
     {
       label: "Shop",
       icon: "pi pi-shopping-cart",
-      routerLink: ["/passenger/shop"],
+      routerLink: "shop",
     },
     {
       label: "Tickets",
       icon: "pi pi-ticket",
-      routerLink: ["/passenger/tickets"],
+      routerLink: "tickets",
     },
   ];
 }

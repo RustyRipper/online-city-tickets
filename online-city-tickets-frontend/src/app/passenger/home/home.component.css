@@ -1,4 +1,4 @@
-::ng-deep .p-toolbar {
+:host ::ng-deep .p-toolbar {
   padding-bottom: 0.25rem;
   border: none;
 }
@@ -13,20 +13,20 @@ div[right] a {
   color: inherit;
 }
 
-::ng-deep .p-chip {
+:host ::ng-deep .p-chip {
   font-size: 0.75rem;
   padding-block: 0.25rem;
 }
 
-::ng-deep .p-avatar {
+:host ::ng-deep .p-avatar {
   width: 1.6rem;
   height: 1.6rem;
 }
 
-::ng-deep .p-avatar .p-avatar-icon {
+:host ::ng-deep .p-avatar .p-avatar-icon {
   font-size: 0.75rem;
 }
 
-::ng-deep .p-tabmenu {
+:host ::ng-deep .p-tabmenu {
   border-bottom: var(--fbc-borders);
 }

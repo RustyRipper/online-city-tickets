@@ -46,4 +46,11 @@ export const routes: Routes = [
         (m) => m.SettingsComponent,
       ),
   },
+  {
+    path: "settings/account",
+    loadComponent: () =>
+      import("./shared/account-settings/account-settings.component").then(
+        (m) => m.AccountSettingsComponent,
+      ),
+  },
 ];

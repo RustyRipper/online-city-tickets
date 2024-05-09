@@ -1,19 +1,19 @@
-::ng-deep .p-toolbar {
+:host ::ng-deep .p-toolbar {
   background: var(--surface-card);
   border-radius: 0;
 }
 
-::ng-deep .p-toolbar .p-toolbar-group-start {
+:host ::ng-deep .p-toolbar .p-toolbar-group-start {
   flex: 1;
   justify-content: flex-start;
 }
 
-::ng-deep .p-toolbar .p-toolbar-group-center {
+:host ::ng-deep .p-toolbar .p-toolbar-group-center {
   flex: 1;
   justify-content: center;
 }
 
-::ng-deep .p-toolbar .p-toolbar-group-end {
+:host ::ng-deep .p-toolbar .p-toolbar-group-end {
   flex: 1;
   justify-content: flex-end;
 }
