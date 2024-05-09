@@ -35,7 +35,7 @@ public class Account implements UserDetails {
     @NotNull(message = "FullName is required")
     private String fullName;
 
-    @Column(nullable = false)
+    @Column(updatable = false, nullable = false)
     @NotNull(message = "Role is required")
     @Enumerated(EnumType.STRING)
     private Role role;
