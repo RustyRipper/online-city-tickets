@@ -2,6 +2,7 @@ package org.pwr.onlinecityticketsbackend.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,8 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(updatable = false, nullable = false, unique = true)
+    @Column(updatable = false, nullable = false, unique = true, length = 10)
+    @Size(max = 10, message = "Code is too long")
     @NotNull(message = "Side number is required")
     private String code;
 

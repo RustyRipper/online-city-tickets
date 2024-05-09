@@ -2,6 +2,7 @@ package org.pwr.onlinecityticketsbackend.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,21 +22,24 @@ import java.util.List;
 public class Account implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 50)
+    @Size(max = 50, message = "Email is too long")
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 25)
+    @Size(max = 25, message = "Password is too long")
     @NotNull(message = "Password is required")
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
+    @Size(max = 50, message = "FullName is too long")
     @NotNull(message = "FullName is required")
     private String fullName;
 
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false, length = 10)
     @NotNull(message = "Role is required")
     @Enumerated(EnumType.STRING)
     private Role role;
