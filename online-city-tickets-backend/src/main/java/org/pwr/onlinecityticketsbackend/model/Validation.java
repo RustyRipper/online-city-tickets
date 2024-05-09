@@ -21,7 +21,7 @@ public class Validation {
     private Long id;
 
     @Column(updatable = false, nullable = false)
-    @NotNull(message = "Card number is required")
+    @NotNull(message = "Time is required")
     private Instant time;
 
     @ManyToOne
