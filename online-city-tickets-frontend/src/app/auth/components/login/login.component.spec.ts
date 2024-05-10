@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterModule } from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
 
 import { LoginComponent } from "./login.component";
-import { RouterModule } from "@angular/router";
 
 describe("LoginComponent", () => {
   let component: LoginComponent;
@@ -9,7 +10,8 @@ describe("LoginComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginComponent, RouterModule.forRoot([])],
+      imports: [LoginComponent, RouterModule.forRoot([]), HttpClientModule],
+      providers: [{ provide: Storage, useValue: sessionStorage }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
