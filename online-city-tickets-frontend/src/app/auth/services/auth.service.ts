@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
-import { StoreService } from "../shared/store.service";
-import type { Account, Identity } from "./types";
+import { StoreService } from "../../shared/store/store.service";
+import type { Account, Identity } from "../types";
 
 @Injectable({
   providedIn: "root",

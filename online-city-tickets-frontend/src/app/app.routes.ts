@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 
-import { hasRole } from "./auth/has-role.guard";
+import { hasRole } from "./auth/guards/has-role.guard";
 
 export const routes: Routes = [
   {
@@ -10,12 +10,14 @@ export const routes: Routes = [
       {
         path: "login",
         loadComponent: () =>
-          import("./auth/login/login.component").then((m) => m.LoginComponent),
+          import("./auth/components/login/login.component").then(
+            (m) => m.LoginComponent,
+          ),
       },
       {
         path: "register",
         loadComponent: () =>
-          import("./auth/register/register.component").then(
+          import("./auth/components/register/register.component").then(
             (m) => m.RegisterComponent,
           ),
       },
@@ -33,21 +35,21 @@ export const routes: Routes = [
       {
         path: "",
         loadComponent: () =>
-          import("./passenger/home/home.component").then(
+          import("./passenger/components/home/home.component").then(
             (m) => m.HomeComponent,
           ),
         children: [
           {
             path: "tickets",
             loadComponent: () =>
-              import("./passenger/tickets/tickets.component").then(
+              import("./passenger/components/tickets/tickets.component").then(
                 (m) => m.TicketsComponent,
               ),
           },
           {
             path: "shop",
             loadComponent: () =>
-              import("./passenger/shop/shop.component").then(
+              import("./passenger/components/shop/shop.component").then(
                 (m) => m.ShopComponent,
               ),
           },
@@ -56,7 +58,7 @@ export const routes: Routes = [
       {
         path: "wallet",
         loadComponent: () =>
-          import("./passenger/wallet/wallet.component").then(
+          import("./passenger/components/wallet/wallet.component").then(
             (m) => m.WalletComponent,
           ),
       },
@@ -69,7 +71,7 @@ export const routes: Routes = [
       {
         path: "",
         loadComponent: () =>
-          import("./inspector/home/home.component").then(
+          import("./inspector/components/home/home.component").then(
             (m) => m.HomeComponent,
           ),
       },
@@ -82,16 +84,16 @@ export const routes: Routes = [
       {
         path: "",
         loadComponent: () =>
-          import("./shared/settings/settings.component").then(
+          import("./shared/components/settings/settings.component").then(
             (m) => m.SettingsComponent,
           ),
       },
       {
         path: "account",
         loadComponent: () =>
-          import("./shared/account-settings/account-settings.component").then(
-            (m) => m.AccountSettingsComponent,
-          ),
+          import(
+            "./shared/components/account-settings/account-settings.component"
+          ).then((m) => m.AccountSettingsComponent),
       },
     ],
   },

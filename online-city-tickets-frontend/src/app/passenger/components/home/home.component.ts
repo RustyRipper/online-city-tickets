@@ -4,7 +4,7 @@ import { TabMenuModule } from "primeng/tabmenu";
 import { AvatarModule } from "primeng/avatar";
 import { ChipModule } from "primeng/chip";
 
-import { TopBarComponent } from "../../shared/top-bar/top-bar.component";
+import { TopBarComponent } from "../../../shared/components/top-bar/top-bar.component";
 
 @Component({
   selector: "app-home",
