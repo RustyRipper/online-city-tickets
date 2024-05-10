@@ -16,7 +16,8 @@ main {
   flex: 66%;
 }
 
-.field ::ng-deep input {
+.field ::ng-deep input,
+.field ::ng-deep .p-password {
   width: 100%;
 }
 

@@ -8,6 +8,7 @@ import { PasswordModule } from "primeng/password";
 import { DividerModule } from "primeng/divider";
 
 import { TopBarComponent } from "../../../shared/components/top-bar/top-bar.component";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-login",
@@ -28,7 +29,10 @@ import { TopBarComponent } from "../../../shared/components/top-bar/top-bar.comp
 export class LoginComponent {
   protected readonly form;
 
-  public constructor(formBuilder: FormBuilder) {
+  public constructor(
+    private readonly authService: AuthService,
+    formBuilder: FormBuilder,
+  ) {
     this.form = formBuilder.nonNullable.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, Validators.minLength(8)]],
@@ -36,6 +40,7 @@ export class LoginComponent {
   }
 
   protected onSubmit() {
-    console.log(this.form.value);
+    console.log(this.form.getRawValue());
+    this.authService.login(this.form.getRawValue());
   }
 }
