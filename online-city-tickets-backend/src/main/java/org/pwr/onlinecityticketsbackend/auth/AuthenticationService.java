@@ -17,7 +17,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    protected AuthenticationResponse registerPassenger(RegisterRequest registerRequest) {
+    protected AuthenticationResponse registerPassenger(RegisterRequestPhone registerRequest) {
         return buildAuthenticationResponse(
                 accountService.createPassenger(
                         registerRequest.getEmail(),

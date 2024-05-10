@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "long_term_offer")
 public class LongTermOffer extends TicketOffer {
 
     @Column(nullable = false, updatable = false)
