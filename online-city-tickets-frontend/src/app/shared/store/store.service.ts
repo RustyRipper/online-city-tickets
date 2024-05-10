@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { z } from "zod";
 
 import { StoreCell } from "./store-cell";
+import { Account } from "../../auth/types";
 
 const SCHEMA = {
   ACCOUNT: z
@@ -35,11 +36,11 @@ const SCHEMA = {
   providedIn: "root",
 })
 export class StoreService {
-  public readonly jwt;
-  public readonly account;
+  public readonly jwt: StoreCell<string | null>;
+  public readonly account: StoreCell<Account | null>;
 
   public constructor(storage: Storage) {
-    this.jwt = new StoreCell(storage, SCHEMA, "JWT", null);
-    this.account = new StoreCell(storage, SCHEMA, "ACCOUNT", null);
+    this.jwt = StoreCell.from(storage, SCHEMA, "JWT", null);
+    this.account = StoreCell.from(storage, SCHEMA, "ACCOUNT", null);
   }
 }

@@ -10,25 +10,30 @@ import { AccountsApi, AuthApi } from "../../api/services";
   providedIn: "root",
 })
 export class AuthService {
-  private readonly _jwt;
-  private readonly _account;
+  private readonly jwtCell;
+  private readonly accountCell;
 
   public constructor(
     private readonly accountsApi: AccountsApi,
     private readonly authApi: AuthApi,
     storeService: StoreService,
   ) {
-    this._jwt = storeService.jwt;
-    this._account = storeService.account;
+    this.jwtCell = storeService.jwt;
+    this.accountCell = storeService.account;
+  }
+
+  public get jwt(): string | null {
+    return this.jwtCell.value;
   }
 
   public get account(): Account | null {
-    return this._account.value;
+    return this.accountCell.value;
   }
 
   public async login(body: LoginReq): Promise<void> {
     const { jwt } = await firstValueFrom(this.authApi.login({ body }));
-    this._jwt.value = jwt;
-    this._account.value = await firstValueFrom(this.accountsApi.getAccount());
+    this.jwtCell.value = jwt;
+    const account = await firstValueFrom(this.accountsApi.getAccount());
+    this.accountCell.value = account;
   }
 }
