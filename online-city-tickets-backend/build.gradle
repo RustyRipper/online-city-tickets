@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'com.avast.gradle.docker-compose' version '0.14.2'
 }
 
 group = 'org.pwr'
@@ -26,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -36,4 +38,9 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+dockerCompose {
+	useComposeFiles = ['src/main/resources/compose.yaml']
+	isRequiredBy(test)
 }
