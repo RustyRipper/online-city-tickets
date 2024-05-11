@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
@@ -27,10 +27,13 @@ import { AuthService } from "../../services/auth.service";
   styleUrl: "./login.component.css",
 })
 export class LoginComponent {
+  private status: "idle" | "loading" | "error" = "idle";
+
   protected readonly form;
 
   public constructor(
     private readonly authService: AuthService,
+    private readonly router: Router,
     formBuilder: FormBuilder,
   ) {
     this.form = formBuilder.nonNullable.group({
@@ -39,8 +42,20 @@ export class LoginComponent {
     });
   }
 
-  protected onSubmit() {
-    console.log(this.form.getRawValue());
-    this.authService.login(this.form.getRawValue());
+  protected get isLoading() {
+    return this.status === "loading";
+  }
+
+  protected get isError() {
+    return this.status === "error";
+  }
+
+  protected async onSubmit() {
+    this.status = "loading";
+    const account = await this.authService.login(this.form.getRawValue());
+    this.status = account ? "idle" : "error";
+    if (account) {
+      this.router.navigate(["/passenger"]);
+    }
   }
 }

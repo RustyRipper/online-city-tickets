@@ -30,10 +30,15 @@ export class AuthService {
     return this.accountCell.value;
   }
 
-  public async login(body: LoginReq): Promise<void> {
-    const { jwt } = await firstValueFrom(this.authApi.login({ body }));
-    this.jwtCell.value = jwt;
-    const account = await firstValueFrom(this.accountsApi.getAccount());
-    this.accountCell.value = account;
+  public async login(body: LoginReq): Promise<Account | null> {
+    try {
+      const { jwt } = await firstValueFrom(this.authApi.login({ body }));
+      this.jwtCell.value = jwt;
+      const account = await firstValueFrom(this.accountsApi.getAccount());
+      this.accountCell.value = account;
+      return account;
+    } catch {
+      return null;
+    }
   }
 }
