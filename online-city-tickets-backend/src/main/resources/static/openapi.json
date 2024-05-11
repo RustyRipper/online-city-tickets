@@ -82,7 +82,12 @@
                     "409": {
                         "description": "Email already in use."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
             }
         },
         "/auth/login": {
