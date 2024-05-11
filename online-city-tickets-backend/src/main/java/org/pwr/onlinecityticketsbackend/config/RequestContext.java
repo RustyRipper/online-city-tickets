@@ -5,10 +5,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class RequestContext {
     public static Account getAccountFromRequest() {
-        Object account = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (account instanceof Account) {
-            return (Account) account;
+        if (principal instanceof Account account) {
+            return account;
         }
         return null;
     }
