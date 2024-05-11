@@ -53,7 +53,7 @@ public class AuthenticationService {
         claims.put("userId", account.getId().toString());
         claims.put("role", account.getRole());
         return AuthenticationResponse.builder()
-                .token(jwtService.generateToken(claims, account))
+                .jwt(jwtService.generateToken(claims, account))
                 .build();
     }
 }
