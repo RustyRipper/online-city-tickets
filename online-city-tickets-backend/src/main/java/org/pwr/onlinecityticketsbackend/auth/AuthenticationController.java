@@ -23,7 +23,7 @@ public class AuthenticationController {
     public ResponseEntity<?> register(
             @RequestBody RegisterRequestPassenger registerRequest
     ) {
-        if (validateRegisterRequest(registerRequest)) {
+        if (isRegisterRequestInvalid(registerRequest)) {
             return new ResponseEntity<>(new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
         }
 
@@ -40,7 +40,7 @@ public class AuthenticationController {
     public ResponseEntity<?> registerInspector(
             @RequestBody RegisterRequest registerRequest
     ) {
-        if (validateRegisterRequest(registerRequest)) {
+        if (isRegisterRequestInvalid(registerRequest)) {
             return new ResponseEntity<>(new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
         }
 
@@ -63,7 +63,8 @@ public class AuthenticationController {
         }
     }
 
-    private boolean validateRegisterRequest(RegisterRequest registerRequest) {
+    //TODO: add more validation
+    private static boolean isRegisterRequestInvalid(RegisterRequest registerRequest) {
         return registerRequest.getEmail() == null || registerRequest.getFullName() == null ||
                 registerRequest.getPassword() == null;
     }

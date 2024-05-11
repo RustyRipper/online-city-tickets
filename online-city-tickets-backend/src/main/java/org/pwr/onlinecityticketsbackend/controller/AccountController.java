@@ -19,6 +19,7 @@ public class AccountController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'INSPECTOR')")
     @GetMapping
+    // TODO: Change return type to ResponseEntity<AccountDto>, hide password
     public ResponseEntity<Account> getAccount() {
         Account account = RequestContext.getAccountFromRequest();
         assert account != null;
