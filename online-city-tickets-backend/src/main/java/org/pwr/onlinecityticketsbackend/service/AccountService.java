@@ -27,10 +27,7 @@ public class AccountService {
     }
 
     public List<Inspector> getAllInspectors() {
-        return inspectorRepository.findAll()
-                .stream()
-                .filter(user -> user.getRole().equals(Role.INSPECTOR))
-                .toList();
+        return inspectorRepository.findAll();
     }
 
     public Optional<Account> getCurrentAccountById(Long id){
@@ -60,6 +57,9 @@ public class AccountService {
         return accountRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
+    }
+    public boolean isEmailInUse(String email) {
+        return accountRepository.findByEmail(email).isPresent();
     }
 
     public Account getAccountById(Long id) {

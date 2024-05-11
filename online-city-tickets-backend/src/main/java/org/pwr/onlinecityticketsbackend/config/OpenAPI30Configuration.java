@@ -1,26 +1,35 @@
 package org.pwr.onlinecityticketsbackend.config;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.configuration.SpringDocConfiguration;
+import org.springdoc.core.configuration.SpringDocUIConfiguration;
+import org.springdoc.core.properties.SpringDocConfigProperties;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
+import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Optional;
 
 @Configuration
 public class OpenAPI30Configuration {
 
     @Bean
-    public OpenAPI customizeOpenAPI() {
-        final String securitySchemeName = "bearerAuth";
-        return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement()
-                        .addList(securitySchemeName))
-                .components(new Components()
-                        .addSecuritySchemes(securitySchemeName, new SecurityScheme()
-                                .name(securitySchemeName)
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")));
+    SpringDocConfiguration springDocConfiguration(){
+        return new SpringDocConfiguration();
+    }
+
+    @Bean
+    SpringDocConfigProperties springDocConfigProperties() {
+        return new SpringDocConfigProperties();
+    }
+
+    @Bean
+    ObjectMapperProvider objectMapperProvider(SpringDocConfigProperties springDocConfigProperties){
+        return new ObjectMapperProvider(springDocConfigProperties);
+    }
+
+    @Bean
+    SpringDocUIConfiguration SpringDocUIConfiguration(Optional<SwaggerUiConfigProperties> optionalSwaggerUiConfigProperties){
+        return new SpringDocUIConfiguration(optionalSwaggerUiConfigProperties);
     }
 }

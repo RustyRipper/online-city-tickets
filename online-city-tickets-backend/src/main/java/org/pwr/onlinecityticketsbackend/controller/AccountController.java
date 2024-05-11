@@ -1,18 +1,27 @@
 package org.pwr.onlinecityticketsbackend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.pwr.onlinecityticketsbackend.config.RequestContext;
+import org.pwr.onlinecityticketsbackend.model.Account;
+import org.pwr.onlinecityticketsbackend.service.AccountService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api/v1/account")
 @RequiredArgsConstructor
 public class AccountController {
 
-    @PostMapping("/hello")
-    public ResponseEntity<String> register() {
-        return ResponseEntity.ok("JWT WORKS!");
+    private final AccountService accountService;
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'INSPECTOR')")
+    @GetMapping
+    public ResponseEntity<Account> getAccount() {
+        Account account = RequestContext.getAccountFromRequest();
+        assert account != null;
+        return ResponseEntity.ok(accountService.getAccountByEmail(account.getEmail()));
     }
 }

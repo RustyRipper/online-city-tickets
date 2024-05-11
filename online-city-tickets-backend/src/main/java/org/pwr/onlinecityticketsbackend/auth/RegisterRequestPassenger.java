@@ -6,6 +6,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequestPhone extends RegisterRequest {
+public class RegisterRequestPassenger extends RegisterRequest {
     private String phoneNumber;
 }

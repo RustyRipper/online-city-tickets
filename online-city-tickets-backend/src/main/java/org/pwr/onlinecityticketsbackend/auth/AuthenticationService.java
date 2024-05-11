@@ -17,7 +17,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    protected AuthenticationResponse registerPassenger(RegisterRequestPhone registerRequest) {
+    protected AuthenticationResponse registerPassenger(RegisterRequestPassenger registerRequest) {
         return buildAuthenticationResponse(
                 accountService.createPassenger(
                         registerRequest.getEmail(),
@@ -50,7 +50,7 @@ public class AuthenticationService {
 
     private AuthenticationResponse buildAuthenticationResponse(Account account) {
         Claims claims = Jwts.claims().setSubject(account.getUsername());
-        claims.put("userId", account.getId() + "");
+        claims.put("userId", account.getId().toString());
         claims.put("role", account.getRole());
         return AuthenticationResponse.builder()
                 .token(jwtService.generateToken(claims, account))

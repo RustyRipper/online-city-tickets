@@ -35,31 +35,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             final String jwt = authHeader.substring(7);
-            setSecurityContext(httpRequest, jwt);
+            try {
+                setSecurityContext(httpRequest, jwt);
+            } catch (ExpiredJwtException e) {
+                httpResponse.getWriter().write(e.getMessage());
+                httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
         }
         filterChain.doFilter(httpRequest, httpResponse);
     }
 
-    private void setSecurityContext(@NonNull HttpServletRequest httpRequest, String jwt) {
-        try {
-            final String userEmail = jwtService.extractUsername(jwt);
+    private void setSecurityContext(@NonNull HttpServletRequest httpRequest, String jwt) throws ExpiredJwtException {
 
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+        final String userEmail = jwtService.extractUsername(jwt);
 
-                if (jwtService.isTokenValid(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
-                    authToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(httpRequest)
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
-                }
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(httpRequest)
+                );
+                SecurityContextHolder.getContext().setAuthentication(authToken);
             }
-        } catch (ExpiredJwtException ignored) {
+            else {
+                throw new ExpiredJwtException(null, null, "Token has expired");
+            }
         }
     }
 }

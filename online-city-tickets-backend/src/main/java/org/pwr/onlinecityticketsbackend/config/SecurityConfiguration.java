@@ -32,13 +32,15 @@ public class SecurityConfiguration {
         http.cors().and()
                 .csrf().disable().authorizeHttpRequests()
                 .requestMatchers(
-                        "/api/auth/**",
+                        "/openapi.json",
+                        "/api/v1/auth/**",
                         "/swagger-ui.html",
                         "/v3/api-docs",
                         "/swagger-resources/**",
                         "/v3/api-docs/swagger-config",
                         "/v2/api-docs/**",
-                        "/swagger-ui/**"
+                        "/swagger-ui/**",
+                        "/api/v1/offers/**"
                 ).permitAll()
                 .and().authorizeHttpRequests()
                 .anyRequest().authenticated()
@@ -57,6 +59,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(List.of("http://localhost:8000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
