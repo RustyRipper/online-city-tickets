@@ -11,7 +11,7 @@ import { AccountsApi, AuthApi } from "../../api/services";
 })
 export class AuthService {
   private readonly jwtCell;
-  private readonly accountCell;
+  private readonly accountTypeCell;
 
   public constructor(
     private readonly accountsApi: AccountsApi,
@@ -19,15 +19,15 @@ export class AuthService {
     storeService: StoreService,
   ) {
     this.jwtCell = storeService.jwt;
-    this.accountCell = storeService.account;
+    this.accountTypeCell = storeService.accountType;
   }
 
   public get jwt(): string | null {
     return this.jwtCell.value;
   }
 
-  public get account(): Account | null {
-    return this.accountCell.value;
+  public get accountType(): Account["type"] | null {
+    return this.accountTypeCell.value;
   }
 
   public async login(body: LoginReq): Promise<Account | null> {
@@ -39,7 +39,7 @@ export class AuthService {
       // FIXME: remove this once backend is updated
       account = AuthService.fixAccountObject(account);
 
-      this.accountCell.value = account;
+      this.accountTypeCell.value = account.type;
       return account;
     } catch {
       return null;
@@ -48,11 +48,11 @@ export class AuthService {
 
   public logout(): void {
     this.jwtCell.value = null;
-    this.accountCell.value = null;
+    this.accountTypeCell.value = null;
   }
 
   /** @deprecated remove this once backend is updated */
-  private static fixAccountObject(brokenAccount: any): Account {
+  public static fixAccountObject(brokenAccount: any): Account {
     if (brokenAccount.type && !brokenAccount.role) {
       return brokenAccount; // already fixed
     }

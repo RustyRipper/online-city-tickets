@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ChipModule } from "primeng/chip";
 import { AccountsApi } from "../../../../api/services";
+import { AuthService } from "../../../../auth/services/auth.service";
 
 @Component({
   selector: "app-wallet-indicator",
@@ -22,6 +23,7 @@ export class WalletIndicatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountsApi.getAccount().subscribe((account) => {
+      account = AuthService.fixAccountObject(account);
       if (account.type === "passenger") {
         this.balanceGrosze = account.walletBalanceGrosze;
       }

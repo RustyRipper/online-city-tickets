@@ -7,6 +7,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { TopBarComponent } from "../../../components/top-bar/top-bar.component";
 import { BackButtonComponent } from "../../../components/back-button/back-button.component";
 import { AuthService } from "../../../../auth/services/auth.service";
+import { StoreService } from "../../../store/store.service";
 
 @Component({
   selector: "app-settings",
@@ -23,27 +24,32 @@ import { AuthService } from "../../../../auth/services/auth.service";
   styleUrl: "./settings.component.css",
 })
 export class SettingsComponent {
+  protected readonly ticketKinds = [
+    { label: "Standard", value: "standard" },
+    { label: "Reduced", value: "reduced" },
+  ];
+  protected readonly languages = [
+    { label: "English", value: "en-US" },
+    { label: "Polish", value: "pl-PL" },
+  ];
+  protected readonly themes = [
+    { label: "Light", value: "light" },
+    { label: "Dark", value: "dark" },
+  ];
+
+  protected readonly ticketKindCell;
+  protected readonly languageCell;
+  protected readonly themeCell;
+
   public constructor(
     private readonly router: Router,
     private readonly authService: AuthService,
-  ) {}
-
-  protected readonly ticketKinds = [
-    { name: "Standard", value: "standard" },
-    { name: "Reduced", value: "reduced" },
-  ];
-  protected readonly languages = [
-    { name: "English", value: "en-US" },
-    { name: "Polish", value: "pl-PL" },
-  ];
-  protected readonly themes = [
-    { name: "Light", value: "light" },
-    { name: "Dark", value: "dark" },
-  ];
-
-  protected selectedTicketKind = this.ticketKinds[0];
-  protected selectedLanguage = this.languages[0];
-  protected selectedTheme = this.themes[0];
+    storeService: StoreService,
+  ) {
+    this.ticketKindCell = storeService.ticketKind;
+    this.languageCell = storeService.language;
+    this.themeCell = storeService.theme;
+  }
 
   protected onAccountSwitch(): void {
     this.authService.logout();

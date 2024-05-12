@@ -10,14 +10,14 @@
   <h2>Preferences</h2>
   <div class="item">
     <label>Ticket kind</label>
-    <p-dropdown [options]="ticketKinds" [(ngModel)]="selectedTicketKind" optionLabel="name" />
+    <p-dropdown [options]="ticketKinds" [(ngModel)]="ticketKindCell.value" optionLabel="label" optionValue="value" />
   </div>
   <div class="item">
     <label>Language</label>
-    <p-dropdown [options]="languages" [(ngModel)]="selectedLanguage" optionLabel="name" />
+    <p-dropdown [options]="languages" [(ngModel)]="languageCell.value" optionLabel="label" optionValue="value" />
   </div>
   <div class="item">
     <label>Theme</label>
-    <p-dropdown [options]="themes" [(ngModel)]="selectedTheme" optionLabel="name" />
+    <p-dropdown [options]="themes" [(ngModel)]="themeCell.value" optionLabel="label" optionValue="value" />
   </div>
 </main>

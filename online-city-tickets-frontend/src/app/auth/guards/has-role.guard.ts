@@ -11,7 +11,7 @@ export const hasRole: (expected: RoleName) => CanActivateFn =
     const router = inject(Router);
     const service = inject(AuthService);
 
-    const real = service.account?.type ?? null;
+    const real = service.accountType;
 
     if (real === expected || (real !== null && expected === "any")) {
       return true;
