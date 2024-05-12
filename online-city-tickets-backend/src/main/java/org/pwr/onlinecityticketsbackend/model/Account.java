@@ -29,8 +29,7 @@ public class Account implements UserDetails {
     @Size(max = 50, message = "Email is too long")
     private String email;
 
-    @Column(nullable = false, length = 25)
-    @Size(max = 25, message = "Password is too long")
+    @Column(nullable = false)
     @NotNull(message = "Password is required")
     private String password;
 
