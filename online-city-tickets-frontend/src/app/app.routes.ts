@@ -58,7 +58,7 @@ export const routes: Routes = [
       {
         path: "wallet",
         loadComponent: () =>
-          import("./passenger/components/wallet/wallet.component").then(
+          import("./passenger/wallet/components/wallet/wallet.component").then(
             (m) => m.WalletComponent,
           ),
       },
@@ -84,15 +84,15 @@ export const routes: Routes = [
       {
         path: "",
         loadComponent: () =>
-          import("./shared/components/settings/settings.component").then(
-            (m) => m.SettingsComponent,
-          ),
+          import(
+            "./shared/settings/components/settings/settings.component"
+          ).then((m) => m.SettingsComponent),
       },
       {
         path: "account",
         loadComponent: () =>
           import(
-            "./shared/components/account-settings/account-settings.component"
+            "./shared/settings/components/account-settings/account-settings.component"
           ).then((m) => m.AccountSettingsComponent),
       },
     ],

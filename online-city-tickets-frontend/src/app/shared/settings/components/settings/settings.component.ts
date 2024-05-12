@@ -4,9 +4,9 @@ import { Router, RouterModule } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
-import { TopBarComponent } from "../top-bar/top-bar.component";
-import { BackButtonComponent } from "../back-button/back-button.component";
-import { AuthService } from "../../../auth/services/auth.service";
+import { TopBarComponent } from "../../../components/top-bar/top-bar.component";
+import { BackButtonComponent } from "../../../components/back-button/back-button.component";
+import { AuthService } from "../../../../auth/services/auth.service";
 
 @Component({
   selector: "app-settings",
