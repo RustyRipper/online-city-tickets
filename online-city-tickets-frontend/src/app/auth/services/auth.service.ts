@@ -34,11 +34,42 @@ export class AuthService {
     try {
       const { jwt } = await firstValueFrom(this.authApi.login({ body }));
       this.jwtCell.value = jwt;
-      const account = await firstValueFrom(this.accountsApi.getAccount());
+      let account = await firstValueFrom(this.accountsApi.getAccount());
+
+      // FIXME: remove this once backend is updated
+      account = AuthService.fixAccountObject(account);
+
       this.accountCell.value = account;
       return account;
     } catch {
       return null;
+    }
+  }
+
+  /** @deprecated remove this once backend is updated */
+  private static fixAccountObject(brokenAccount: any): Account {
+    if (brokenAccount.type && !brokenAccount.role) {
+      return brokenAccount; // already fixed
+    }
+
+    switch (brokenAccount.role) {
+      case "PASSENGER":
+        return {
+          type: "passenger",
+          email: brokenAccount.email,
+          fullName: brokenAccount.fullName,
+          walletBalanceGrosze: brokenAccount.walletBalancePln * 100,
+          phoneNumber: brokenAccount.phoneNumber,
+          defaultCreditCardId: brokenAccount.defaultCreditCard,
+        };
+      case "INSPECTOR":
+        return {
+          type: "inspector",
+          email: brokenAccount.email,
+          fullName: brokenAccount.fullName,
+        };
+      default:
+        throw new Error(`Invalid role: ${brokenAccount.role}`);
     }
   }
 }

@@ -6,7 +6,7 @@
     "build": "ng build",
     "format": "prettier --write .",
     "test": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
-    "gen": "ng-openapi-gen --input ../openapi.json --output ./src/app/api --serviceSuffix Api"
+    "gen": "ng-openapi-gen --config ng-openapi-gen.json"
   },
   "private": true,
   "dependencies": {

@@ -7,6 +7,7 @@ type Passenger = AccountBase & {
   type: "passenger";
   walletBalanceGrosze: number;
   phoneNumber?: string;
+  defaultCreditCardId?: number;
 };
 
 type Inspector = AccountBase & { type: "inspector" };
