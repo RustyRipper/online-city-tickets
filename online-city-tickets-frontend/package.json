@@ -5,7 +5,8 @@
     "start": "ng serve",
     "build": "ng build",
     "format": "prettier --write .",
-    "test": "ng test --no-watch --no-progress --browsers=ChromeHeadless"
+    "test": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
+    "gen": "ng-openapi-gen --config ng-openapi-gen.json"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +22,7 @@
     "primeng": "^17.16.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "zod": "^3.23.8",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
@@ -34,6 +36,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-openapi-gen": "^0.51.0",
     "prettier": "^3.2.5",
     "typescript": "~5.4.2"
   }

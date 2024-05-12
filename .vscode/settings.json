@@ -1,0 +1,6 @@
+{
+  "editor.indentSize": 2,
+  "[java]": {
+    "editor.indentSize": "tabSize"
+  }
+}

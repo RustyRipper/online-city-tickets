@@ -143,6 +143,9 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Attempted to get account of an admin."
+                    },
                     "401": {
                         "description": "Unauthorized."
                     }
@@ -181,7 +184,7 @@
                         }
                     },
                     "400": {
-                        "description": "Invalid request body or phone number was supplied for an inspector account."
+                        "description": "Invalid request body or phone number was supplied for an inspector account or attempted to update an admin account."
                     },
                     "401": {
                         "description": "Unauthorized."
@@ -809,6 +812,9 @@
                             },
                             "phoneNumber": {
                                 "$ref": "#/components/schemas/phoneNumber"
+                            },
+                            "defaultCreditCardId": {
+                                "$ref": "#/components/schemas/id"
                             }
                         }
                     }
