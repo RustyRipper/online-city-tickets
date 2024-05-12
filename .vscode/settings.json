@@ -2,5 +2,6 @@
   "editor.indentSize": 2,
   "[java]": {
     "editor.indentSize": "tabSize"
-  }
+  },
+  "java.compile.nullAnalysis.mode": "automatic"
 }

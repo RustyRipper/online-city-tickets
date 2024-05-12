@@ -14,13 +14,14 @@
     <small *ngIf="form.get('password')!.touched && form.get('password')!.errors" class="error">The password is too
       short.</small>
     <div class="center">
-      <p-button [disabled]="!form.valid" [loading]="isLoading" (onClick)="onSubmit()" label="Login"
-        icon="pi pi-sign-in" />
+      <p-button [disabled]="!form.valid" [loading]="isLoading" (onClick)="onSubmit()" label="Login" type="submit"
+        icon="pi pi-sign-in" iconPos="right" />
     </div>
     <small *ngIf="isError" class="error">Invalid credentials or the server is unreachable.</small>
   </form>
-  <p-divider align="center">OR</p-divider>
+  <p-divider [align]="'center'">OR</p-divider>
   <div class="center">
-    <a routerLink="/auth/register"><p-button label="Register" icon="pi pi-user-plus" severity="secondary" /></a>
+    <a routerLink="/auth/register"><p-button label="Register" icon="pi pi-user-plus" iconPos="right"
+        severity="secondary" /></a>
   </div>
 </main>

@@ -46,6 +46,11 @@ export class AuthService {
     }
   }
 
+  public logout(): void {
+    this.jwtCell.value = null;
+    this.accountCell.value = null;
+  }
+
   /** @deprecated remove this once backend is updated */
   private static fixAccountObject(brokenAccount: any): Account {
     if (brokenAccount.type && !brokenAccount.role) {
