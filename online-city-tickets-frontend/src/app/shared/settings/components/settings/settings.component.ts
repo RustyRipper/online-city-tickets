@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { ButtonModule } from "primeng/button";
@@ -13,6 +14,7 @@ import { StoreService } from "../../../store/store.service";
   selector: "app-settings",
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     RouterModule,
     ButtonModule,
@@ -37,6 +39,7 @@ export class SettingsComponent {
     { label: "Dark", value: "dark" },
   ];
 
+  protected readonly ticketKindVisible;
   protected readonly ticketKindCell;
   protected readonly languageCell;
   protected readonly themeCell;
@@ -46,6 +49,7 @@ export class SettingsComponent {
     private readonly authService: AuthService,
     storeService: StoreService,
   ) {
+    this.ticketKindVisible = authService.accountType === "passenger";
     this.ticketKindCell = storeService.ticketKind;
     this.languageCell = storeService.language;
     this.themeCell = storeService.theme;
@@ -53,6 +57,6 @@ export class SettingsComponent {
 
   protected onAccountSwitch(): void {
     this.authService.logout();
-    this.router.navigate(["/auth/login"]);
+    this.router.navigateByUrl("/auth/login");
   }
 }

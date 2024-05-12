@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 
 import type { Account } from "../types";
-import type { LoginReq } from "../../api/models";
+import type { LoginReq, RegisterAsPassengerReq } from "../../api/models";
 import { StoreService } from "../../shared/store/store.service";
 import { AccountsApi, AuthApi } from "../../api/services";
 
@@ -32,6 +32,7 @@ export class AuthService {
 
   public async login(body: LoginReq): Promise<Account | null> {
     try {
+      this.jwtCell.value = null;
       const { jwt } = await firstValueFrom(this.authApi.login({ body }));
       this.jwtCell.value = jwt;
       let account = await firstValueFrom(this.accountsApi.getAccount());
@@ -49,6 +50,21 @@ export class AuthService {
   public logout(): void {
     this.jwtCell.value = null;
     this.accountTypeCell.value = null;
+  }
+
+  public async register(body: RegisterAsPassengerReq): Promise<Account | null> {
+    try {
+      this.jwtCell.value = null;
+      const { ok } = await firstValueFrom(
+        this.authApi.registerAsPassenger$Response({ body }),
+      );
+      if (!ok) {
+        return null;
+      }
+      return this.login({ email: body.email, password: body.password });
+    } catch {
+      return null;
+    }
   }
 
   /** @deprecated remove this once backend is updated */

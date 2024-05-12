@@ -12,7 +12,7 @@ import { AuthService } from "../../../../auth/services/auth.service";
   styleUrl: "./wallet-indicator.component.css",
 })
 export class WalletIndicatorComponent implements OnInit {
-  protected static readonly currency = "zł";
+  private static readonly currency = "zł";
   private balanceGrosze = 0;
 
   public constructor(private readonly accountsApi: AccountsApi) {}
@@ -21,8 +21,9 @@ export class WalletIndicatorComponent implements OnInit {
     return `${(this.balanceGrosze / 100).toFixed(2)} ${WalletIndicatorComponent.currency}`;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.accountsApi.getAccount().subscribe((account) => {
+      // FIXME: remove this once backend is updated
       account = AuthService.fixAccountObject(account);
       if (account.type === "passenger") {
         this.balanceGrosze = account.walletBalanceGrosze;

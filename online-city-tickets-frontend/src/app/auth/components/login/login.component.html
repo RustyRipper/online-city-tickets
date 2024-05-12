@@ -5,19 +5,21 @@
       <label for="email">Email</label>
       <input formControlName="email" id="email" pInputText type="email" aria-describedby="email-help" required />
     </div>
-    <small *ngIf="form.get('email')!.touched && form.get('email')!.errors" class="error">This is not a valid
-      email.</small>
+    <small *ngIf="form.get('email')!.touched && form.get('email')!.errors" class="error">
+      This is not a valid email.
+    </small>
     <div class="field">
       <label for="password">Password</label>
       <p-password formControlName="password" inputId="password" feedback="false" toggleMask="true" required />
     </div>
-    <small *ngIf="form.get('password')!.touched && form.get('password')!.errors" class="error">The password is too
-      short.</small>
+    <small *ngIf="form.get('password')!.touched && form.get('password')!.errors" class="error">
+      The password is too short.
+    </small>
     <div class="center">
       <p-button [disabled]="!form.valid" [loading]="isLoading" (onClick)="onSubmit()" label="Login" type="submit"
         icon="pi pi-sign-in" iconPos="right" />
     </div>
-    <small *ngIf="isError" class="error">Invalid credentials or the server is unreachable.</small>
+    <small *ngIf="isError" class="error">Invalid credentials.</small>
   </form>
   <p-divider [align]="'center'">OR</p-divider>
   <div class="center">
