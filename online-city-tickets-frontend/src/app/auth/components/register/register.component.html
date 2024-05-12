@@ -33,7 +33,7 @@
       <p-button [disabled]="!form.valid" [loading]="isLoading" (onClick)="onSubmit()" label="Register" type="submit"
         icon="pi pi-user-plus" iconPos="right" />
     </div>
-    <small *ngIf="isError" class="error">Invalid credentials.</small>
+    <small *ngIf="isError" class="error">Email already in use.</small>
   </form>
   <p-divider [align]="'center'">OR</p-divider>
   <div class="center">
