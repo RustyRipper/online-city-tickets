@@ -1,6 +1,7 @@
 package org.pwr.onlinecityticketsbackend.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.dto.LongTermTicketOfferDto;
@@ -49,5 +50,24 @@ public class TicketOfferService {
         var timeLimitedOffers = getTimeLimitedOffers();
         var longTermOffers = getLongTermOffers();
         return List.of(singleFareOffers, timeLimitedOffers, longTermOffers).stream().flatMap(List::stream).toList();
+    }
+
+    public Optional<? extends BaseTicketOfferDto> getOfferById(long id) {
+        var singleFareOffer = singleFareOfferRepository.findById(id);
+        var timeLimitedOffer = timeLimitedOfferRepository.findById(id);
+        var longTermOffer = longTermOfferRepository.findById(id);
+
+        if (singleFareOffer.isPresent()) {
+            var mapper = SingleFareOfferMapper.INSTANCE;
+            return Optional.of(mapper.toSingleFareTicketOfferDto(singleFareOffer.get()));
+        } else if (timeLimitedOffer.isPresent()) {
+            var mapper = TimeLimitedOfferMapper.INSTANCE;
+            return Optional.of(mapper.toTimeLimitedTicketOfferDto(timeLimitedOffer.get()));
+        } else if (longTermOffer.isPresent()) {
+            var mapper = LongTermOfferMapper.INSTANCE;
+            return Optional.of(mapper.toLongTermTicketOfferDto(longTermOffer.get()));
+        } else {
+            return Optional.empty();
+        }
     }
 }
