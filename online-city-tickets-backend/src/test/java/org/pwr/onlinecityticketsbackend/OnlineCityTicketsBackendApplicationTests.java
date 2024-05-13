@@ -11,9 +11,10 @@ class OnlineCityTicketsBackendApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+
 	@Test
 	void simpleTest() {
-		assertEquals(4, 2+2);
+		assertEquals(4, 2 + 3);
 	}
 
 }
