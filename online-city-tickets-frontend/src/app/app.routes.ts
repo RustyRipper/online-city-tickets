@@ -1,56 +1,104 @@
 import { Routes } from "@angular/router";
 
+import { hasRole } from "./auth/guards/has-role.guard";
+
 export const routes: Routes = [
   {
-    path: "",
-    redirectTo: "/passenger/tickets", // TODO: change to '/login' when login page is ready
-    pathMatch: "full",
-  },
-  {
-    path: "passenger",
-    redirectTo: "/passenger/tickets",
-    pathMatch: "full",
-  },
-  {
-    path: "passenger",
-    loadComponent: () =>
-      import("./passenger/home/home.component").then((m) => m.HomeComponent),
+    path: "auth",
+    canActivate: [hasRole(null)],
     children: [
       {
-        path: "tickets",
+        path: "login",
         loadComponent: () =>
-          import("./passenger/tickets/tickets.component").then(
-            (m) => m.TicketsComponent,
+          import("./auth/components/login/login.component").then(
+            (m) => m.LoginComponent,
           ),
       },
       {
-        path: "shop",
+        path: "register",
         loadComponent: () =>
-          import("./passenger/shop/shop.component").then(
-            (m) => m.ShopComponent,
+          import("./auth/components/register/register.component").then(
+            (m) => m.RegisterComponent,
           ),
       },
     ],
   },
   {
-    path: "passenger/wallet",
-    loadComponent: () =>
-      import("./passenger/wallet/wallet.component").then(
-        (m) => m.WalletComponent,
-      ),
+    path: "passenger",
+    canActivate: [hasRole("passenger")],
+    children: [
+      {
+        path: "",
+        pathMatch: "full",
+        redirectTo: "tickets",
+      },
+      {
+        path: "",
+        loadComponent: () =>
+          import("./passenger/components/home/home.component").then(
+            (m) => m.HomeComponent,
+          ),
+        children: [
+          {
+            path: "tickets",
+            loadComponent: () =>
+              import("./passenger/components/tickets/tickets.component").then(
+                (m) => m.TicketsComponent,
+              ),
+          },
+          {
+            path: "shop",
+            loadComponent: () =>
+              import("./passenger/components/shop/shop.component").then(
+                (m) => m.ShopComponent,
+              ),
+          },
+        ],
+      },
+      {
+        path: "wallet",
+        loadComponent: () =>
+          import("./passenger/components/wallet/wallet.component").then(
+            (m) => m.WalletComponent,
+          ),
+      },
+    ],
+  },
+  {
+    path: "inspector",
+    canActivate: [hasRole("inspector")],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("./inspector/components/home/home.component").then(
+            (m) => m.HomeComponent,
+          ),
+      },
+    ],
   },
   {
     path: "settings",
-    loadComponent: () =>
-      import("./shared/settings/settings.component").then(
-        (m) => m.SettingsComponent,
-      ),
+    canActivate: [hasRole("any")],
+    children: [
+      {
+        path: "",
+        loadComponent: () =>
+          import("./shared/components/settings/settings.component").then(
+            (m) => m.SettingsComponent,
+          ),
+      },
+      {
+        path: "account",
+        loadComponent: () =>
+          import(
+            "./shared/components/account-settings/account-settings.component"
+          ).then((m) => m.AccountSettingsComponent),
+      },
+    ],
   },
   {
-    path: "settings/account",
-    loadComponent: () =>
-      import("./shared/account-settings/account-settings.component").then(
-        (m) => m.AccountSettingsComponent,
-      ),
+    path: "**",
+    redirectTo: "auth/login",
   },
 ];

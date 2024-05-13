@@ -35,16 +35,15 @@ public class DataSeeder {
     }
 
     public void seedData() {
-
         accountRepository.save(Account.builder()
-                .email("admin")
+                .email("admin@tickets.pl")
                 .role(Role.valueOf("ADMIN"))
-                .password(new BCryptPasswordEncoder().encode("admin"))
-                .fullName("admin")
+                .password(new BCryptPasswordEncoder().encode("12345678"))
+                .fullName("Mr Admin")
                 .build());
 
-        accountService.createPassenger("passenger", "passenger", "123456789", "passenger");
-        accountService.createInspector("inspector", "inspector", "inspector");
+        accountService.createPassenger("passenger@tickets.pl", "Mr Passenger", "123456789", "12345678");
+        accountService.createInspector("inspector@tickets.pl", "Mr Inspector", "12345678");
 
         seedTicketOffers(TicketKind.STANDARD);
         seedTicketOffers(TicketKind.REDUCED);
