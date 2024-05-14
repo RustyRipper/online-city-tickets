@@ -17,4 +17,5 @@ public abstract class BaseTicketOfferDto {
     private String displayNamePl;
     private TicketKind kind;
     private int priceGrosze;
+    private String scope;
 }
