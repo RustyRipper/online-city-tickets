@@ -40,6 +40,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+	testImplementation "org.testcontainers:postgresql:1.19.8"
 }
 
 tasks.named('test') {
