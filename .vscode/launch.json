@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-OnlineCityTicketsBackendApplication<online-city-tickets-backend>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "org.pwr.onlinecityticketsbackend.OnlineCityTicketsBackendApplication",
+      "projectName": "online-city-tickets-backend",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
