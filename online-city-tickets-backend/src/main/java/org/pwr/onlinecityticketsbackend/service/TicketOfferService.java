@@ -15,13 +15,13 @@ import lombok.RequiredArgsConstructor;
 public class TicketOfferService {
     private final TicketOfferRepository ticketOfferRepository;
 
-    public List<? extends BaseTicketOfferDto> getOffers() {
+    public List<BaseTicketOfferDto> getOffers() {
         var offers = ticketOfferRepository.findAll();
         var dtos = offers.stream().map(TicketOfferMapper.INSTANCE::toDto).toList();
         return dtos;
     }
 
-    public Optional<? extends BaseTicketOfferDto> getOfferById(long id) {
+    public Optional<BaseTicketOfferDto> getOfferById(long id) {
         var offer = ticketOfferRepository.findById(id);
         return offer.map(TicketOfferMapper.INSTANCE::toDto);
     }

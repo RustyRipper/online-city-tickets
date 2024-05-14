@@ -21,14 +21,14 @@ public interface TicketOfferMapper {
     TicketOfferMapper INSTANCE = Mappers.getMapper(TicketOfferMapper.class);
 
     default BaseTicketOfferDto toDto(TicketOffer ticketOffer) {
-        if (ticketOffer instanceof SingleFareOffer) {
-            return toSingleFareTicketOfferDto((SingleFareOffer) ticketOffer);
-        } else if (ticketOffer instanceof TimeLimitedOffer) {
-            return toTimeLimitedTicketOfferDto((TimeLimitedOffer) ticketOffer);
-        } else if (ticketOffer instanceof LongTermOffer) {
-            return toLongTermTicketOfferDto((LongTermOffer) ticketOffer);
+        if (ticketOffer instanceof SingleFareOffer offer) {
+            return toSingleFareTicketOfferDto(offer);
+        } else if (ticketOffer instanceof TimeLimitedOffer offer) {
+            return toTimeLimitedTicketOfferDto(offer);
+        } else if (ticketOffer instanceof LongTermOffer offer) {
+            return toLongTermTicketOfferDto(offer);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
