@@ -1,0 +1,17 @@
+main {
+  max-width: 35rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+p {
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+a {
+  display: block;
+  margin: 0 auto;
+  width: fit-content;
+}
