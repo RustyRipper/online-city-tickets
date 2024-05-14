@@ -1,3 +1,8 @@
+main {
+  max-width: 35rem;
+  margin: 0 auto;
+}
+
 h2 {
   font-size: 1.25rem;
   font-weight: bold;
@@ -9,6 +14,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 2rem;
 }
 
 .item > * {

@@ -24,7 +24,7 @@ import { AuthService } from "../../services/auth.service";
     TopBarComponent,
   ],
   templateUrl: "./login.component.html",
-  styleUrl: "./login.component.css",
+  styleUrl: "../../auth-form.css",
 })
 export class LoginComponent {
   private status: "idle" | "loading" | "error" = "idle";
@@ -55,7 +55,7 @@ export class LoginComponent {
     const account = await this.authService.login(this.form.getRawValue());
     this.status = account ? "idle" : "error";
     if (account) {
-      this.router.navigate(["/passenger"]);
+      this.router.navigateByUrl("/passenger");
     }
   }
 }

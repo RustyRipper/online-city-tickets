@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RouterModule } from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
 
 import { RegisterComponent } from "./register.component";
 
@@ -8,7 +10,8 @@ describe("RegisterComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterComponent],
+      imports: [RegisterComponent, RouterModule.forRoot([]), HttpClientModule],
+      providers: [{ provide: Storage, useValue: sessionStorage }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterComponent);

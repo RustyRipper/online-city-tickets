@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterModule } from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
 
 import { SettingsComponent } from "./settings.component";
 
@@ -9,7 +10,8 @@ describe("SettingsComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsComponent, RouterModule.forRoot([])],
+      imports: [SettingsComponent, RouterModule.forRoot([]), HttpClientModule],
+      providers: [{ provide: Storage, useValue: sessionStorage }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsComponent);

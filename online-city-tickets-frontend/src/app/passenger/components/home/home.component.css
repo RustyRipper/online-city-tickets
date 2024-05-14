@@ -13,11 +13,6 @@ div[right] a {
   color: inherit;
 }
 
-:host ::ng-deep .p-chip {
-  font-size: 0.75rem;
-  padding-block: 0.25rem;
-}
-
 :host ::ng-deep .p-avatar {
   width: 1.6rem;
   height: 1.6rem;
