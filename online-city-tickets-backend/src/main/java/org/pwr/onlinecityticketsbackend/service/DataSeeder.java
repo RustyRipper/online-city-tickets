@@ -10,29 +10,18 @@ import org.pwr.onlinecityticketsbackend.model.SingleFareOffer;
 import org.pwr.onlinecityticketsbackend.model.TicketKind;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
-import org.pwr.onlinecityticketsbackend.repository.LongTermOfferRepository;
-import org.pwr.onlinecityticketsbackend.repository.SingleFareOfferRepository;
-import org.pwr.onlinecityticketsbackend.repository.TimeLimitedOfferRepository;
+import org.pwr.onlinecityticketsbackend.repository.TicketOfferRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class DataSeeder {
     private final AccountRepository accountRepository;
     private final AccountService accountService;
-    private final SingleFareOfferRepository singleFareOfferRepository;
-    private final TimeLimitedOfferRepository timeLimitedOfferRepository;
-    private final LongTermOfferRepository longTermOfferRepository;
-
-    public DataSeeder(AccountRepository accountRepository, AccountService accountService,
-            SingleFareOfferRepository singleFareOfferRepository, TimeLimitedOfferRepository timeLimitedOfferRepository,
-            LongTermOfferRepository longTermOfferRepository) {
-        this.accountRepository = accountRepository;
-        this.accountService = accountService;
-        this.singleFareOfferRepository = singleFareOfferRepository;
-        this.timeLimitedOfferRepository = timeLimitedOfferRepository;
-        this.longTermOfferRepository = longTermOfferRepository;
-    }
+    private final TicketOfferRepository ticketOfferRepository;
 
     public void seedData() {
         accountRepository.save(Account.builder()
@@ -52,14 +41,14 @@ public class DataSeeder {
     private void seedTicketOffers(TicketKind kind) {
         var priceMultiplier = (100.0 - kind.getDiscountPercent()) / 100.0;
 
-        singleFareOfferRepository.save(SingleFareOffer.builder()
+        ticketOfferRepository.save(SingleFareOffer.builder()
                 .displayNameEn("Single fare")
                 .displayNamePl("Jednorazowy")
                 .kind(kind)
                 .pricePln(BigDecimal.valueOf(4.60 * priceMultiplier))
                 .build());
 
-        timeLimitedOfferRepository.save(TimeLimitedOffer.builder()
+        ticketOfferRepository.save(TimeLimitedOffer.builder()
                 .displayNameEn("15 minutes")
                 .displayNamePl("15 minutowy")
                 .kind(kind)
@@ -67,7 +56,7 @@ public class DataSeeder {
                 .durationInMinutes(Duration.ofMinutes(15))
                 .build());
 
-        timeLimitedOfferRepository.save(TimeLimitedOffer.builder()
+        ticketOfferRepository.save(TimeLimitedOffer.builder()
                 .displayNameEn("30 minutes")
                 .displayNamePl("30 minutowy")
                 .kind(kind)
@@ -75,7 +64,7 @@ public class DataSeeder {
                 .durationInMinutes(Duration.ofMinutes(30))
                 .build());
 
-        timeLimitedOfferRepository.save(TimeLimitedOffer.builder()
+        ticketOfferRepository.save(TimeLimitedOffer.builder()
                 .displayNameEn("60 minutes")
                 .displayNamePl("60 minutowy")
                 .kind(kind)
@@ -83,7 +72,7 @@ public class DataSeeder {
                 .durationInMinutes(Duration.ofMinutes(60))
                 .build());
 
-        timeLimitedOfferRepository.save(TimeLimitedOffer.builder()
+        ticketOfferRepository.save(TimeLimitedOffer.builder()
                 .displayNameEn("90 minutes")
                 .displayNamePl("90 minutowy")
                 .kind(kind)
@@ -91,7 +80,7 @@ public class DataSeeder {
                 .durationInMinutes(Duration.ofMinutes(90))
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("24 hours")
                 .displayNamePl("24 godzinny")
                 .kind(kind)
@@ -99,7 +88,7 @@ public class DataSeeder {
                 .intervalInDays(1)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("48 hours")
                 .displayNamePl("48 godzinny")
                 .kind(kind)
@@ -107,7 +96,7 @@ public class DataSeeder {
                 .intervalInDays(2)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("72 hours")
                 .displayNamePl("72 godzinny")
                 .kind(kind)
@@ -115,7 +104,7 @@ public class DataSeeder {
                 .intervalInDays(3)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("7 days")
                 .displayNamePl("7 dniowy")
                 .kind(kind)
@@ -123,7 +112,7 @@ public class DataSeeder {
                 .intervalInDays(7)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("30 days")
                 .displayNamePl("30 dniowy")
                 .kind(kind)
@@ -131,7 +120,7 @@ public class DataSeeder {
                 .intervalInDays(30)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("60 days")
                 .displayNamePl("60 dniowy")
                 .kind(kind)
@@ -139,7 +128,7 @@ public class DataSeeder {
                 .intervalInDays(60)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("90 days")
                 .displayNamePl("90 dniowy")
                 .kind(kind)
@@ -147,7 +136,7 @@ public class DataSeeder {
                 .intervalInDays(90)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("120 days")
                 .displayNamePl("120 dniowy")
                 .kind(kind)
@@ -155,7 +144,7 @@ public class DataSeeder {
                 .intervalInDays(120)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("180 days")
                 .displayNamePl("180 dniowy")
                 .kind(kind)
@@ -163,7 +152,7 @@ public class DataSeeder {
                 .intervalInDays(180)
                 .build());
 
-        longTermOfferRepository.save(LongTermOffer.builder()
+        ticketOfferRepository.save(LongTermOffer.builder()
                 .displayNameEn("365 days")
                 .displayNamePl("365 dniowy")
                 .kind(kind)
