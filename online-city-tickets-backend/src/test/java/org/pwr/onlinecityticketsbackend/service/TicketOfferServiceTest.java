@@ -43,18 +43,20 @@ public class TicketOfferServiceTest {
         Assertions.assertEquals(20,
                 result.stream().filter(offer -> offer.getScope().equals("long-term")).count());
         Assertions.assertEquals(15,
-                result.stream().filter(offer -> offer.getKind().equals(TicketKind.STANDARD)).count());
+                result.stream().filter(offer -> offer.getKind()
+                        .equals(TicketKind.STANDARD.toString().toLowerCase())).count());
         Assertions.assertEquals(15,
-                result.stream().filter(offer -> offer.getKind().equals(TicketKind.REDUCED)).count());
+                result.stream().filter(offer -> offer.getKind()
+                        .equals(TicketKind.REDUCED.toString().toLowerCase())).count());
     }
 
     @Test
     void shouldGetAllOffers() {
         // given
-        var singleFareOffer = SingleFareOffer.builder().pricePln(BigDecimal.ONE).build();
-        var longTermOffer = LongTermOffer.builder().pricePln(BigDecimal.ONE).build();
+        var singleFareOffer = SingleFareOffer.builder().pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
+        var longTermOffer = LongTermOffer.builder().pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
         var timeLimitedOffer = TimeLimitedOffer.builder().pricePln(BigDecimal.ONE)
-                .durationInMinutes(Duration.ofMinutes(1)).build();
+                .durationInMinutes(Duration.ofMinutes(1)).kind(TicketKind.STANDARD).build();
 
         // when
         when(ticketOfferRepository.findAll()).thenReturn(java.util.List.of(singleFareOffer, longTermOffer,
@@ -68,10 +70,11 @@ public class TicketOfferServiceTest {
     @Test
     void shouldGetOfferById() {
         // given
-        var singleFareOffer = SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE).build();
-        var longTermOffer = LongTermOffer.builder().id(2L).pricePln(BigDecimal.ONE).build();
+        var singleFareOffer = SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD)
+                .build();
+        var longTermOffer = LongTermOffer.builder().id(2L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
         var timeLimitedOffer = TimeLimitedOffer.builder().id(3L).pricePln(BigDecimal.ONE)
-                .durationInMinutes(Duration.ofMinutes(1)).build();
+                .durationInMinutes(Duration.ofMinutes(1)).kind(TicketKind.STANDARD).build();
 
         // when
         when(ticketOfferRepository.findById(1L)).thenReturn(java.util.Optional.of(singleFareOffer));

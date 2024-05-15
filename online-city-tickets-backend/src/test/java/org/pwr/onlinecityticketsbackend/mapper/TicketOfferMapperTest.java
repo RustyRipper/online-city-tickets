@@ -40,7 +40,7 @@ public class TicketOfferMapperTest {
         Assertions.assertEquals(model.getDisplayNameEn(), result.getDisplayNameEn());
         Assertions.assertEquals(model.getDisplayNamePl(), result.getDisplayNamePl());
         Assertions.assertEquals(model.getIntervalInDays(), result.getIntervalInDays());
-        Assertions.assertEquals(model.getKind(), result.getKind());
+        Assertions.assertEquals(model.getKind().toString().toLowerCase(), result.getKind());
         Assertions.assertEquals(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue(),
                 result.getPriceGrosze());
         Assertions.assertEquals("long-term", result.getScope());
@@ -66,7 +66,7 @@ public class TicketOfferMapperTest {
         Assertions.assertEquals(model.getId(), result.getId());
         Assertions.assertEquals(model.getDisplayNameEn(), result.getDisplayNameEn());
         Assertions.assertEquals(model.getDisplayNamePl(), result.getDisplayNamePl());
-        Assertions.assertEquals(model.getKind(), result.getKind());
+        Assertions.assertEquals(model.getKind().toString().toLowerCase(), result.getKind());
         Assertions.assertEquals(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue(),
                 result.getPriceGrosze());
         Assertions.assertEquals(model.getDurationInMinutes().toMinutes(), result.getDurationMinutes());
@@ -92,7 +92,7 @@ public class TicketOfferMapperTest {
         Assertions.assertEquals(model.getId(), result.getId());
         Assertions.assertEquals(model.getDisplayNameEn(), result.getDisplayNameEn());
         Assertions.assertEquals(model.getDisplayNamePl(), result.getDisplayNamePl());
-        Assertions.assertEquals(model.getKind(), result.getKind());
+        Assertions.assertEquals(model.getKind().toString().toLowerCase(), result.getKind());
         Assertions.assertEquals(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue(),
                 result.getPriceGrosze());
         Assertions.assertEquals("single-fare", result.getScope());
