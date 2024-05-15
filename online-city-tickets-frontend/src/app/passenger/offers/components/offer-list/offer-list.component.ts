@@ -1,12 +1,12 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
 import { SelectButtonModule } from "primeng/selectbutton";
 
 import { TicketOfferDto } from "../../../../api/models";
 import { OffersApi } from "../../../../api/services";
 import { StoreService } from "../../../../shared/store/store.service";
+import { OfferCardComponent } from "../offer-card/offer-card.component";
 
 type OfferKind = TicketOfferDto["kind"];
 type OfferKindItem = { label: string; value: OfferKind };
@@ -36,7 +36,7 @@ const GROUP_ORDER = [
 @Component({
   selector: "app-offer-list",
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, SelectButtonModule],
+  imports: [CommonModule, FormsModule, SelectButtonModule, OfferCardComponent],
   templateUrl: "./offer-list.component.html",
   styleUrl: "./offer-list.component.css",
 })
@@ -71,9 +71,5 @@ export class OfferListComponent implements OnInit {
         .filter((offer) => offer.scope === group.scope)
         .sort((a, b) => a.priceGrosze - b.priceGrosze),
     })).filter((group) => group.offers.length > 0);
-  }
-
-  protected labelOf(kind: OfferKind): string {
-    return this.ticketKinds.find((tk) => tk.value === kind)!.label;
   }
 }

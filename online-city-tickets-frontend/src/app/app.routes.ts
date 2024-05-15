@@ -1,6 +1,8 @@
 import { Routes } from "@angular/router";
 
 import { hasRole } from "./auth/guards/has-role.guard";
+import { offerResolver } from "./passenger/offers/resolvers/offer.resolver";
+import { balanceResolver } from "./passenger/wallet/resolvers/balance.resolver";
 
 export const routes: Routes = [
   {
@@ -47,13 +49,21 @@ export const routes: Routes = [
               ),
           },
           {
-            path: "shop",
+            path: "offers",
             loadComponent: () =>
               import(
                 "./passenger/offers/components/offer-list/offer-list.component"
               ).then((m) => m.OfferListComponent),
           },
         ],
+      },
+      {
+        path: "offers/:id",
+        loadComponent: () =>
+          import(
+            "./passenger/offers/components/offer-details/offer-details.component"
+          ).then((m) => m.OfferDetailsComponent),
+        resolve: { offer: offerResolver, balance: balanceResolver },
       },
       {
         path: "wallet",

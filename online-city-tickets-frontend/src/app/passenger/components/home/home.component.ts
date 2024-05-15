@@ -28,7 +28,7 @@ export class HomeComponent {
     {
       label: "Shop",
       icon: "pi pi-shopping-cart",
-      routerLink: "shop",
+      routerLink: "offers",
     },
   ];
 }

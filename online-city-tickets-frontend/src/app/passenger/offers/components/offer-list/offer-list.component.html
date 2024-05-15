@@ -4,19 +4,7 @@
     <section *ngFor="let group of groups">
         <h2>{{group.label}}</h2>
         <div class="offer-list">
-            <a *ngFor="let offer of group.offers" class="offer" [routerLink]="'/passenger/shop/' + offer.id">
-                <div class="offer-top">
-                    <div class="offer-kind" [attr.data-kind]="offer.kind">
-                        {{labelOf(offer.kind)}}
-                    </div>
-                    <div class="offer-name">
-                        {{offer.displayNameEn.replaceAll(" ", "\n")}}
-                    </div>
-                </div>
-                <div class="offer-bot">
-                    {{(offer.priceGrosze / 100).toFixed(2)}} zł
-                </div>
-            </a>
+            <app-offer-card *ngFor="let offer of group.offers" [offer]="offer" [linked]="true" />
         </div>
     </section>
 </main>
