@@ -1,1448 +1,1358 @@
 {
-    "openapi": "3.0.3",
-    "info": {
-        "title": "Online City Tickets - API Gateway",
-        "version": "v1"
-    },
-    "servers": [
-        {
-            "url": "http://localhost:8080/api/v1",
-            "description": "Development Server"
-        }
-    ],
-    "paths": {
-        "/auth/register/passenger": {
-            "post": {
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Register a new passenger account.",
-                "operationId": "registerAsPassenger",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RegisterAsPassengerReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "Account created successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PassengerDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body."
-                    },
-                    "409": {
-                        "description": "Email already in use."
-                    }
-                }
-            }
-        },
-        "/auth/register/inspector": {
-            "post": {
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Register a new inspector account.",
-                "operationId": "registerAsInspector",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RegisterAsInspectorReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "Account created successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/InspectorDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body."
-                    },
-                    "409": {
-                        "description": "Email already in use."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
-        "/auth/login": {
-            "post": {
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Log in to the system.",
-                "description": "Returns a JWT, which should be included in the Authorization header of all subsequent requests.<br/>Can be used by both passengers and inspectors.",
-                "operationId": "login",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Login successful.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/LoginRes"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid credentials."
-                    }
-                }
-            }
-        },
-        "/account": {
-            "get": {
-                "tags": [
-                    "accounts"
-                ],
-                "summary": "Get current account's details.",
-                "operationId": "getAccount",
-                "responses": {
-                    "200": {
-                        "description": "Fetched current account's details successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AccountDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Attempted to get account of an admin."
-                    },
-                    "401": {
-                        "description": "Unauthorized."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            },
-            "patch": {
-                "tags": [
-                    "accounts"
-                ],
-                "summary": "Update current account's details.",
-                "operationId": "updateAccount",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateAccountReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Account updated successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/AccountDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or phone number was supplied for an inspector account or attempted to update an admin account."
-                    },
-                    "401": {
-                        "description": "Unauthorized."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
-        "/credit-cards": {
-            "get": {
-                "tags": [
-                    "cards"
-                ],
-                "summary": "List all saved credit cards of the current account.",
-                "operationId": "listCreditCards",
-                "responses": {
-                    "200": {
-                        "description": "Fetched saved credit cards successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/CreditCardDto"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized or used on a inspector account."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "cards"
-                ],
-                "summary": "Save a new credit card on the current account.",
-                "operationId": "saveCreditCard",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SaveCreditCardReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "Credit card saved successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CreditCardDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or card is invalid/expired."
-                    },
-                    "401": {
-                        "description": "Unauthorized or used on a inspector account."
-                    },
-                    "409": {
-                        "description": "Credit card already saved."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
-        "/credit-cards/{id}": {
-            "get": {
-                "tags": [
-                    "cards"
-                ],
-                "summary": "Get details of a saved credit card.",
-                "operationId": "getCreditCard",
-                "responses": {
-                    "200": {
-                        "description": "Fetched credit card details successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CreditCardDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    },
-                    "404": {
-                        "description": "Credit card not found."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            },
-            "patch": {
-                "tags": [
-                    "cards"
-                ],
-                "summary": "Update details of a saved credit card.",
-                "operationId": "updateCreditCard",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateCreditCardReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Credit card updated successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CreditCardDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or card is invalid/expired."
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    },
-                    "404": {
-                        "description": "Credit card not found."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "cards"
-                ],
-                "summary": "Delete a saved credit card.",
-                "operationId": "deleteCreditCard",
-                "responses": {
-                    "204": {
-                        "description": "Credit card deleted successfully."
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    },
-                    "404": {
-                        "description": "Credit card not found."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            },
-            "parameters": [
-                {
-                    "$ref": "#/components/parameters/cardId"
-                }
-            ]
-        },
-        "/recharge/new-credit-card": {
-            "post": {
-                "tags": [
-                    "recharging"
-                ],
-                "summary": "Recharge the virtual wallet using a new credit card.",
-                "description": "This operation does not save the credit card on the account.<br/>Use the `/account/credit-cards` endpoint instead.<br/>This operation is propagated to the payment service.",
-                "operationId": "rechargeWithNewCreditCard",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RechargeWithNewCreditCardReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Recharge successful.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RechargeDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or invalid payment data."
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
-        "/recharge/saved-credit-card": {
-            "post": {
-                "tags": [
-                    "recharging"
-                ],
-                "summary": "Recharge the virtual wallet using a saved credit card.",
-                "description": "This operation is propagated to the payment service.",
-                "operationId": "rechargeWithSavedCreditCard",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RechargeWithSavedCreditCardReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Recharge successful.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RechargeDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or invalid payment data."
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    },
-                    "404": {
-                        "description": "Credit card not found."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
-        "/recharge/blik": {
-            "post": {
-                "tags": [
-                    "recharging"
-                ],
-                "summary": "Recharge the virtual wallet using BLIK.",
-                "description": "This operation is propagated to the payment service.",
-                "operationId": "rechargeWithBlik",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RechargeWithBlikReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Recharge successful.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RechargeDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or invalid payment data."
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
-        "/offers": {
-            "get": {
-                "tags": [
-                    "offers"
-                ],
-                "summary": "List all available ticket offers.",
-                "operationId": "listTicketOffers",
-                "responses": {
-                    "200": {
-                        "description": "Fetched ticket offers successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/TicketOfferDto"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/offers/{id}": {
-            "get": {
-                "tags": [
-                    "offers"
-                ],
-                "summary": "Get details of a single ticket offer.",
-                "operationId": "getTicketOffer",
-                "responses": {
-                    "200": {
-                        "description": "Fetched ticket offer successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TicketOfferDto"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ticket offer not found."
-                    }
-                }
-            },
-            "parameters": [
-                {
-                    "$ref": "#/components/parameters/offerId"
-                }
-            ]
-        },
-        "/tickets": {
-            "get": {
-                "tags": [
-                    "tickets"
-                ],
-                "summary": "List all tickets of the current account.",
-                "operationId": "listTickets",
-                "responses": {
-                    "200": {
-                        "description": "Fetched tickets successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/TicketDto"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "tickets"
-                ],
-                "summary": "Purchase a new ticket.",
-                "description": "This operation charges the ticket price from the virtual wallet.",
-                "operationId": "purchaseTicket",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PurchaseTicketReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "201": {
-                        "description": "Ticket purchased successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TicketDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body."
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    },
-                    "402": {
-                        "description": "Insufficient funds in virtual wallet."
-                    },
-                    "404": {
-                        "description": "Ticket offer not found."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
-        "/tickets/{code}": {
-            "get": {
-                "tags": [
-                    "tickets"
-                ],
-                "summary": "Get details of a single ticket of the current account.",
-                "operationId": "getTicket",
-                "responses": {
-                    "200": {
-                        "description": "Fetched ticket successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TicketDto"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized or on a inspector account."
-                    },
-                    "404": {
-                        "description": "Ticket not found."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            },
-            "parameters": [
-                {
-                    "$ref": "#/components/parameters/code"
-                }
-            ]
-        },
-        "/tickets/{code}/validate": {
-            "post": {
-                "tags": [
-                    "validation"
-                ],
-                "summary": "Validate a ticket.",
-                "description": "Ensures that a single-fare or time-limited ticket becomes valid.",
-                "operationId": "validateTicket",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ValidateTicketReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ticket successfully validated.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationDto"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or invalid vehicle specified."
-                    },
-                    "404": {
-                        "description": "Ticket not found or it is a long-term ticket."
-                    },
-                    "409": {
-                        "description": "Ticket already validated."
-                    }
-                }
-            },
-            "parameters": [
-                {
-                    "$ref": "#/components/parameters/code"
-                }
-            ]
-        },
-        "/tickets/{code}/inspect": {
-            "post": {
-                "tags": [
-                    "inspection"
-                ],
-                "summary": "Inspect a ticket.",
-                "description": "Checks if the ticket was correctly validated.",
-                "operationId": "inspectTicket",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/InspectTicketReq"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ticket inspected with a returned result.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/InspectTicketRes"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body or invalid vehicle specified."
-                    },
-                    "401": {
-                        "description": "Unauthorized."
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            },
-            "parameters": [
-                {
-                    "$ref": "#/components/parameters/code"
-                }
-            ]
-        }
-    },
-    "components": {
-        "schemas": {
-            "BaseAccountDto": {
-                "required": [
-                    "fullName",
-                    "email"
-                ],
-                "type": "object",
-                "properties": {
-                    "fullName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    }
-                }
-            },
-            "PassengerDto": {
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/BaseAccountDto"
-                    },
-                    {
-                        "required": [
-                            "type",
-                            "walletBalanceGrosze"
-                        ],
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "passenger"
-                                ]
-                            },
-                            "walletBalanceGrosze": {
-                                "type": "integer",
-                                "minimum": 0
-                            },
-                            "phoneNumber": {
-                                "$ref": "#/components/schemas/phoneNumber"
-                            },
-                            "defaultCreditCardId": {
-                                "$ref": "#/components/schemas/id"
-                            }
-                        }
-                    }
-                ]
-            },
-            "InspectorDto": {
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/BaseAccountDto"
-                    },
-                    {
-                        "required": [
-                            "type"
-                        ],
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "inspector"
-                                ]
-                            }
-                        }
-                    }
-                ]
-            },
-            "AccountDto": {
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/PassengerDto"
-                    },
-                    {
-                        "$ref": "#/components/schemas/InspectorDto"
-                    }
-                ]
-            },
-            "RegisterAsPassengerReq": {
-                "required": [
-                    "fullName",
-                    "email",
-                    "password"
-                ],
-                "type": "object",
-                "properties": {
-                    "fullName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "password": {
-                        "$ref": "#/components/schemas/password"
-                    },
-                    "phoneNumber": {
-                        "$ref": "#/components/schemas/phoneNumber"
-                    }
-                }
-            },
-            "RegisterAsInspectorReq": {
-                "required": [
-                    "fullName",
-                    "email",
-                    "password"
-                ],
-                "type": "object",
-                "properties": {
-                    "fullName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "password": {
-                        "$ref": "#/components/schemas/password"
-                    }
-                }
-            },
-            "LoginReq": {
-                "required": [
-                    "email",
-                    "password"
-                ],
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "format": "email"
-                    },
-                    "password": {
-                        "$ref": "#/components/schemas/password"
-                    }
-                }
-            },
-            "LoginRes": {
-                "required": [
-                    "jwt"
-                ],
-                "type": "object",
-                "properties": {
-                    "jwt": {
-                        "$ref": "#/components/schemas/jwt"
-                    }
-                }
-            },
-            "UpdateAccountReq": {
-                "type": "object",
-                "properties": {
-                    "fullName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "newPassword": {
-                        "$ref": "#/components/schemas/password"
-                    },
-                    "phoneNumber": {
-                        "$ref": "#/components/schemas/phoneNumber"
-                    }
-                }
-            },
-            "CreditCardDto": {
-                "required": [
-                    "id",
-                    "lastFourDigits",
-                    "holderName",
-                    "expirationDate"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/id"
-                    },
-                    "label": {
-                        "type": "string",
-                        "example": "My favourite card"
-                    },
-                    "lastFourDigits": {
-                        "type": "string",
-                        "pattern": "^[0-9]{4}$"
-                    },
-                    "holderName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "expirationDate": {
-                        "$ref": "#/components/schemas/expirationDate"
-                    }
-                }
-            },
-            "SaveCreditCardReq": {
-                "required": [
-                    "number",
-                    "holderName",
-                    "expirationDate"
-                ],
-                "type": "object",
-                "properties": {
-                    "label": {
-                        "type": "string",
-                        "example": "My favourite card"
-                    },
-                    "number": {
-                        "$ref": "#/components/schemas/creditCardNumber"
-                    },
-                    "holderName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "expirationDate": {
-                        "$ref": "#/components/schemas/expirationDate"
-                    }
-                }
-            },
-            "UpdateCreditCardReq": {
-                "type": "object",
-                "properties": {
-                    "label": {
-                        "type": "string"
-                    },
-                    "expirationDate": {
-                        "$ref": "#/components/schemas/expirationDate"
-                    }
-                }
-            },
-            "RechargeWithNewCreditCardReq": {
-                "required": [
-                    "amountGrosze",
-                    "number",
-                    "holderName",
-                    "expirationDate",
-                    "csc"
-                ],
-                "type": "object",
-                "properties": {
-                    "amountGrosze": {
-                        "type": "integer",
-                        "minimum": 1,
-                        "example": 300
-                    },
-                    "number": {
-                        "$ref": "#/components/schemas/creditCardNumber"
-                    },
-                    "holderName": {
-                        "$ref": "#/components/schemas/fullName"
-                    },
-                    "expirationDate": {
-                        "$ref": "#/components/schemas/expirationDate"
-                    },
-                    "csc": {
-                        "$ref": "#/components/schemas/csc"
-                    }
-                }
-            },
-            "RechargeWithSavedCreditCardReq": {
-                "required": [
-                    "amountGrosze",
-                    "creditCardId",
-                    "csc"
-                ],
-                "type": "object",
-                "properties": {
-                    "amountGrosze": {
-                        "type": "integer",
-                        "minimum": 1,
-                        "example": 300
-                    },
-                    "creditCardId": {
-                        "$ref": "#/components/schemas/id"
-                    },
-                    "csc": {
-                        "$ref": "#/components/schemas/csc"
-                    }
-                }
-            },
-            "RechargeWithBlikReq": {
-                "required": [
-                    "amountGrosze",
-                    "blikCode"
-                ],
-                "type": "object",
-                "properties": {
-                    "amountGrosze": {
-                        "type": "integer",
-                        "minimum": 1,
-                        "example": 300
-                    },
-                    "blikCode": {
-                        "type": "string",
-                        "pattern": "^[0-9]{6}$"
-                    }
-                }
-            },
-            "RechargeDto": {
-                "required": [
-                    "time",
-                    "newWalletBalanceGrosze"
-                ],
-                "type": "object",
-                "properties": {
-                    "time": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "newWalletBalanceGrosze": {
-                        "type": "integer",
-                        "minimum": 1,
-                        "example": 3000
-                    }
-                }
-            },
-            "BaseTicketOfferDto": {
-                "required": [
-                    "id",
-                    "displayNameEn",
-                    "displayNamePl",
-                    "kind",
-                    "priceGrosze"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "$ref": "#/components/schemas/id"
-                    },
-                    "displayNameEn": {
-                        "type": "string",
-                        "example": "30-minute, reduced"
-                    },
-                    "displayNamePl": {
-                        "type": "string",
-                        "example": "30-minutowy, ulgowy"
-                    },
-                    "kind": {
-                        "type": "string",
-                        "enum": [
-                            "standard",
-                            "reduced"
-                        ]
-                    },
-                    "priceGrosze": {
-                        "type": "integer",
-                        "minimum": 1,
-                        "example": 320
-                    }
-                }
-            },
-            "SingleFareTicketOfferDto": {
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/BaseTicketOfferDto"
-                    },
-                    {
-                        "required": [
-                            "scope"
-                        ],
-                        "properties": {
-                            "scope": {
-                                "type": "string",
-                                "enum": [
-                                    "single-fare"
-                                ]
-                            }
-                        }
-                    }
-                ]
-            },
-            "TimeLimitedTicketOfferDto": {
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/BaseTicketOfferDto"
-                    },
-                    {
-                        "required": [
-                            "scope",
-                            "durationMinutes"
-                        ],
-                        "properties": {
-                            "scope": {
-                                "type": "string",
-                                "enum": [
-                                    "time-limited"
-                                ]
-                            },
-                            "durationMinutes": {
-                                "type": "integer",
-                                "minimum": 1
-                            }
-                        }
-                    }
-                ]
-            },
-            "LongTermTicketOfferDto": {
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/BaseTicketOfferDto"
-                    },
-                    {
-                        "required": [
-                            "scope",
-                            "intervalInDays"
-                        ],
-                        "properties": {
-                            "scope": {
-                                "type": "string",
-                                "enum": [
-                                    "long-term"
-                                ]
-                            },
-                            "intervalInDays": {
-                                "type": "integer",
-                                "minimum": 1
-                            }
-                        }
-                    }
-                ]
-            },
-            "TicketOfferDto": {
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/SingleFareTicketOfferDto"
-                    },
-                    {
-                        "$ref": "#/components/schemas/TimeLimitedTicketOfferDto"
-                    },
-                    {
-                        "$ref": "#/components/schemas/LongTermTicketOfferDto"
-                    }
-                ]
-            },
-            "PurchaseTicketReq": {
-                "required": [
-                    "offerId"
-                ],
-                "type": "object",
-                "properties": {
-                    "offerId": {
-                        "$ref": "#/components/schemas/id"
-                    }
-                }
-            },
-            "TicketDto": {
-                "required": [
-                    "code",
-                    "purchaseTime",
-                    "offer"
-                ],
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "$ref": "#/components/schemas/ticketCode"
-                    },
-                    "purchaseTime": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "offer": {
-                        "$ref": "#/components/schemas/TicketOfferDto"
-                    },
-                    "validation": {
-                        "$ref": "#/components/schemas/ValidationDto"
-                    }
-                }
-            },
-            "ValidateTicketReq": {
-                "required": [
-                    "vehicleSideNumber"
-                ],
-                "type": "object",
-                "properties": {
-                    "vehicleSideNumber": {
-                        "$ref": "#/components/schemas/vehicleSideNumber"
-                    }
-                }
-            },
-            "ValidationDto": {
-                "required": [
-                    "time",
-                    "vehicleSideNumber"
-                ],
-                "type": "object",
-                "properties": {
-                    "time": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "vehicleSideNumber": {
-                        "$ref": "#/components/schemas/vehicleSideNumber"
-                    }
-                }
-            },
-            "InspectTicketReq": {
-                "required": [
-                    "vehicleSideNumber"
-                ],
-                "type": "object",
-                "properties": {
-                    "vehicleSideNumber": {
-                        "$ref": "#/components/schemas/vehicleSideNumber"
-                    }
-                }
-            },
-            "InspectTicketValidRes": {
-                "required": [
-                    "status"
-                ],
-                "type": "object",
-                "properties": {
-                    "status": {
-                        "type": "string",
-                        "enum": [
-                            "valid"
-                        ]
-                    }
-                }
-            },
-            "InspectTicketInvalidRes": {
-                "required": [
-                    "status",
-                    "reason"
-                ],
-                "type": "object",
-                "properties": {
-                    "status": {
-                        "type": "string",
-                        "enum": [
-                            "invalid"
-                        ]
-                    },
-                    "reason": {
-                        "type": "string",
-                        "enum": [
-                            "ticket-not-found",
-                            "ticket-not-validated",
-                            "ticket-expired",
-                            "vehicle-mismatch"
-                        ]
-                    }
-                }
-            },
-            "InspectTicketRes": {
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/InspectTicketValidRes"
-                    },
-                    {
-                        "$ref": "#/components/schemas/InspectTicketInvalidRes"
-                    }
-                ]
-            },
-            "id": {
-                "type": "number",
-                "minimum": 0,
-                "example": 1
-            },
-            "jwt": {
-                "type": "string",
-                "pattern": "(^[\\w-]*\\.[\\w-]*\\.[\\w-]*$)"
-            },
-            "fullName": {
-                "type": "string",
-                "example": "John Smith",
-                "minLength": 1
-            },
-            "password": {
-                "type": "string",
-                "format": "password",
-                "minLength": 8,
-                "example": "password"
-            },
-            "phoneNumber": {
-                "type": "string",
-                "pattern": "^[0-9]{9}$"
-            },
-            "creditCardNumber": {
-                "type": "string",
-                "pattern": "^[0-9]{16}$"
-            },
-            "expirationDate": {
-                "type": "string",
-                "pattern": "^(0[1-9]|1[0-2])/[0-9]{2}$"
-            },
-            "csc": {
-                "type": "string",
-                "pattern": "^[0-9]{3}$"
-            },
-            "ticketCode": {
-                "type": "string",
-                "pattern": "^[0-9A-Z]{8}$"
-            },
-            "vehicleSideNumber": {
-                "type": "string",
-                "pattern": "^[0-9]{4}$"
-            }
-        },
-        "parameters": {
-            "code": {
-                "name": "code",
-                "in": "path",
-                "description": "Unique code of the ticket.",
-                "required": true,
-                "schema": {
-                    "$ref": "#/components/schemas/ticketCode"
-                },
-                "example": "3K7G9T2E"
-            },
-            "cardId": {
-                "name": "id",
-                "in": "path",
-                "description": "Unique identifier of the credit card.",
-                "required": true,
-                "schema": {
-                    "pattern": "^(0|[1-9][0-9]*)$",
-                    "type": "string"
-                },
-                "example": "1"
-            },
-            "offerId": {
-                "name": "id",
-                "in": "path",
-                "description": "Unique identifier of the offer.",
-                "required": true,
-                "schema": {
-                    "pattern": "^(0|[1-9][0-9]*)$",
-                    "type": "string"
-                },
-                "example": "1"
-            }
-        },
-        "securitySchemes": {
-            "jwt": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        }
-    },
-    "tags": [
-        {
-            "name": "auth",
-            "description": "Operations related to authentication."
-        },
-        {
-            "name": "accounts",
-            "description": "Operations related to user accounts."
-        },
-        {
-            "name": "cards",
-            "description": "Operations related to credit cards."
-        },
-        {
-            "name": "recharging",
-            "description": "Operations related to the virtual wallet recharging."
-        },
-        {
-            "name": "offers",
-            "description": "Operations related to ticket offers."
-        },
-        {
-            "name": "tickets",
-            "description": "Operations related to tickets."
-        },
-        {
-            "name": "validation",
-            "description": "Operations related to ticket validation."
-        },
-        {
-            "name": "inspection",
-            "description": "Operations related to ticket inspection."
-        }
-    ],
-    "externalDocs": {
-        "description": "GitHub Repository",
-        "url": "https://github.com/RustyRipper/online-city-tickets"
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Online City Tickets - API Gateway",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1",
+      "description": "Development Server"
     }
+  ],
+  "paths": {
+    "/auth/register/passenger": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Register a new passenger account.",
+        "operationId": "registerAsPassenger",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterAsPassengerReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Account created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PassengerDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body."
+          },
+          "409": {
+            "description": "Email already in use."
+          }
+        }
+      }
+    },
+    "/auth/register/inspector": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Register a new inspector account.",
+        "operationId": "registerAsInspector",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterAsInspectorReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Account created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InspectorDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body."
+          },
+          "409": {
+            "description": "Email already in use."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Log in to the system.",
+        "description": "Returns a JWT, which should be included in the Authorization header of all subsequent requests.<br/>Can be used by both passengers and inspectors.",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials."
+          }
+        }
+      }
+    },
+    "/account": {
+      "get": {
+        "tags": ["accounts"],
+        "summary": "Get current account's details.",
+        "operationId": "getAccount",
+        "responses": {
+          "200": {
+            "description": "Fetched current account's details successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Attempted to get account of an admin."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["accounts"],
+        "summary": "Update current account's details.",
+        "operationId": "updateAccount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccountReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Account updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or phone number was supplied for an inspector account or attempted to update an admin account."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/credit-cards": {
+      "get": {
+        "tags": ["cards"],
+        "summary": "List all saved credit cards of the current account.",
+        "operationId": "listCreditCards",
+        "responses": {
+          "200": {
+            "description": "Fetched saved credit cards successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreditCardDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or used on a inspector account."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["cards"],
+        "summary": "Save a new credit card on the current account.",
+        "operationId": "saveCreditCard",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveCreditCardReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Credit card saved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditCardDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or card is invalid/expired."
+          },
+          "401": {
+            "description": "Unauthorized or used on a inspector account."
+          },
+          "409": {
+            "description": "Credit card already saved."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/credit-cards/{id}": {
+      "get": {
+        "tags": ["cards"],
+        "summary": "Get details of a saved credit card.",
+        "operationId": "getCreditCard",
+        "responses": {
+          "200": {
+            "description": "Fetched credit card details successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditCardDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          },
+          "404": {
+            "description": "Credit card not found."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["cards"],
+        "summary": "Update details of a saved credit card.",
+        "operationId": "updateCreditCard",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCreditCardReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Credit card updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditCardDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or card is invalid/expired."
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          },
+          "404": {
+            "description": "Credit card not found."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["cards"],
+        "summary": "Delete a saved credit card.",
+        "operationId": "deleteCreditCard",
+        "responses": {
+          "204": {
+            "description": "Credit card deleted successfully."
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          },
+          "404": {
+            "description": "Credit card not found."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/cardId"
+        }
+      ]
+    },
+    "/recharge/new-credit-card": {
+      "post": {
+        "tags": ["recharging"],
+        "summary": "Recharge the virtual wallet using a new credit card.",
+        "description": "This operation does not save the credit card on the account.<br/>Use the `/account/credit-cards` endpoint instead.<br/>This operation is propagated to the payment service.",
+        "operationId": "rechargeWithNewCreditCard",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RechargeWithNewCreditCardReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recharge successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RechargeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or invalid payment data."
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/recharge/saved-credit-card": {
+      "post": {
+        "tags": ["recharging"],
+        "summary": "Recharge the virtual wallet using a saved credit card.",
+        "description": "This operation is propagated to the payment service.",
+        "operationId": "rechargeWithSavedCreditCard",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RechargeWithSavedCreditCardReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recharge successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RechargeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or invalid payment data."
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          },
+          "404": {
+            "description": "Credit card not found."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/recharge/blik": {
+      "post": {
+        "tags": ["recharging"],
+        "summary": "Recharge the virtual wallet using BLIK.",
+        "description": "This operation is propagated to the payment service.",
+        "operationId": "rechargeWithBlik",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RechargeWithBlikReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Recharge successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RechargeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or invalid payment data."
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/offers": {
+      "get": {
+        "tags": ["offers"],
+        "summary": "List all available ticket offers.",
+        "operationId": "listTicketOffers",
+        "responses": {
+          "200": {
+            "description": "Fetched ticket offers successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketOfferDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offers/{id}": {
+      "get": {
+        "tags": ["offers"],
+        "summary": "Get details of a single ticket offer.",
+        "operationId": "getTicketOffer",
+        "responses": {
+          "200": {
+            "description": "Fetched ticket offer successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketOfferDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ticket offer not found."
+          }
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/offerId"
+        }
+      ]
+    },
+    "/tickets": {
+      "get": {
+        "tags": ["tickets"],
+        "summary": "List all tickets of the current account.",
+        "operationId": "listTickets",
+        "responses": {
+          "200": {
+            "description": "Fetched tickets successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["tickets"],
+        "summary": "Purchase a new ticket.",
+        "description": "This operation charges the ticket price from the virtual wallet.",
+        "operationId": "purchaseTicket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchaseTicketReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Ticket purchased successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body."
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          },
+          "402": {
+            "description": "Insufficient funds in virtual wallet."
+          },
+          "404": {
+            "description": "Ticket offer not found."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      }
+    },
+    "/tickets/{code}": {
+      "get": {
+        "tags": ["tickets"],
+        "summary": "Get details of a single ticket of the current account.",
+        "operationId": "getTicket",
+        "responses": {
+          "200": {
+            "description": "Fetched ticket successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or on a inspector account."
+          },
+          "404": {
+            "description": "Ticket not found."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/code"
+        }
+      ]
+    },
+    "/tickets/{code}/validate": {
+      "post": {
+        "tags": ["validation"],
+        "summary": "Validate a ticket.",
+        "description": "Ensures that a single-fare or time-limited ticket becomes valid.",
+        "operationId": "validateTicket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateTicketReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ticket successfully validated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or invalid vehicle specified."
+          },
+          "404": {
+            "description": "Ticket not found or it is a long-term ticket."
+          },
+          "409": {
+            "description": "Ticket already validated."
+          }
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/code"
+        }
+      ]
+    },
+    "/tickets/{code}/inspect": {
+      "post": {
+        "tags": ["inspection"],
+        "summary": "Inspect a ticket.",
+        "description": "Checks if the ticket was correctly validated.",
+        "operationId": "inspectTicket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InspectTicketReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ticket inspected with a returned result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InspectTicketRes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or invalid vehicle specified."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/code"
+        }
+      ]
+    },
+    "/actuator/health": {
+      "get": {
+        "tags": ["server-info"],
+        "summary": "Check the health of the server.",
+        "operationId": "checkHealth",
+        "responses": {
+          "200": {
+            "description": "Server is healthy.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BaseAccountDto": {
+        "required": ["fullName", "email"],
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "$ref": "#/components/schemas/fullName"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "PassengerDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAccountDto"
+          },
+          {
+            "required": ["type", "walletBalanceGrosze"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["passenger"]
+              },
+              "walletBalanceGrosze": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "phoneNumber": {
+                "$ref": "#/components/schemas/phoneNumber"
+              },
+              "defaultCreditCardId": {
+                "$ref": "#/components/schemas/id"
+              }
+            }
+          }
+        ]
+      },
+      "InspectorDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAccountDto"
+          },
+          {
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["inspector"]
+              }
+            }
+          }
+        ]
+      },
+      "AccountDto": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/PassengerDto"
+          },
+          {
+            "$ref": "#/components/schemas/InspectorDto"
+          }
+        ]
+      },
+      "RegisterAsPassengerReq": {
+        "required": ["fullName", "email", "password"],
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "$ref": "#/components/schemas/fullName"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          },
+          "phoneNumber": {
+            "$ref": "#/components/schemas/phoneNumber"
+          }
+        }
+      },
+      "RegisterAsInspectorReq": {
+        "required": ["fullName", "email", "password"],
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "$ref": "#/components/schemas/fullName"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          }
+        }
+      },
+      "LoginReq": {
+        "required": ["email", "password"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          }
+        }
+      },
+      "LoginRes": {
+        "required": ["jwt"],
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "$ref": "#/components/schemas/jwt"
+          }
+        }
+      },
+      "UpdateAccountReq": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "$ref": "#/components/schemas/fullName"
+          },
+          "newPassword": {
+            "$ref": "#/components/schemas/password"
+          },
+          "phoneNumber": {
+            "$ref": "#/components/schemas/phoneNumber"
+          }
+        }
+      },
+      "CreditCardDto": {
+        "required": ["id", "lastFourDigits", "holderName", "expirationDate"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "label": {
+            "type": "string",
+            "example": "My favourite card"
+          },
+          "lastFourDigits": {
+            "type": "string",
+            "pattern": "^[0-9]{4}$"
+          },
+          "holderName": {
+            "$ref": "#/components/schemas/fullName"
+          },
+          "expirationDate": {
+            "$ref": "#/components/schemas/expirationDate"
+          }
+        }
+      },
+      "SaveCreditCardReq": {
+        "required": ["number", "holderName", "expirationDate"],
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "example": "My favourite card"
+          },
+          "number": {
+            "$ref": "#/components/schemas/creditCardNumber"
+          },
+          "holderName": {
+            "$ref": "#/components/schemas/fullName"
+          },
+          "expirationDate": {
+            "$ref": "#/components/schemas/expirationDate"
+          }
+        }
+      },
+      "UpdateCreditCardReq": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "expirationDate": {
+            "$ref": "#/components/schemas/expirationDate"
+          }
+        }
+      },
+      "RechargeWithNewCreditCardReq": {
+        "required": [
+          "amountGrosze",
+          "number",
+          "holderName",
+          "expirationDate",
+          "csc"
+        ],
+        "type": "object",
+        "properties": {
+          "amountGrosze": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 300
+          },
+          "number": {
+            "$ref": "#/components/schemas/creditCardNumber"
+          },
+          "holderName": {
+            "$ref": "#/components/schemas/fullName"
+          },
+          "expirationDate": {
+            "$ref": "#/components/schemas/expirationDate"
+          },
+          "csc": {
+            "$ref": "#/components/schemas/csc"
+          }
+        }
+      },
+      "RechargeWithSavedCreditCardReq": {
+        "required": ["amountGrosze", "creditCardId", "csc"],
+        "type": "object",
+        "properties": {
+          "amountGrosze": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 300
+          },
+          "creditCardId": {
+            "$ref": "#/components/schemas/id"
+          },
+          "csc": {
+            "$ref": "#/components/schemas/csc"
+          }
+        }
+      },
+      "RechargeWithBlikReq": {
+        "required": ["amountGrosze", "blikCode"],
+        "type": "object",
+        "properties": {
+          "amountGrosze": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 300
+          },
+          "blikCode": {
+            "type": "string",
+            "pattern": "^[0-9]{6}$"
+          }
+        }
+      },
+      "RechargeDto": {
+        "required": ["time", "newWalletBalanceGrosze"],
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "newWalletBalanceGrosze": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 3000
+          }
+        }
+      },
+      "BaseTicketOfferDto": {
+        "required": [
+          "id",
+          "displayNameEn",
+          "displayNamePl",
+          "kind",
+          "priceGrosze"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "displayNameEn": {
+            "type": "string",
+            "example": "30-minute, reduced"
+          },
+          "displayNamePl": {
+            "type": "string",
+            "example": "30-minutowy, ulgowy"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["standard", "reduced"]
+          },
+          "priceGrosze": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 320
+          }
+        }
+      },
+      "SingleFareTicketOfferDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseTicketOfferDto"
+          },
+          {
+            "required": ["scope"],
+            "properties": {
+              "scope": {
+                "type": "string",
+                "enum": ["single-fare"]
+              }
+            }
+          }
+        ]
+      },
+      "TimeLimitedTicketOfferDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseTicketOfferDto"
+          },
+          {
+            "required": ["scope", "durationMinutes"],
+            "properties": {
+              "scope": {
+                "type": "string",
+                "enum": ["time-limited"]
+              },
+              "durationMinutes": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        ]
+      },
+      "LongTermTicketOfferDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseTicketOfferDto"
+          },
+          {
+            "required": ["scope", "intervalInDays"],
+            "properties": {
+              "scope": {
+                "type": "string",
+                "enum": ["long-term"]
+              },
+              "intervalInDays": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        ]
+      },
+      "TicketOfferDto": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SingleFareTicketOfferDto"
+          },
+          {
+            "$ref": "#/components/schemas/TimeLimitedTicketOfferDto"
+          },
+          {
+            "$ref": "#/components/schemas/LongTermTicketOfferDto"
+          }
+        ]
+      },
+      "PurchaseTicketReq": {
+        "required": ["offerId"],
+        "type": "object",
+        "properties": {
+          "offerId": {
+            "$ref": "#/components/schemas/id"
+          }
+        }
+      },
+      "TicketDto": {
+        "required": ["code", "purchaseTime", "offer"],
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ticketCode"
+          },
+          "purchaseTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "offer": {
+            "$ref": "#/components/schemas/TicketOfferDto"
+          },
+          "validation": {
+            "$ref": "#/components/schemas/ValidationDto"
+          }
+        }
+      },
+      "ValidateTicketReq": {
+        "required": ["vehicleSideNumber"],
+        "type": "object",
+        "properties": {
+          "vehicleSideNumber": {
+            "$ref": "#/components/schemas/vehicleSideNumber"
+          }
+        }
+      },
+      "ValidationDto": {
+        "required": ["time", "vehicleSideNumber"],
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vehicleSideNumber": {
+            "$ref": "#/components/schemas/vehicleSideNumber"
+          }
+        }
+      },
+      "InspectTicketReq": {
+        "required": ["vehicleSideNumber"],
+        "type": "object",
+        "properties": {
+          "vehicleSideNumber": {
+            "$ref": "#/components/schemas/vehicleSideNumber"
+          }
+        }
+      },
+      "InspectTicketValidRes": {
+        "required": ["status"],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["valid"]
+          }
+        }
+      },
+      "InspectTicketInvalidRes": {
+        "required": ["status", "reason"],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["invalid"]
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "ticket-not-found",
+              "ticket-not-validated",
+              "ticket-expired",
+              "vehicle-mismatch"
+            ]
+          }
+        }
+      },
+      "InspectTicketRes": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/InspectTicketValidRes"
+          },
+          {
+            "$ref": "#/components/schemas/InspectTicketInvalidRes"
+          }
+        ]
+      },
+      "id": {
+        "type": "number",
+        "minimum": 0,
+        "example": 1
+      },
+      "jwt": {
+        "type": "string",
+        "pattern": "(^[\\w-]*\\.[\\w-]*\\.[\\w-]*$)"
+      },
+      "fullName": {
+        "type": "string",
+        "example": "John Smith",
+        "minLength": 1
+      },
+      "password": {
+        "type": "string",
+        "format": "password",
+        "minLength": 8,
+        "example": "password"
+      },
+      "phoneNumber": {
+        "type": "string",
+        "pattern": "^[0-9]{9}$"
+      },
+      "creditCardNumber": {
+        "type": "string",
+        "pattern": "^[0-9]{16}$"
+      },
+      "expirationDate": {
+        "type": "string",
+        "pattern": "^(0[1-9]|1[0-2])/[0-9]{2}$"
+      },
+      "csc": {
+        "type": "string",
+        "pattern": "^[0-9]{3}$"
+      },
+      "ticketCode": {
+        "type": "string",
+        "pattern": "^[0-9A-Z]{8}$"
+      },
+      "vehicleSideNumber": {
+        "type": "string",
+        "pattern": "^[0-9]{4}$"
+      },
+      "HealthDto": {
+        "required": ["status"],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["UP"]
+          }
+        }
+      }
+    },
+    "parameters": {
+      "code": {
+        "name": "code",
+        "in": "path",
+        "description": "Unique code of the ticket.",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/ticketCode"
+        },
+        "example": "3K7G9T2E"
+      },
+      "cardId": {
+        "name": "id",
+        "in": "path",
+        "description": "Unique identifier of the credit card.",
+        "required": true,
+        "schema": {
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "type": "string"
+        },
+        "example": "1"
+      },
+      "offerId": {
+        "name": "id",
+        "in": "path",
+        "description": "Unique identifier of the offer.",
+        "required": true,
+        "schema": {
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "type": "string"
+        },
+        "example": "1"
+      }
+    },
+    "securitySchemes": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Operations related to authentication."
+    },
+    {
+      "name": "accounts",
+      "description": "Operations related to user accounts."
+    },
+    {
+      "name": "cards",
+      "description": "Operations related to credit cards."
+    },
+    {
+      "name": "recharging",
+      "description": "Operations related to the virtual wallet recharging."
+    },
+    {
+      "name": "offers",
+      "description": "Operations related to ticket offers."
+    },
+    {
+      "name": "tickets",
+      "description": "Operations related to tickets."
+    },
+    {
+      "name": "validation",
+      "description": "Operations related to ticket validation."
+    },
+    {
+      "name": "inspection",
+      "description": "Operations related to ticket inspection."
+    },
+    {
+      "name": "server-info",
+      "description": "Operations related to server information."
+    }
+  ],
+  "externalDocs": {
+    "description": "GitHub Repository",
+    "url": "https://github.com/RustyRipper/online-city-tickets"
+  }
 }

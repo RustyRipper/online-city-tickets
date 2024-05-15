@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.auth.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,21 +26,20 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.cors().and()
                 .csrf().disable().authorizeHttpRequests()
                 .requestMatchers(
                         "/openapi.json",
-                        "/api/v1/auth/**",
+                        "/api/v1/**",
                         "/swagger-ui.html",
                         "/v3/api-docs",
                         "/swagger-resources/**",
                         "/v3/api-docs/swagger-config",
                         "/v2/api-docs/**",
-                        "/swagger-ui/**",
-                        "/api/v1/offers/**"
-                ).permitAll()
+                        "/swagger-ui/**")
+                .permitAll()
                 .and().authorizeHttpRequests()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
