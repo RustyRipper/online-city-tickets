@@ -2,8 +2,7 @@ FROM openjdk:17-alpine AS TEMP_BUILD_IMAGE
 COPY build.gradle settings.gradle gradlew /
 COPY gradle /gradle
 COPY src /src
-RUN ./gradlew build
-RUN ./gradlew bootJar
+RUN ./gradlew assemble
 
 # Production
 FROM openjdk:17-alpine
