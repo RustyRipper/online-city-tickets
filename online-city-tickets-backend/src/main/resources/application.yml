@@ -4,7 +4,7 @@ spring:
       enabled: true
       file: compose.yaml
   datasource:
-    url: jdbc:postgresql://localhost:5432/compose-postgres
+    url: jdbc:postgresql://postgresql:5432/compose-postgres
     username: compose-postgres
     password: compose-postgres
     driver-class-name: org.postgresql.Driver
