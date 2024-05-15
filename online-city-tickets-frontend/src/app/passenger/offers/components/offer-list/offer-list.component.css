@@ -1,0 +1,28 @@
+main {
+  padding: 1rem;
+}
+
+:host ::ng-deep .p-selectbutton {
+  margin: 1rem auto;
+  width: fit-content;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.offer-list {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+}
+
+.offer-list ::ng-deep .offer {
+  flex: none;
+}

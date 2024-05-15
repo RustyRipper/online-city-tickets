@@ -1,0 +1,57 @@
+.offer {
+  display: block;
+  width: 8rem;
+  height: 12rem;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid var(--bluegray-300);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+  user-select: none;
+}
+
+.offer-top {
+  height: 10rem;
+  background-color: var(--bluegray-700);
+  color: var(--bluegray-50);
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.offer-kind {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.5rem;
+  border-radius: 0.5rem;
+  line-height: 1;
+  padding: 0.2rem;
+}
+
+.offer-kind[data-kind="reduced"] {
+  background-color: var(--yellow-300);
+  color: var(--yellow-900);
+}
+
+.offer-kind[data-kind="standard"] {
+  background-color: var(--bluegray-300);
+  color: var(--bluegray-900);
+}
+
+.offer-name {
+  flex: 1;
+  white-space: pre-line;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+}
+
+.offer-bot {
+  height: 2rem;
+  display: grid;
+  place-items: center;
+}
