@@ -23,9 +23,7 @@ public class AuthenticationService {
                         registerRequest.getEmail(),
                         registerRequest.getFullName(),
                         registerRequest.getPhoneNumber(),
-                        registerRequest.getPassword()
-                )
-        );
+                        registerRequest.getPassword()));
     }
 
     protected AuthenticationResponse registerInspector(RegisterRequest registerRequest) {
@@ -33,18 +31,14 @@ public class AuthenticationService {
                 accountService.createInspector(
                         registerRequest.getEmail(),
                         registerRequest.getFullName(),
-                        registerRequest.getPassword()
-                )
-        );
+                        registerRequest.getPassword()));
     }
 
     protected AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getEmail(),
-                        authenticationRequest.getPassword()
-                )
-        );
+                        authenticationRequest.getPassword()));
         return buildAuthenticationResponse(accountService.getAccountByEmail(authenticationRequest.getEmail()));
     }
 

@@ -769,6 +769,27 @@
                     "$ref": "#/components/parameters/code"
                 }
             ]
+        },
+        "/actuator/health": {
+            "get": {
+                "tags": [
+                    "server-info"
+                ],
+                "summary": "Check the health of the server.",
+                "operationId": "checkHealth",
+                "responses": {
+                    "200": {
+                        "description": "Server is healthy.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HealthDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1363,6 +1384,20 @@
             "vehicleSideNumber": {
                 "type": "string",
                 "pattern": "^[0-9]{4}$"
+            },
+            "HealthDto": {
+                "required": [
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "UP"
+                        ]
+                    }
+                }
             }
         },
         "parameters": {
@@ -1439,6 +1474,10 @@
         {
             "name": "inspection",
             "description": "Operations related to ticket inspection."
+        },
+        {
+            "name": "server-info",
+            "description": "Operations related to server information."
         }
     ],
     "externalDocs": {

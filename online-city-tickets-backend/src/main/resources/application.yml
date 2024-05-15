@@ -14,7 +14,7 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        "[format_sql]": true
     database: postgresql
 
 jwt:
@@ -26,3 +26,8 @@ springdoc:
     enabled: false
   swagger-ui:
     url: /openapi.json
+
+management:
+  endpoints:
+    web:
+      base-path: /api/v1/actuator

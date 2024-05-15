@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 
@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @SQLDelete(sql = "update ticket_offer set is_active=false where id=?")
-@Where(clause = "is_active IS NULL OR is_active=true")
+@SQLRestriction("is_active IS NULL OR is_active=true")
 public abstract class TicketOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

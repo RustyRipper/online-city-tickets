@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.String",
+      "description": "Json Web Token expiration time in milliseconds"
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Json Web Token secret key for development environment"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 @Data
 @Builder
@@ -16,7 +16,7 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @Entity
 @SQLDelete(sql = "update vehicle set is_active=false where id=?")
-@Where(clause = "is_active IS NULL OR is_active=true")
+@SQLRestriction("is_active IS NULL OR is_active=true")
 public class Vehicle {
 
     @Id
