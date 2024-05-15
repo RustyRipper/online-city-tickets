@@ -5,6 +5,7 @@ import org.pwr.onlinecityticketsbackend.auth.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,23 +29,22 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.cors().and()
-                .csrf().disable().authorizeHttpRequests()
-                .requestMatchers(
-                        "/openapi.json",
-                        "/api/v1/**",
-                        "/swagger-ui.html",
-                        "/v3/api-docs",
-                        "/swagger-resources/**",
-                        "/v3/api-docs/swagger-config",
-                        "/v2/api-docs/**",
-                        "/swagger-ui/**")
-                .permitAll()
-                .and().authorizeHttpRequests()
-                .anyRequest().authenticated()
-                .and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        http.cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable()).authorizeHttpRequests(requests -> requests
+                        .requestMatchers(
+                                "/openapi.json",
+                                "/api/v1/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs",
+                                "/swagger-resources/**",
+                                "/v3/api-docs/swagger-config",
+                                "/v2/api-docs/**",
+                                "/swagger-ui/**")
+                        .permitAll())
+                .authorizeHttpRequests(requests -> requests
+                        .anyRequest().authenticated())
+                .sessionManagement(management -> management
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

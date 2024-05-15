@@ -21,8 +21,7 @@ public class AuthenticationController {
 
     @PostMapping("/register/passenger")
     public ResponseEntity<?> register(
-            @RequestBody RegisterRequestPassenger registerRequest
-    ) {
+            @RequestBody RegisterRequestPassenger registerRequest) {
         if (isRegisterRequestInvalid(registerRequest)) {
             return new ResponseEntity<>(new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
         }
@@ -38,8 +37,7 @@ public class AuthenticationController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register/inspector")
     public ResponseEntity<?> registerInspector(
-            @RequestBody RegisterRequest registerRequest
-    ) {
+            @RequestBody RegisterRequest registerRequest) {
         if (isRegisterRequestInvalid(registerRequest)) {
             return new ResponseEntity<>(new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
         }
@@ -54,8 +52,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(
-            @RequestBody AuthenticationRequest authenticationRequest
-    ) {
+            @RequestBody AuthenticationRequest authenticationRequest) {
         try {
             return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
         } catch (Exception e) {
@@ -63,7 +60,7 @@ public class AuthenticationController {
         }
     }
 
-    //TODO: add more validation
+    // TODO: add more validation
     private static boolean isRegisterRequestInvalid(RegisterRequest registerRequest) {
         return registerRequest.getEmail() == null || registerRequest.getFullName() == null ||
                 registerRequest.getPassword() == null;

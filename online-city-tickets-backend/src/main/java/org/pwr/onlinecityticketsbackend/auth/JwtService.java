@@ -26,8 +26,7 @@ public class JwtService {
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            Account userDetails
-    ) {
+            Account userDetails) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -47,7 +46,7 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    private  <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }

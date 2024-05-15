@@ -45,18 +45,21 @@ public class Ticket {
     @OneToOne
     private Validation validation;
 
+    @SuppressWarnings("unused")
     private boolean getIsValid(Instant now, String sideNumber) {
-        //TODO: Implement
+        // TODO: Implement and remove "unused" warning suppression
         return false;
     }
 
+    @SuppressWarnings("unused")
     private Instant getValidFromTime() {
-        //TODO: Implement
+        // TODO: Implement and remove "unused" warning suppression
         return null;
     }
 
+    @SuppressWarnings("unused")
     private Instant getValidUntilTime() {
-        //TODO: Implement
+        // TODO: Implement and remove "unused" warning suppression
         return null;
     }
 }

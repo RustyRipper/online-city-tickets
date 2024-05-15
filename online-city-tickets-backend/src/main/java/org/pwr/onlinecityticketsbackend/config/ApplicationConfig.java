@@ -1,6 +1,5 @@
 package org.pwr.onlinecityticketsbackend.config;
 
-
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
 import org.springframework.context.annotation.Bean;
@@ -21,14 +20,13 @@ public class ApplicationConfig {
     private final AccountRepository accountRepository;
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration
-    ) throws Exception {
+    AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -36,13 +34,13 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    UserDetailsService userDetailsService() {
         return email -> accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User (" + email + ") not found."));
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
