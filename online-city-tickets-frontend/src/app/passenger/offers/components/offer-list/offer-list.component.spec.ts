@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { HttpClientModule } from "@angular/common/http";
 
 import { OfferListComponent } from "./offer-list.component";
 
@@ -8,7 +9,8 @@ describe("OfferListComponent", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OfferListComponent],
+      imports: [OfferListComponent, HttpClientModule],
+      providers: [{ provide: Storage, useValue: sessionStorage }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OfferListComponent);
