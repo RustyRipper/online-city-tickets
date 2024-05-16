@@ -22,15 +22,12 @@ public interface TicketOfferMapper {
     TicketOfferMapper INSTANCE = Mappers.getMapper(TicketOfferMapper.class);
 
     default BaseTicketOfferDto toDto(TicketOffer ticketOffer) {
-        if (ticketOffer instanceof SingleFareOffer offer) {
-            return toSingleFareTicketOfferDto(offer);
-        } else if (ticketOffer instanceof TimeLimitedOffer offer) {
-            return toTimeLimitedTicketOfferDto(offer);
-        } else if (ticketOffer instanceof LongTermOffer offer) {
-            return toLongTermTicketOfferDto(offer);
-        } else {
-            throw new IllegalStateException();
-        }
+        return switch (ticketOffer) {
+            case SingleFareOffer offer -> toSingleFareTicketOfferDto(offer);
+            case TimeLimitedOffer offer -> toTimeLimitedTicketOfferDto(offer);
+            case LongTermOffer offer -> toLongTermTicketOfferDto(offer);
+            default -> throw new IllegalStateException();
+        };
     }
 
     @Mapping(source = "pricePln", target = "priceGrosze", qualifiedByName = "pricePlnToGrosze")

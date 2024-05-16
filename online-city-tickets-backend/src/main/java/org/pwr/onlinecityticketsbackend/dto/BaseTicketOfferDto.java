@@ -9,7 +9,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseTicketOfferDto {
+public sealed abstract class BaseTicketOfferDto
+        permits SingleFareTicketOfferDto, TimeLimitedTicketOfferDto, LongTermTicketOfferDto {
     private long id;
     private String displayNameEn;
     private String displayNamePl;

@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class LongTermTicketOfferDto extends BaseTicketOfferDto {
+public final class LongTermTicketOfferDto extends BaseTicketOfferDto {
     private final String scope = "long-term";
     private int intervalInDays;
 }

@@ -9,6 +9,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class SingleFareTicketOfferDto extends BaseTicketOfferDto {
+public final class SingleFareTicketOfferDto extends BaseTicketOfferDto {
     private final String scope = "single-fare";
 }
