@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class TimeLimitedTicketOfferDto extends BaseTicketOfferDto {
+public final class TimeLimitedTicketOfferDto extends BaseTicketOfferDto {
     private final String scope = "time-limited";
     private int durationMinutes;
 }
