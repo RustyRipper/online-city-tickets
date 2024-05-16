@@ -19,8 +19,8 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'corretto'
+          java-version: '21'
+          distribution: 'microsoft'
 
       - name: Run Build and Tests
         run: |
