@@ -12,10 +12,19 @@ java {
 	sourceCompatibility = '21'
 }
 
+sourceSets {
+    integration {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	integrationImplementation.extendsFrom implementation
+    integrationRuntimeOnly.extendsFrom runtimeOnly
 }
 
 repositories {
@@ -42,8 +51,29 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 	testImplementation 'org.testcontainers:postgresql:1.19.8'
+
+	integrationImplementation 'org.springframework.boot:spring-boot-starter-test'
+	integrationImplementation 'org.springframework.security:spring-security-test'
+	integrationImplementation 'org.testcontainers:postgresql:1.19.8'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.integration.output.classesDirs
+    classpath = sourceSets.integration.runtimeClasspath
+    shouldRunAfter test
+
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed"
+    }
+}
+
+check.dependsOn integrationTest
