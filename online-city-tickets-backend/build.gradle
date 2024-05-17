@@ -38,19 +38,22 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	annotationProcessor 'org.projectlombok:lombok'
+
+	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-	testImplementation 'org.testcontainers:postgresql:1.19.8'
 
 	integrationImplementation 'org.springframework.boot:spring-boot-starter-test'
 	integrationImplementation 'org.springframework.security:spring-security-test'

@@ -7,18 +7,18 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.pwr.onlinecityticketsbackend.mapper.TicketOfferMapper;
 import org.pwr.onlinecityticketsbackend.model.LongTermOffer;
 import org.pwr.onlinecityticketsbackend.model.SingleFareOffer;
 import org.pwr.onlinecityticketsbackend.model.TicketKind;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
 import org.pwr.onlinecityticketsbackend.repository.TicketOfferRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class TicketOfferServiceTest {
     @Mock
     private TicketOfferRepository ticketOfferRepository;
@@ -26,34 +26,11 @@ public class TicketOfferServiceTest {
     @InjectMocks
     private TicketOfferService sut;
 
-    @Autowired
-    private TicketOfferService ticketOfferService;
-
-    @Test
-    void shouldGetAllSeededOffers() {
-        // when
-        var result = ticketOfferService.getOffers();
-
-        // then
-        Assertions.assertEquals(30, result.size());
-        Assertions.assertEquals(2,
-                result.stream().filter(offer -> offer.getScope().equals("single-fare")).count());
-        Assertions.assertEquals(8,
-                result.stream().filter(offer -> offer.getScope().equals("time-limited")).count());
-        Assertions.assertEquals(20,
-                result.stream().filter(offer -> offer.getScope().equals("long-term")).count());
-        Assertions.assertEquals(15,
-                result.stream().filter(offer -> offer.getKind()
-                        .equals(TicketKind.STANDARD.toString().toLowerCase())).count());
-        Assertions.assertEquals(15,
-                result.stream().filter(offer -> offer.getKind()
-                        .equals(TicketKind.REDUCED.toString().toLowerCase())).count());
-    }
-
     @Test
     void shouldGetAllOffers() {
         // given
-        var singleFareOffer = SingleFareOffer.builder().pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
+        var singleFareOffer = SingleFareOffer.builder().pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD)
+                .build();
         var longTermOffer = LongTermOffer.builder().pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
         var timeLimitedOffer = TimeLimitedOffer.builder().pricePln(BigDecimal.ONE)
                 .durationInMinutes(Duration.ofMinutes(1)).kind(TicketKind.STANDARD).build();
@@ -70,9 +47,11 @@ public class TicketOfferServiceTest {
     @Test
     void shouldGetOfferById() {
         // given
-        var singleFareOffer = SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD)
+        var singleFareOffer = SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE)
+                .kind(TicketKind.STANDARD)
                 .build();
-        var longTermOffer = LongTermOffer.builder().id(2L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
+        var longTermOffer = LongTermOffer.builder().id(2L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD)
+                .build();
         var timeLimitedOffer = TimeLimitedOffer.builder().id(3L).pricePln(BigDecimal.ONE)
                 .durationInMinutes(Duration.ofMinutes(1)).kind(TicketKind.STANDARD).build();
 

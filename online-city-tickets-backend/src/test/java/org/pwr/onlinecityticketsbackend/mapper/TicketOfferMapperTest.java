@@ -9,9 +9,7 @@ import org.pwr.onlinecityticketsbackend.model.LongTermOffer;
 import org.pwr.onlinecityticketsbackend.model.SingleFareOffer;
 import org.pwr.onlinecityticketsbackend.model.TicketKind;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 public class TicketOfferMapperTest {
     private final TicketOfferMapper sut;
 
