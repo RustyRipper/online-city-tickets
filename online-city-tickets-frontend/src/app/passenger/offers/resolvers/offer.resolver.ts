@@ -1,8 +1,8 @@
 import { inject } from "@angular/core";
-import { ResolveFn, Router } from "@angular/router";
+import { type ResolveFn, Router } from "@angular/router";
 
-import { TicketOfferDto } from "../../../api/models";
-import { OffersApi } from "../../../api/services";
+import type { TicketOfferDto } from "../../../generated/api/models";
+import { OffersApi } from "../../../generated/api/services";
 import { EMPTY, catchError } from "rxjs";
 
 export const offerResolver: ResolveFn<TicketOfferDto> = (route, state) => {

@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 
-import { hasRole } from "./auth/guards/has-role.guard";
+import { hasRole } from "./shared/auth/guards/has-role.guard";
 import { offerResolver } from "./passenger/offers/resolvers/offer.resolver";
 import { balanceResolver } from "./passenger/wallet/resolvers/balance.resolver";
 
@@ -12,16 +12,16 @@ export const routes: Routes = [
       {
         path: "login",
         loadComponent: () =>
-          import("./auth/components/login/login.component").then(
-            (m) => m.LoginComponent,
-          ),
+          import(
+            "./shared/auth/components/login-page/login-page.component"
+          ).then((m) => m.LoginPageComponent),
       },
       {
         path: "register",
         loadComponent: () =>
-          import("./auth/components/register/register.component").then(
-            (m) => m.RegisterComponent,
-          ),
+          import(
+            "./shared/auth/components/register-page/register-page.component"
+          ).then((m) => m.RegisterPageComponent),
       },
     ],
   },
@@ -37,23 +37,23 @@ export const routes: Routes = [
       {
         path: "",
         loadComponent: () =>
-          import("./passenger/components/home/home.component").then(
-            (m) => m.HomeComponent,
+          import("./passenger/components/home-page/home-page.component").then(
+            (m) => m.HomePageComponent,
           ),
         children: [
           {
             path: "tickets",
             loadComponent: () =>
-              import("./passenger/components/tickets/tickets.component").then(
-                (m) => m.TicketsComponent,
-              ),
+              import(
+                "./passenger/tickets/components/tickets-page/tickets-page.component"
+              ).then((m) => m.TicketsPageComponent),
           },
           {
             path: "offers",
             loadComponent: () =>
               import(
-                "./passenger/offers/components/offer-list/offer-list.component"
-              ).then((m) => m.OfferListComponent),
+                "./passenger/offers/components/offer-list-page/offer-list-page.component"
+              ).then((m) => m.OfferListPageComponent),
           },
         ],
       },
@@ -61,16 +61,16 @@ export const routes: Routes = [
         path: "offers/:id",
         loadComponent: () =>
           import(
-            "./passenger/offers/components/offer-details/offer-details.component"
-          ).then((m) => m.OfferDetailsComponent),
+            "./passenger/offers/components/offer-details-page/offer-details-page.component"
+          ).then((m) => m.OfferDetailsPageComponent),
         resolve: { offer: offerResolver, balance: balanceResolver },
       },
       {
         path: "wallet",
         loadComponent: () =>
-          import("./passenger/wallet/components/wallet/wallet.component").then(
-            (m) => m.WalletComponent,
-          ),
+          import(
+            "./passenger/wallet/components/wallet-page/wallet-page.component"
+          ).then((m) => m.WalletPageComponent),
       },
     ],
   },
@@ -81,9 +81,9 @@ export const routes: Routes = [
       {
         path: "",
         loadComponent: () =>
-          import("./inspector/components/home/home.component").then(
-            (m) => m.HomeComponent,
-          ),
+          import(
+            "./inspector/components/inspector-page/inspector-page.component"
+          ).then((m) => m.InspectorPageComponent),
       },
     ],
   },
@@ -95,15 +95,15 @@ export const routes: Routes = [
         path: "",
         loadComponent: () =>
           import(
-            "./shared/settings/components/settings/settings.component"
-          ).then((m) => m.SettingsComponent),
+            "./shared/settings/components/settings-page/settings-page.component"
+          ).then((m) => m.SettingsPageComponent),
       },
       {
         path: "account",
         loadComponent: () =>
           import(
-            "./shared/settings/components/account-settings/account-settings.component"
-          ).then((m) => m.AccountSettingsComponent),
+            "./shared/settings/components/account-settings-page/account-settings-page.component"
+          ).then((m) => m.AccountSettingsPageComponent),
       },
     ],
   },

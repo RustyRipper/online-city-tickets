@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
-import { TicketOfferDto } from "../../../../api/models";
+import { TicketOfferDto } from "../../../../generated/api/models";
 
 @Component({
   selector: "app-offer-card",

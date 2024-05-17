@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
-import { ResolveFn } from "@angular/router";
-import { AccountsApi } from "../../../api/services";
+import type { ResolveFn } from "@angular/router";
+import { AccountsApi } from "../../../generated/api/services";
 import { catchError, map, of } from "rxjs";
 
 export const balanceResolver: ResolveFn<number> = (_route, _state) =>

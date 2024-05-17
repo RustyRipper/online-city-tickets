@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ChipModule } from "primeng/chip";
-import { AccountsApi } from "../../../../api/services";
-import { AuthService } from "../../../../auth/services/auth.service";
+import { AccountsApi } from "../../../../generated/api/services";
+import { AuthService } from "../../../../shared/auth/services/auth.service";
 
 @Component({
   selector: "app-wallet-indicator",

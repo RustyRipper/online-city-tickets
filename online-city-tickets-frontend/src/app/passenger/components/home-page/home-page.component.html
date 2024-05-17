@@ -1,0 +1,8 @@
+<app-top-bar title="Home">
+  <div right>
+    <app-wallet-indicator />
+    <a routerLink="/settings"><p-avatar icon="pi pi-user" size="normal" shape="circle" /></a>
+  </div>
+</app-top-bar>
+<p-tabMenu [model]="tabs" />
+<router-outlet />
