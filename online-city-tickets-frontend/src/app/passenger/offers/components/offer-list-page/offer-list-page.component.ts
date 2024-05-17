@@ -5,8 +5,8 @@ import { SelectButtonModule } from "primeng/selectbutton";
 
 import { TicketOfferDto } from "../../../../generated/api/models";
 import { OffersApi } from "../../../../generated/api/services";
-import { StoreService } from "../../../../shared/store/services/store.service";
 import { OfferCardComponent } from "../offer-card/offer-card.component";
+import { StoredCell } from "../../../../shared/store/stored-cell";
 
 type OfferKind = TicketOfferDto["kind"];
 type OfferKindItem = { label: string; value: OfferKind };
@@ -48,13 +48,13 @@ export class OfferListPageComponent implements OnInit {
     { label: "Reduced", value: "reduced" },
   ];
 
-  protected kind: OfferKind;
+  protected readonly kindCell: StoredCell<OfferKind>;
 
   public constructor(
     private readonly offersApi: OffersApi,
-    storeService: StoreService,
+    storage: Storage,
   ) {
-    this.kind = storeService.ticketKind.value;
+    this.kindCell = StoredCell.of(storage, "TICKET_KIND", "standard");
   }
 
   public ngOnInit(): void {
@@ -64,12 +64,12 @@ export class OfferListPageComponent implements OnInit {
   }
 
   protected get groups(): OfferGroup[] {
-    const offers = this.offers.filter((offer) => offer.kind === this.kind);
-    return GROUP_ORDER.map((group) => ({
-      ...group,
+    const offers = this.offers.filter((o) => o.kind === this.kindCell.value);
+    return GROUP_ORDER.map((g) => ({
+      ...g,
       offers: offers
-        .filter((offer) => offer.scope === group.scope)
+        .filter((o) => o.scope === g.scope)
         .sort((a, b) => a.priceGrosze - b.priceGrosze),
-    })).filter((group) => group.offers.length > 0);
+    })).filter((g) => g.offers.length > 0);
   }
 }

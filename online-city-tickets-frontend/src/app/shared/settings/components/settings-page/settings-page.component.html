@@ -8,16 +8,14 @@
     <p-button label="Switch" icon="pi pi-sign-out" iconPos="right" text="true" (onClick)="onAccountSwitch()" />
   </div>
   <h2>Preferences</h2>
-  <div class="item" *ngIf="ticketKindVisible">
-    <label>Ticket kind</label>
-    <p-dropdown [options]="ticketKinds" [(ngModel)]="ticketKindCell.value" optionLabel="label" optionValue="value" />
-  </div>
   <div class="item">
     <label>Language</label>
-    <p-dropdown [options]="languages" [(ngModel)]="languageCell.value" optionLabel="label" optionValue="value" />
+    <p-dropdown [options]="languages" [(ngModel)]="settingsService.languageCell.value" optionLabel="label"
+      optionValue="value" />
   </div>
   <div class="item">
     <label>Theme</label>
-    <p-dropdown [options]="themes" [(ngModel)]="themeCell.value" optionLabel="label" optionValue="value" />
+    <p-dropdown [options]="themes" [(ngModel)]="settingsService.themeCell.value" optionLabel="label"
+      optionValue="value" />
   </div>
 </main>

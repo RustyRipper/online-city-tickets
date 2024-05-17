@@ -6,8 +6,8 @@ import type {
   LoginReq,
   RegisterAsPassengerReq,
 } from "../../../generated/api/models";
-import { StoreService } from "../../../shared/store/services/store.service";
 import { AccountsApi, AuthApi } from "../../../generated/api/services";
+import { StoredCell } from "../../store/stored-cell";
 
 @Injectable({
   providedIn: "root",
@@ -19,10 +19,10 @@ export class AuthService {
   public constructor(
     private readonly accountsApi: AccountsApi,
     private readonly authApi: AuthApi,
-    storeService: StoreService,
+    storage: Storage,
   ) {
-    this.jwtCell = storeService.jwt;
-    this.accountTypeCell = storeService.accountType;
+    this.jwtCell = StoredCell.of(storage, "JWT", null);
+    this.accountTypeCell = StoredCell.of(storage, "ACCOUNT_TYPE", null);
   }
 
   public get jwt(): string | null {
