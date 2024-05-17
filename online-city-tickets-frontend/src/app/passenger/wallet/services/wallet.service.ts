@@ -18,12 +18,9 @@ export class WalletService {
   public static readonly currency = "zł";
 
   private readonly balanceGroszeSubject = new BehaviorSubject<number>(0);
+  public readonly balanceGrosze$ = this.balanceGroszeSubject.asObservable();
 
   public constructor(private readonly accountsApi: AccountsApi) {}
-
-  public get balanceGrosze$(): Observable<number> {
-    return this.balanceGroszeSubject.asObservable();
-  }
 
   public revalidate(): void {
     this.accountsApi
