@@ -8,6 +8,7 @@ import { TicketOfferDto } from "../../../../generated/api/models";
 import { TopBarComponent } from "../../../../shared/components/top-bar/top-bar.component";
 import { BackButtonComponent } from "../../../../shared/components/back-button/back-button.component";
 import { OfferCardComponent } from "../offer-card/offer-card.component";
+import { WalletService } from "../../../wallet/services/wallet.service";
 
 type PaymentMethodOption = { label: string; value: string };
 
@@ -34,7 +35,10 @@ export class OfferDetailsPageComponent {
     const balance = (activatedRoute.snapshot.data["balance"] / 100).toFixed(2);
     this.offer = activatedRoute.snapshot.data["offer"];
     this.paymentMethodOptions = [
-      { label: `Wallet (${balance} zł)`, value: "wallet" },
+      {
+        label: `Wallet (${balance} ${WalletService.currency})`,
+        value: "wallet",
+      },
       { label: "BLIK", value: "blik" },
       { label: "Credit card", value: "credit-card" },
     ];
