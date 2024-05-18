@@ -22,14 +22,17 @@ jobs:
           java-version: '21'
           distribution: 'microsoft'
 
-      - name: Change directory to project
-        run: cd online-city-tickets-backend
-
       - name: Run Build
-        run: ./gradlew assemble
+        run: |
+          cd online-city-tickets-backend
+          ./gradlew assemble
 
       - name: Run Unit Tests
-        run: ./gradlew test
+        run: |
+          cd online-city-tickets-backend
+          ./gradlew test
 
       - name: Run Integration Tests
-        run: ./gradlew integrationTest
+        run: |
+          cd online-city-tickets-backend
+          ./gradlew integrationTest
