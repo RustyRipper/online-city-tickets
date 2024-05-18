@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ChipModule } from "primeng/chip";
-import { AccountsApi } from "../../../../generated/api/services";
-import { AuthService } from "../../../../shared/auth/services/auth.service";
+
+import { WalletService } from "../../services/wallet.service";
 
 @Component({
   selector: "app-wallet-indicator",
@@ -12,22 +12,18 @@ import { AuthService } from "../../../../shared/auth/services/auth.service";
   styleUrl: "./wallet-indicator.component.css",
 })
 export class WalletIndicatorComponent implements OnInit {
-  private static readonly currency = "zł";
   private balanceGrosze = 0;
 
-  public constructor(private readonly accountsApi: AccountsApi) {}
+  public constructor(private readonly walletService: WalletService) {}
 
   protected get label(): string {
-    return `${(this.balanceGrosze / 100).toFixed(2)} ${WalletIndicatorComponent.currency}`;
+    return `${(this.balanceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
   }
 
   public ngOnInit(): void {
-    this.accountsApi.getAccount().subscribe((account) => {
-      // FIXME: remove this once backend is updated
-      account = AuthService.fixAccountObject(account);
-      if (account.type === "passenger") {
-        this.balanceGrosze = account.walletBalanceGrosze;
-      }
-    });
+    this.walletService.balanceGrosze$.subscribe(
+      (v) => (this.balanceGrosze = v),
+    );
+    this.walletService.revalidate();
   }
 }

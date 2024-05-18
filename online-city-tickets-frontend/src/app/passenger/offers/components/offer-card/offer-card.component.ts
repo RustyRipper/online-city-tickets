@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
 import { TicketOfferDto } from "../../../../generated/api/models";
+import { WalletService } from "../../../wallet/services/wallet.service";
 
 @Component({
   selector: "app-offer-card",
@@ -11,8 +12,6 @@ import { TicketOfferDto } from "../../../../generated/api/models";
   styleUrl: "./offer-card.component.css",
 })
 export class OfferCardComponent {
-  private static readonly currency = "zł";
-
   @Input({ required: true }) public offer!: TicketOfferDto;
   @Input() public linked: boolean = false;
 
@@ -34,6 +33,6 @@ export class OfferCardComponent {
   }
 
   protected get offerPrice(): string {
-    return `${(this.offer.priceGrosze / 100).toFixed(2)} ${OfferCardComponent.currency}`;
+    return `${(this.offer.priceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
   }
 }
