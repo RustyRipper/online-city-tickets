@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
-import { TicketOfferDto } from "~/generated/api/models";
+import type { TicketOfferDto } from "~/generated/api/models";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
 
 @Component({

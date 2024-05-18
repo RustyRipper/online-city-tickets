@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
-import { TicketOfferDto } from "~/generated/api/models";
+import type { TicketOfferDto } from "~/generated/api/models";
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";

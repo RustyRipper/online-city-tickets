@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { SelectButtonModule } from "primeng/selectbutton";
 
-import { TicketOfferDto } from "~/generated/api/models";
+import type { TicketOfferDto } from "~/generated/api/models";
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
 import { OffersService } from "~/passenger/offers/services/offers.service";
 

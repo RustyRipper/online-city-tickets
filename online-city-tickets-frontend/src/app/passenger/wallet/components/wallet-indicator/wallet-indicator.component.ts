@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, type OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ChipModule } from "primeng/chip";
 

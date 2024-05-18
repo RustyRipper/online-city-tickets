@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, catchError } from "rxjs";
 
-import { TicketOfferDto } from "~/generated/api/models";
+import type { TicketOfferDto } from "~/generated/api/models";
 import { OffersApi } from "~/generated/api/services";
 import { StoredCell } from "~/shared/store/stored-cell";
 

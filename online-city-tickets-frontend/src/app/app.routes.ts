@@ -1,4 +1,4 @@
-import { Routes } from "@angular/router";
+import type { Routes } from "@angular/router";
 
 import { offerResolver } from "~/passenger/offers/resolvers/offer.resolver";
 import { balanceResolver } from "~/passenger/wallet/resolvers/balance.resolver";

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MenuItem } from "primeng/api";
+import type { MenuItem } from "primeng/api";
 import { TabMenuModule } from "primeng/tabmenu";
 
 import { WalletIndicatorComponent } from "~/passenger/wallet/components/wallet-indicator/wallet-indicator.component";
