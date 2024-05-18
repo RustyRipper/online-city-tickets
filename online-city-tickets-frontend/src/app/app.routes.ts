@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
 
-import { hasRole } from "~/shared/auth/guards/has-role.guard";
 import { offerResolver } from "~/passenger/offers/resolvers/offer.resolver";
 import { balanceResolver } from "~/passenger/wallet/resolvers/balance.resolver";
+import { hasRole } from "~/shared/auth/guards/has-role.guard";
 
 export const routes: Routes = [
   {

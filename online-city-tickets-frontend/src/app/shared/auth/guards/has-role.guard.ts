@@ -1,8 +1,8 @@
 import { inject } from "@angular/core";
 import { type CanActivateFn, Router } from "@angular/router";
 
-import type { Account } from "~/shared/auth/types";
 import { AuthService } from "~/shared/auth/services/auth.service";
+import type { Account } from "~/shared/auth/types";
 
 type RoleName = Account["type"] | "any" | null;
 

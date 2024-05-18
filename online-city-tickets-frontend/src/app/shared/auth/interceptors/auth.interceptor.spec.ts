@@ -1,5 +1,5 @@
-import { TestBed } from "@angular/core/testing";
 import type { HttpInterceptorFn } from "@angular/common/http";
+import { TestBed } from "@angular/core/testing";
 
 import { authInterceptor } from "./auth.interceptor";
 

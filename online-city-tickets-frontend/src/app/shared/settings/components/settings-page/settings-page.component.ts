@@ -1,13 +1,13 @@
-import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
-import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
-import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 import { AuthService } from "~/shared/auth/services/auth.service";
+import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
+import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 import { SettingsService } from "~/shared/settings/services/settings.service";
 
 @Component({
