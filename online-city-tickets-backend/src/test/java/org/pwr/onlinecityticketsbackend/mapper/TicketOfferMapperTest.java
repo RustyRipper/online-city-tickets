@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -34,21 +34,24 @@ public class TicketOfferMapperTest {
         var result = sut.toDto(model);
 
         // then
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dtoClass, result.getClass());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isInstanceOf(dtoClass);
     }
 
     static Stream<Arguments> shouldMapToDtoParameterProvider() {
         return Stream.of(
                 Arguments.of(
-                        SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build(),
+                        SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE)
+                                .kind(TicketKind.STANDARD).build(),
                         SingleFareTicketOfferDto.class),
                 Arguments.of(
-                        LongTermOffer.builder().id(1L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build(),
+                        LongTermOffer.builder().id(1L).pricePln(BigDecimal.ONE)
+                                .kind(TicketKind.STANDARD).build(),
                         LongTermTicketOfferDto.class),
                 Arguments.of(
                         TimeLimitedOffer.builder().id(1L).pricePln(BigDecimal.ONE)
-                                .durationInMinutes(Duration.ofMinutes(1)).kind(TicketKind.STANDARD).build(),
+                                .durationInMinutes(Duration.ofMinutes(1))
+                                .kind(TicketKind.STANDARD).build(),
                         TimeLimitedTicketOfferDto.class));
     }
 
@@ -68,15 +71,15 @@ public class TicketOfferMapperTest {
         var result = sut.toLongTermTicketOfferDto(model);
 
         // then
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(model.getId(), result.getId());
-        Assertions.assertEquals(model.getDisplayNameEn(), result.getDisplayNameEn());
-        Assertions.assertEquals(model.getDisplayNamePl(), result.getDisplayNamePl());
-        Assertions.assertEquals(model.getIntervalInDays(), result.getIntervalInDays());
-        Assertions.assertEquals(model.getKind().toString().toLowerCase(), result.getKind());
-        Assertions.assertEquals(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue(),
-                result.getPriceGrosze());
-        Assertions.assertEquals("long-term", result.getScope());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getId()).isEqualTo(model.getId());
+        Assertions.assertThat(result.getDisplayNameEn()).isEqualTo(model.getDisplayNameEn());
+        Assertions.assertThat(result.getDisplayNamePl()).isEqualTo(model.getDisplayNamePl());
+        Assertions.assertThat(result.getIntervalInDays()).isEqualTo(model.getIntervalInDays());
+        Assertions.assertThat(result.getKind()).isEqualTo(model.getKind().toString().toLowerCase());
+        Assertions.assertThat(result.getPriceGrosze())
+                .isEqualTo(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue());
+        Assertions.assertThat(result.getScope()).isEqualTo("long-term");
     }
 
     @Test
@@ -95,15 +98,15 @@ public class TicketOfferMapperTest {
         var result = sut.toTimeLimitedTicketOfferDto(model);
 
         // then
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(model.getId(), result.getId());
-        Assertions.assertEquals(model.getDisplayNameEn(), result.getDisplayNameEn());
-        Assertions.assertEquals(model.getDisplayNamePl(), result.getDisplayNamePl());
-        Assertions.assertEquals(model.getKind().toString().toLowerCase(), result.getKind());
-        Assertions.assertEquals(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue(),
-                result.getPriceGrosze());
-        Assertions.assertEquals(model.getDurationInMinutes().toMinutes(), result.getDurationMinutes());
-        Assertions.assertEquals("time-limited", result.getScope());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getId()).isEqualTo(model.getId());
+        Assertions.assertThat(result.getDisplayNameEn()).isEqualTo(model.getDisplayNameEn());
+        Assertions.assertThat(result.getDisplayNamePl()).isEqualTo(model.getDisplayNamePl());
+        Assertions.assertThat(result.getKind()).isEqualTo(model.getKind().toString().toLowerCase());
+        Assertions.assertThat(result.getPriceGrosze())
+                .isEqualTo(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue());
+        Assertions.assertThat(result.getDurationMinutes()).isEqualTo(model.getDurationInMinutes().toMinutes());
+        Assertions.assertThat(result.getScope()).isEqualTo("time-limited");
     }
 
     @Test
@@ -121,13 +124,13 @@ public class TicketOfferMapperTest {
         var result = sut.toSingleFareTicketOfferDto(model);
 
         // then
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(model.getId(), result.getId());
-        Assertions.assertEquals(model.getDisplayNameEn(), result.getDisplayNameEn());
-        Assertions.assertEquals(model.getDisplayNamePl(), result.getDisplayNamePl());
-        Assertions.assertEquals(model.getKind().toString().toLowerCase(), result.getKind());
-        Assertions.assertEquals(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue(),
-                result.getPriceGrosze());
-        Assertions.assertEquals("single-fare", result.getScope());
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getId()).isEqualTo(model.getId());
+        Assertions.assertThat(result.getDisplayNameEn()).isEqualTo(model.getDisplayNameEn());
+        Assertions.assertThat(result.getDisplayNamePl()).isEqualTo(model.getDisplayNamePl());
+        Assertions.assertThat(result.getKind()).isEqualTo(model.getKind().toString().toLowerCase());
+        Assertions.assertThat(result.getPriceGrosze())
+                .isEqualTo(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue());
+        Assertions.assertThat(result.getScope()).isEqualTo("single-fare");
     }
 }

@@ -3,11 +3,15 @@ package org.pwr.onlinecityticketsbackend;
 import jakarta.annotation.PostConstruct;
 import org.pwr.onlinecityticketsbackend.service.DataSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class OnlineCityTicketsBackendApplication {
+
+    @Value(value = "${data_seeder.enabled}")
+    private boolean enableDataSeeder;
 
     @Autowired
     private DataSeeder dataSeeder;
@@ -18,6 +22,9 @@ public class OnlineCityTicketsBackendApplication {
 
     @PostConstruct
     public void seedData() {
-        dataSeeder.seedData();
+        if (enableDataSeeder) {
+            dataSeeder.seedAccounts();
+            dataSeeder.seedTicketOffers();
+        }
     }
 }

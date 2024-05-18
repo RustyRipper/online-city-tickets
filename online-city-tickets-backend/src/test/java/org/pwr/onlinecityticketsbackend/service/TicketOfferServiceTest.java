@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ListAssert;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -58,8 +58,9 @@ public class TicketOfferServiceTest {
         var result = sut.getOffers();
 
         // then
-        Assertions.assertEquals(3, result.size());
-        ListAssert.assertThatStream(result.stream()).containsExactly(singleFareDto, longTermDto, timeLimitedDto);
+        ListAssert.assertThatList(result)
+                .hasSize(3)
+                .containsExactlyInAnyOrder(singleFareDto, longTermDto, timeLimitedDto);
     }
 
     @Test
@@ -69,7 +70,7 @@ public class TicketOfferServiceTest {
         var result = sut.getOffers();
 
         // then
-        Assertions.assertEquals(0, result.size());
+        ListAssert.assertThatList(result).isEmpty();
     }
 
     @ParameterizedTest
@@ -82,8 +83,8 @@ public class TicketOfferServiceTest {
         var result = sut.getOfferById(1L);
 
         // then
-        Assertions.assertTrue(result.isPresent());
-        Assertions.assertEquals(dto, result.get());
+        Assertions.assertThat(result).isPresent();
+        Assertions.assertThat(result).hasValue(dto);
     }
 
     static Stream<Arguments> shouldGetOfferByIdParameterProvider() {
@@ -99,7 +100,7 @@ public class TicketOfferServiceTest {
         var result = sut.getOfferById(0L);
 
         // then
-        Assertions.assertTrue(result.isEmpty());
+        Assertions.assertThat(result).isEmpty();
     }
 
 }

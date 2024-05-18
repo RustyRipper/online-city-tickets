@@ -58,6 +58,7 @@ dependencies {
 	integrationImplementation 'org.springframework.boot:spring-boot-starter-test'
 	integrationImplementation 'org.springframework.security:spring-security-test'
 	integrationImplementation 'org.testcontainers:postgresql:1.19.8'
+	integrationImplementation 'net.datafaker:datafaker:2.2.2'
 }
 
 tasks.named('test') {

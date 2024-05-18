@@ -17,10 +17,6 @@ spring:
         "[format_sql]": true
     database: postgresql
 
-jwt:
-  secret: 4815eda9a2c18870c21789bbca2a59c23b1fa0d587ab7f2773f404d73b8f3ee5
-  expiration: 3600000
-
 springdoc:
   api-docs:
     enabled: false
@@ -31,3 +27,10 @@ management:
   endpoints:
     web:
       base-path: /api/v1/actuator
+
+jwt:
+  secret: 4815eda9a2c18870c21789bbca2a59c23b1fa0d587ab7f2773f404d73b8f3ee5
+  expiration: 3600000
+
+data_seeder:
+  enabled: true
