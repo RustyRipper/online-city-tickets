@@ -23,7 +23,8 @@ public class TicketOfferService {
     }
 
     public Optional<BaseTicketOfferDto> getOfferById(long id) {
-        var offer = ticketOfferRepository.findById(id);
-        return offer.map(ticketOfferMapper::toDto);
+        return ticketOfferRepository.existsById(id)
+                ? ticketOfferRepository.findById(id).map(ticketOfferMapper::toDto)
+                : Optional.empty();
     }
 }

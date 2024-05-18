@@ -16,7 +16,7 @@ public class TicketOfferSetup {
     public SingleFareOffer setupSingleFareOffer(boolean isActive) {
         var singleFareOffer = TicketOfferGenerator.generateSingleFareOffer();
         singleFareOffer.setActive(isActive);
-        return ticketOfferRepository.save(singleFareOffer);
+        return ticketOfferRepository.saveAndFlush(singleFareOffer);
     }
 
     public SingleFareOffer setupSingleFareOffer() {
@@ -26,7 +26,7 @@ public class TicketOfferSetup {
     public TimeLimitedOffer setupTimeLimitedOffer(boolean isActive) {
         var timeLimitedOffer = TicketOfferGenerator.generateTimeLimitedOffer();
         timeLimitedOffer.setActive(isActive);
-        return ticketOfferRepository.save(timeLimitedOffer);
+        return ticketOfferRepository.saveAndFlush(timeLimitedOffer);
     }
 
     public TimeLimitedOffer setupTimeLimitedOffer() {
@@ -36,7 +36,7 @@ public class TicketOfferSetup {
     public LongTermOffer setupLongTermOffer(boolean isActive) {
         var longTermOffer = TicketOfferGenerator.generateLongTermOffer();
         longTermOffer.setActive(isActive);
-        return ticketOfferRepository.save(longTermOffer);
+        return ticketOfferRepository.saveAndFlush(longTermOffer);
     }
 
     public LongTermOffer setupLongTermOffer() {

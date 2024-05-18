@@ -7,7 +7,6 @@ import org.pwr.onlinecityticketsbackend.mapper.TicketOfferMapper;
 import org.pwr.onlinecityticketsbackend.utils.repository.setup.TicketOfferSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import jakarta.transaction.Transactional;
 
 @SpringBootTest
@@ -50,7 +49,8 @@ public class TicketOfferServiceTest {
         // then
         ListAssert.assertThatList(result)
                 .hasSize(3)
-                .containsExactlyInAnyOrder(expectedSingleFareTicketOfferDto, expectedTimeLimitedTicketOfferDto,
+                .containsExactlyInAnyOrder(expectedSingleFareTicketOfferDto,
+                        expectedTimeLimitedTicketOfferDto,
                         expectedLongTermTicketOfferDto);
     }
 
@@ -122,5 +122,4 @@ public class TicketOfferServiceTest {
         // then
         Assertions.assertThat(result).isEmpty();
     }
-
 }

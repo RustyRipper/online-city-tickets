@@ -77,6 +77,7 @@ public class TicketOfferServiceTest {
     @MethodSource("shouldGetOfferByIdParameterProvider")
     void shouldGetOfferById(TicketOffer model, BaseTicketOfferDto dto) {
         // when
+        when(ticketOfferRepository.existsById(1L)).thenReturn(true);
         when(ticketOfferRepository.findById(1L)).thenReturn(Optional.of(model));
         when(ticketOfferMapper.toDto(model)).thenReturn(dto);
 
