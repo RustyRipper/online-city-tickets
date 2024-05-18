@@ -17,9 +17,9 @@ public class TicketOfferService {
     private final TicketOfferMapper ticketOfferMapper;
 
     public List<BaseTicketOfferDto> getOffers() {
-        var offers = ticketOfferRepository.findAll();
-        var dtos = offers.stream().map(ticketOfferMapper::toDto).toList();
-        return dtos;
+        return ticketOfferRepository.findAll().stream()
+                .map(ticketOfferMapper::toDto)
+                .toList();
     }
 
     public Optional<BaseTicketOfferDto> getOfferById(long id) {
