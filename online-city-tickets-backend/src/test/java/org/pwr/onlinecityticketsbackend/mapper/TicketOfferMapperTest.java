@@ -2,19 +2,54 @@ package org.pwr.onlinecityticketsbackend.mapper;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mapstruct.factory.Mappers;
+import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.dto.LongTermTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.dto.SingleFareTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.dto.TimeLimitedTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.model.LongTermOffer;
 import org.pwr.onlinecityticketsbackend.model.SingleFareOffer;
 import org.pwr.onlinecityticketsbackend.model.TicketKind;
+import org.pwr.onlinecityticketsbackend.model.TicketOffer;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
 
 public class TicketOfferMapperTest {
     private final TicketOfferMapper sut;
 
     TicketOfferMapperTest() {
-        this.sut = TicketOfferMapper.INSTANCE;
+        this.sut = Mappers.getMapper(TicketOfferMapper.class);
+    }
+
+    @ParameterizedTest
+    @MethodSource("shouldMapToDtoParameterProvider")
+    void shouldMapToDto1(TicketOffer model, Class<BaseTicketOfferDto> dtoClass) {
+        // when
+        var result = sut.toDto(model);
+
+        // then
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(dtoClass, result.getClass());
+    }
+
+    static Stream<Arguments> shouldMapToDtoParameterProvider() {
+        return Stream.of(
+                Arguments.of(
+                        SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build(),
+                        SingleFareTicketOfferDto.class),
+                Arguments.of(
+                        LongTermOffer.builder().id(1L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build(),
+                        LongTermTicketOfferDto.class),
+                Arguments.of(
+                        TimeLimitedOffer.builder().id(1L).pricePln(BigDecimal.ONE)
+                                .durationInMinutes(Duration.ofMinutes(1)).kind(TicketKind.STANDARD).build(),
+                        TimeLimitedTicketOfferDto.class));
     }
 
     @Test
