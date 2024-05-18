@@ -1,10 +1,19 @@
 <main>
-  <p-selectButton [options]="ticketKinds" [(ngModel)]="kindCell.value" optionLabel="label" optionValue="value"
-    unselectable="true" />
+  <p-selectButton
+    [options]="ticketKinds"
+    [(ngModel)]="kindCell.value"
+    optionLabel="label"
+    optionValue="value"
+    unselectable="true"
+  />
   <section *ngFor="let group of groups">
-    <h2>{{group.label}}</h2>
+    <h2>{{ group.label }}</h2>
     <div class="offer-list">
-      <app-offer-card *ngFor="let offer of group.offers" [offer]="offer" [linked]="true" />
+      <app-offer-card
+        *ngFor="let offer of group.offers"
+        [offer]="offer"
+        [linked]="true"
+      />
     </div>
   </section>
 </main>

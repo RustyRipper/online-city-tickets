@@ -1,9 +1,9 @@
 {
-  "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "interactive",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.indentSize": 2,
   "[java]": {
     "editor.indentSize": "tabSize"
   },
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
