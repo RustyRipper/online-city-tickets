@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import type { ResolveFn } from "@angular/router";
 
 import { offerResolver } from "./offer.resolver";
-import type { TicketOfferDto } from "../../../generated/api/models";
+import type { TicketOfferDto } from "~/generated/api/models";
 
 describe("offerResolver", () => {
   const executeResolver: ResolveFn<TicketOfferDto> = (...resolverParameters) =>

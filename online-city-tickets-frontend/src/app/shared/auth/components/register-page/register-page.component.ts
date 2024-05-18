@@ -12,8 +12,8 @@ import { DividerModule } from "primeng/divider";
 import { InputTextModule } from "primeng/inputtext";
 import { PasswordModule } from "primeng/password";
 
-import { TopBarComponent } from "../../../components/top-bar/top-bar.component";
-import { AuthService } from "../../services/auth.service";
+import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { AuthService } from "~/shared/auth/services/auth.service";
 
 const repeatValidator: (name: string) => ValidatorFn = (name) => (control) =>
   control.value === control.parent?.get(name)?.value ? null : { repeat: true };

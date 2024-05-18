@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { StoredCell } from "../../store/stored-cell";
+
+import { StoredCell } from "~/shared/store/stored-cell";
 
 @Injectable({
   providedIn: "root",

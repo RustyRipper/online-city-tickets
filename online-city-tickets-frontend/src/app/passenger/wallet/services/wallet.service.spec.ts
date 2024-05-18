@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
+import { HttpClientModule } from "@angular/common/http";
 
 import { WalletService } from "./wallet.service";
-import { HttpClientModule } from "@angular/common/http";
 
 describe("WalletService", () => {
   let service: WalletService;

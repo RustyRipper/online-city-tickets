@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 
-import { TopBarComponent } from "../../../components/top-bar/top-bar.component";
-import { BackButtonComponent } from "../../../components/back-button/back-button.component";
+import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 
 @Component({
   selector: "app-account-settings-page",

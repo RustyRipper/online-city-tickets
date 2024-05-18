@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
-import { TicketOfferDto } from "../../../../generated/api/models";
-import { WalletService } from "../../../wallet/services/wallet.service";
+import { TicketOfferDto } from "~/generated/api/models";
+import { WalletService } from "~/passenger/wallet/services/wallet.service";
 
 @Component({
   selector: "app-offer-card",

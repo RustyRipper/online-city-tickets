@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ChipModule } from "primeng/chip";
 
-import { WalletService } from "../../services/wallet.service";
+import { WalletService } from "~/passenger/wallet/services/wallet.service";
 
 @Component({
   selector: "app-wallet-indicator",

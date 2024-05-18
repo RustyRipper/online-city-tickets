@@ -7,8 +7,8 @@ import { InputTextModule } from "primeng/inputtext";
 import { PasswordModule } from "primeng/password";
 import { DividerModule } from "primeng/divider";
 
-import { TopBarComponent } from "../../../components/top-bar/top-bar.component";
-import { AuthService } from "../../services/auth.service";
+import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { AuthService } from "~/shared/auth/services/auth.service";
 
 @Component({
   selector: "app-login-page",

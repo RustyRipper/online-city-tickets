@@ -1,15 +1,8 @@
 import { Injectable } from "@angular/core";
-import {
-  BehaviorSubject,
-  EMPTY,
-  type Observable,
-  catchError,
-  mergeMap,
-  of,
-} from "rxjs";
+import { BehaviorSubject, EMPTY, catchError, mergeMap, of } from "rxjs";
 
-import { AccountsApi } from "../../../generated/api/services";
-import { AuthService } from "../../../shared/auth/services/auth.service";
+import { AccountsApi } from "~/generated/api/services";
+import { AuthService } from "~/shared/auth/services/auth.service";
 
 @Injectable({
   providedIn: "root",

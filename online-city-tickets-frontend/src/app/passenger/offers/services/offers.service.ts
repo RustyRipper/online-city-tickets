@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, EMPTY, catchError, type Observable } from "rxjs";
+import { BehaviorSubject, EMPTY, catchError } from "rxjs";
 
-import { OffersApi } from "../../../generated/api/services";
-import { TicketOfferDto } from "../../../generated/api/models";
-import { StoredCell } from "../../../shared/store/stored-cell";
+import { OffersApi } from "~/generated/api/services";
+import { TicketOfferDto } from "~/generated/api/models";
+import { StoredCell } from "~/shared/store/stored-cell";
 
 export type Offer = TicketOfferDto;
 

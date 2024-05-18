@@ -5,10 +5,10 @@ import { Router, RouterModule } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
-import { TopBarComponent } from "../../../components/top-bar/top-bar.component";
-import { BackButtonComponent } from "../../../components/back-button/back-button.component";
-import { AuthService } from "../../../auth/services/auth.service";
-import { SettingsService } from "../../services/settings.service";
+import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
+import { AuthService } from "~/shared/auth/services/auth.service";
+import { SettingsService } from "~/shared/settings/services/settings.service";
 
 @Component({
   selector: "app-settings-page",
