@@ -4,18 +4,38 @@
 <main>
   <h2>Account</h2>
   <div class="item">
-    <a routerLink="account"><p-button label="Edit" icon="pi pi-user-edit" iconPos="right" text="true" /></a>
-    <p-button label="Switch" icon="pi pi-sign-out" iconPos="right" text="true" (onClick)="onAccountSwitch()" />
+    <a routerLink="account"
+      ><p-button
+        label="Edit"
+        icon="pi pi-user-edit"
+        iconPos="right"
+        text="true"
+    /></a>
+    <p-button
+      label="Switch"
+      icon="pi pi-sign-out"
+      iconPos="right"
+      text="true"
+      (onClick)="onAccountSwitch()"
+    />
   </div>
   <h2>Preferences</h2>
   <div class="item">
     <label>Language</label>
-    <p-dropdown [options]="languages" [(ngModel)]="settingsService.languageCell.value" optionLabel="label"
-      optionValue="value" />
+    <p-dropdown
+      [options]="languages"
+      [(ngModel)]="settingsService.languageCell.value"
+      optionLabel="label"
+      optionValue="value"
+    />
   </div>
   <div class="item">
     <label>Theme</label>
-    <p-dropdown [options]="themes" [(ngModel)]="settingsService.themeCell.value" optionLabel="label"
-      optionValue="value" />
+    <p-dropdown
+      [options]="themes"
+      [(ngModel)]="settingsService.themeCell.value"
+      optionLabel="label"
+      optionValue="value"
+    />
   </div>
 </main>

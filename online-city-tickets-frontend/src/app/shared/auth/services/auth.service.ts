@@ -1,13 +1,10 @@
 import { Injectable } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 
-import type { Account } from "../types";
-import type {
-  LoginReq,
-  RegisterAsPassengerReq,
-} from "../../../generated/api/models";
-import { AccountsApi, AuthApi } from "../../../generated/api/services";
-import { StoredCell } from "../../store/stored-cell";
+import type { LoginReq, RegisterAsPassengerReq } from "~/generated/api/models";
+import { AccountsApi, AuthApi } from "~/generated/api/services";
+import type { Account } from "~/shared/auth/types";
+import { StoredCell } from "~/shared/store/stored-cell";
 
 @Injectable({
   providedIn: "root",

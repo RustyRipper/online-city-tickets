@@ -1,14 +1,14 @@
-import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { Router, RouterModule } from "@angular/router";
+import { Component } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Router, RouterModule } from "@angular/router";
 import { ButtonModule } from "primeng/button";
+import { DividerModule } from "primeng/divider";
 import { InputTextModule } from "primeng/inputtext";
 import { PasswordModule } from "primeng/password";
-import { DividerModule } from "primeng/divider";
 
-import { TopBarComponent } from "../../../components/top-bar/top-bar.component";
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from "~/shared/auth/services/auth.service";
+import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 
 @Component({
   selector: "app-login-page",

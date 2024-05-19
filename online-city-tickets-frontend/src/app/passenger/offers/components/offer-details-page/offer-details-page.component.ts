@@ -1,14 +1,14 @@
 import { Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
-import { TicketOfferDto } from "../../../../generated/api/models";
-import { TopBarComponent } from "../../../../shared/components/top-bar/top-bar.component";
-import { BackButtonComponent } from "../../../../shared/components/back-button/back-button.component";
-import { OfferCardComponent } from "../offer-card/offer-card.component";
-import { WalletService } from "../../../wallet/services/wallet.service";
+import type { TicketOfferDto } from "~/generated/api/models";
+import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
+import { WalletService } from "~/passenger/wallet/services/wallet.service";
+import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
+import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 
 type PaymentMethodOption = { label: string; value: string };
 
