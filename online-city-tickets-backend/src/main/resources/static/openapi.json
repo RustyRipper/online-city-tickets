@@ -833,9 +833,6 @@
                             },
                             "phoneNumber": {
                                 "$ref": "#/components/schemas/phoneNumber"
-                            },
-                            "defaultCreditCardId": {
-                                "$ref": "#/components/schemas/id"
                             }
                         }
                     }

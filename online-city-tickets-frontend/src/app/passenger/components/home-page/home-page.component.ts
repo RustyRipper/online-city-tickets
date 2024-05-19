@@ -1,19 +1,19 @@
 import { Component } from "@angular/core";
-import { MenuItem } from "primeng/api";
+import type { MenuItem } from "primeng/api";
 import { TabMenuModule } from "primeng/tabmenu";
-import { AvatarModule } from "primeng/avatar";
 
-import { TopBarComponent } from "../../../shared/components/top-bar/top-bar.component";
-import { WalletIndicatorComponent } from "../../wallet/components/wallet-indicator/wallet-indicator.component";
+import { WalletIndicatorComponent } from "~/passenger/wallet/components/wallet-indicator/wallet-indicator.component";
+import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { SettingsLinkComponent } from "~/shared/settings/components/settings-link/settings-link.component";
 
 @Component({
   selector: "app-home-page",
   standalone: true,
   imports: [
     TabMenuModule,
-    AvatarModule,
     TopBarComponent,
     WalletIndicatorComponent,
+    SettingsLinkComponent,
   ],
   templateUrl: "./home-page.component.html",
   styleUrl: "./home-page.component.css",

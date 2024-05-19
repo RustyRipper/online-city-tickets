@@ -1,14 +1,7 @@
 import { inject } from "@angular/core";
 import type { ResolveFn } from "@angular/router";
-import { AccountsApi } from "../../../generated/api/services";
-import { catchError, map, of } from "rxjs";
+
+import { WalletService } from "~/passenger/wallet/services/wallet.service";
 
 export const balanceResolver: ResolveFn<number> = (_route, _state) =>
-  inject(AccountsApi)
-    .getAccount()
-    .pipe(
-      map((account) =>
-        account.type === "passenger" ? account.walletBalanceGrosze : 0,
-      ),
-      catchError(() => of(0)),
-    );
+  inject(WalletService).balanceGrosze$;

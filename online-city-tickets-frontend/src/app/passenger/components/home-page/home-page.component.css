@@ -9,19 +9,6 @@ div[right] {
   gap: 0.75rem;
 }
 
-div[right] a {
-  color: inherit;
-}
-
-:host ::ng-deep .p-avatar {
-  width: 1.6rem;
-  height: 1.6rem;
-}
-
-:host ::ng-deep .p-avatar .p-avatar-icon {
-  font-size: 0.75rem;
-}
-
 :host ::ng-deep .p-tabmenu {
   border-bottom: var(--fbc-borders);
 }

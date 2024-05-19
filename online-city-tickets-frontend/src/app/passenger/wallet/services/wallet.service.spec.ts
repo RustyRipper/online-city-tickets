@@ -1,22 +1,16 @@
 import { HttpClientModule } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 
-import { AuthService } from "./auth.service";
+import { WalletService } from "./wallet.service";
 
-describe("AuthService", () => {
-  let service: AuthService;
+describe("WalletService", () => {
+  let service: WalletService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
-      providers: [
-        {
-          provide: Storage,
-          useValue: sessionStorage,
-        },
-      ],
     });
-    service = TestBed.inject(AuthService);
+    service = TestBed.inject(WalletService);
   });
 
   it("should be created", () => {

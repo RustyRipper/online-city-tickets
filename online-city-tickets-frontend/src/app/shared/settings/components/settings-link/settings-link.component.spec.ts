@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { RouterModule } from "@angular/router";
 
-import { InspectorPageComponent } from "./inspector-page.component";
+import { SettingsLinkComponent } from "./settings-link.component";
 
-describe("InspectorPageComponent", () => {
-  let component: InspectorPageComponent;
-  let fixture: ComponentFixture<InspectorPageComponent>;
+describe("SettingsLinkComponent", () => {
+  let component: SettingsLinkComponent;
+  let fixture: ComponentFixture<SettingsLinkComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InspectorPageComponent, RouterModule.forRoot([])],
+      imports: [SettingsLinkComponent, RouterModule.forRoot([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InspectorPageComponent);
+    fixture = TestBed.createComponent(SettingsLinkComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

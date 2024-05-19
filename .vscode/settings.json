@@ -4,5 +4,6 @@
   "editor.indentSize": 2,
   "[java]": {
     "editor.indentSize": "tabSize"
-  }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

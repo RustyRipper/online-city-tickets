@@ -44,7 +44,6 @@ classDiagram
         String expirationDate [1]
     }
     CreditCardInfo "*" --> "1 owner {readonly}" Passenger
-    CreditCardInfo "0..1 defaultCreditCard" <-- "1" Passenger
 
     class Ticket {
         long id [1] #lcub;id, readonly#rcub;

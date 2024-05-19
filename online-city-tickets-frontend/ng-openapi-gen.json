@@ -1,8 +1,8 @@
 {
-    "$schema": "./node_modules/ng-openapi-gen/ng-openapi-gen-schema.json",
-    "input": "../online-city-tickets-backend/src/main/resources/static/openapi.json",
-    "output": "./src/app/generated/api",
-    "serviceSuffix": "Api",
-    "endOfLineStyle": "lf",
-    "fetchTimeout": 10000
+  "$schema": "./node_modules/ng-openapi-gen/ng-openapi-gen-schema.json",
+  "input": "../online-city-tickets-backend/src/main/resources/static/openapi.json",
+  "output": "./src/app/generated/api",
+  "serviceSuffix": "Api",
+  "endOfLineStyle": "lf",
+  "fetchTimeout": 10000
 }

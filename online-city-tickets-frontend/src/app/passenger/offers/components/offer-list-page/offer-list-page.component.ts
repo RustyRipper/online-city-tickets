@@ -1,12 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { SelectButtonModule } from "primeng/selectbutton";
 
-import { TicketOfferDto } from "../../../../generated/api/models";
-import { OffersApi } from "../../../../generated/api/services";
-import { StoreService } from "../../../../shared/store/services/store.service";
-import { OfferCardComponent } from "../offer-card/offer-card.component";
+import type { TicketOfferDto } from "~/generated/api/models";
+import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
+import { OffersService } from "~/passenger/offers/services/offers.service";
 
 type OfferKind = TicketOfferDto["kind"];
 type OfferKindItem = { label: string; value: OfferKind };
@@ -48,23 +47,17 @@ export class OfferListPageComponent implements OnInit {
     { label: "Reduced", value: "reduced" },
   ];
 
-  protected kind: OfferKind;
+  protected readonly kindCell = this.offersService.preferredKindCell;
 
-  public constructor(
-    private readonly offersApi: OffersApi,
-    storeService: StoreService,
-  ) {
-    this.kind = storeService.ticketKind.value;
-  }
+  public constructor(private readonly offersService: OffersService) {}
 
   public ngOnInit(): void {
-    this.offersApi
-      .listTicketOffers()
-      .subscribe((offers) => (this.offers = offers));
+    this.offersService.offers$.subscribe((v) => (this.offers = v));
+    this.offersService.revalidateOffers();
   }
 
   protected get groups(): OfferGroup[] {
-    const offers = this.offers.filter((offer) => offer.kind === this.kind);
+    const offers = this.offers.filter((o) => o.kind === this.kindCell.value);
     return GROUP_ORDER.map((group) => ({
       ...group,
       offers: offers
