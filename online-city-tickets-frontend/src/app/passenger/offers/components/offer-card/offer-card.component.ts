@@ -15,11 +15,11 @@ export class OfferCardComponent {
   @Input({ required: true }) public offer!: Offer;
   @Input() public linked: boolean = false;
 
-  protected get routerLink(): string | null {
+  public get routerLink(): string | null {
     return this.linked ? `/passenger/offers/${this.offer.id}` : null;
   }
 
-  protected get offerKind(): string {
+  public get offerKind(): string {
     switch (this.offer.kind) {
       case "standard":
         return "Standard";
@@ -28,11 +28,11 @@ export class OfferCardComponent {
     }
   }
 
-  protected get offerName(): string {
+  public get offerName(): string {
     return this.offer.displayNameEn.replaceAll(" ", "\n");
   }
 
-  protected get offerPrice(): string {
+  public get offerPrice(): string {
     return `${(this.offer.priceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
   }
 }

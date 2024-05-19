@@ -16,7 +16,7 @@ export class WalletIndicatorComponent implements OnInit {
 
   public constructor(private readonly walletService: WalletService) {}
 
-  protected get label(): string {
+  public get label(): string {
     return `${(this.balanceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
   }
 
