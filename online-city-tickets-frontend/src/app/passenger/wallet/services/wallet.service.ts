@@ -15,7 +15,10 @@ export class WalletService {
 
   public constructor(private readonly accountsApi: AccountsApi) {}
 
-  public revalidate(): void {
+  public revalidate(optimistic?: number): void {
+    if (optimistic) {
+      this.balanceGroszeSubject.next(optimistic);
+    }
     this.accountsApi
       .getAccount()
       .pipe(

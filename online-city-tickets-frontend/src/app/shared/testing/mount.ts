@@ -31,13 +31,13 @@ export async function mount<T>(
   { inputs = {}, resolvedData = {}, storage = {} }: MountOptions<T> = {},
 ): MountResult<T> {
   const commonImports = [RouterModule.forRoot([]), HttpClientTestingModule];
-  const commonProviders = [
+  const providers = [
     { provide: Storage, useValue: new MemoryStorage(storage) },
     { provide: ActivatedRoute, useValue: { snapshot: { data: resolvedData } } },
   ];
   await TestBed.configureTestingModule({
     imports: [Component, ...commonImports],
-    providers: commonProviders,
+    providers,
   }).compileComponents();
   const httpTestingController = TestBed.inject(HttpTestingController);
 
