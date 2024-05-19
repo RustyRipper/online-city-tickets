@@ -1,22 +1,11 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { mount } from "~/shared/testing/mount";
 
 import { WalletPageComponent } from "./wallet-page.component";
 
-describe("WalletPageComponent", () => {
-  let component: WalletPageComponent;
-  let fixture: ComponentFixture<WalletPageComponent>;
+describe(WalletPageComponent.name, () => {
+  it("should mount", async () => {
+    const { component } = await mount(WalletPageComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [WalletPageComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(WalletPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

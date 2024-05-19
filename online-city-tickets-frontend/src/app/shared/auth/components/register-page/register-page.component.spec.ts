@@ -1,29 +1,11 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { mount } from "~/shared/testing/mount";
 
 import { RegisterPageComponent } from "./register-page.component";
 
-describe("RegisterPageComponent", () => {
-  let component: RegisterPageComponent;
-  let fixture: ComponentFixture<RegisterPageComponent>;
+describe(RegisterPageComponent.name, () => {
+  it("should mount", async () => {
+    const { component } = await mount(RegisterPageComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RegisterPageComponent,
-        RouterModule.forRoot([]),
-        HttpClientModule,
-      ],
-      providers: [{ provide: Storage, useValue: sessionStorage }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(RegisterPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

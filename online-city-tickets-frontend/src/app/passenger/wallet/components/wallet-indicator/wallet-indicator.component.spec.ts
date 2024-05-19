@@ -1,28 +1,11 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { mount } from "~/shared/testing/mount";
 
 import { WalletIndicatorComponent } from "./wallet-indicator.component";
 
-describe("WalletIndicatorComponent", () => {
-  let component: WalletIndicatorComponent;
-  let fixture: ComponentFixture<WalletIndicatorComponent>;
+describe(WalletIndicatorComponent.name, () => {
+  it("should mount", async () => {
+    const { component } = await mount(WalletIndicatorComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        WalletIndicatorComponent,
-        RouterModule.forRoot([]),
-        HttpClientModule,
-      ],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(WalletIndicatorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

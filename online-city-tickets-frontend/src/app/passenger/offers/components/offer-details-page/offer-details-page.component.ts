@@ -4,8 +4,8 @@ import { ActivatedRoute } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
-import type { TicketOfferDto } from "~/generated/api/models";
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
+import type { Offer } from "~/passenger/offers/types";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
@@ -28,7 +28,7 @@ type PaymentMethodOption = { label: string; value: string };
 })
 export class OfferDetailsPageComponent {
   protected readonly paymentMethodOptions: PaymentMethodOption[];
-  protected readonly offer: TicketOfferDto;
+  protected readonly offer: Offer;
   protected paymentMethod: string;
 
   public constructor(activatedRoute: ActivatedRoute) {

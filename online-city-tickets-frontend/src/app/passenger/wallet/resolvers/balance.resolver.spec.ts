@@ -3,7 +3,7 @@ import type { ResolveFn } from "@angular/router";
 
 import { balanceResolver } from "./balance.resolver";
 
-describe("balanceResolver", () => {
+describe(balanceResolver.name, () => {
   const executeResolver: ResolveFn<number> = (...resolverParameters) =>
     TestBed.runInInjectionContext(() => balanceResolver(...resolverParameters));
 

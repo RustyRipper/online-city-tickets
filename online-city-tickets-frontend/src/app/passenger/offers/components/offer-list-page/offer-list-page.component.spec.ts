@@ -1,24 +1,11 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { mount } from "~/shared/testing/mount";
 
 import { OfferListPageComponent } from "./offer-list-page.component";
 
-describe("OfferListPageComponent", () => {
-  let component: OfferListPageComponent;
-  let fixture: ComponentFixture<OfferListPageComponent>;
+describe(OfferListPageComponent.name, () => {
+  it("should mount", async () => {
+    const { component } = await mount(OfferListPageComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [OfferListPageComponent, HttpClientModule],
-      providers: [{ provide: Storage, useValue: sessionStorage }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(OfferListPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

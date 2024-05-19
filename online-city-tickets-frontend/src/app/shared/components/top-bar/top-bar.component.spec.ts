@@ -1,22 +1,11 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { mount } from "~/shared/testing/mount";
 
 import { TopBarComponent } from "./top-bar.component";
 
-describe("TopBarComponent", () => {
-  let component: TopBarComponent;
-  let fixture: ComponentFixture<TopBarComponent>;
+describe(TopBarComponent.name, () => {
+  it("should mount", async () => {
+    const { component } = await mount(TopBarComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TopBarComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TopBarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

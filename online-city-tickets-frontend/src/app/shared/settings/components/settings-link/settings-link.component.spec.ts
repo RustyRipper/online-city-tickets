@@ -1,23 +1,11 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { mount } from "~/shared/testing/mount";
 
 import { SettingsLinkComponent } from "./settings-link.component";
 
-describe("SettingsLinkComponent", () => {
-  let component: SettingsLinkComponent;
-  let fixture: ComponentFixture<SettingsLinkComponent>;
+describe(SettingsLinkComponent.name, () => {
+  it("should mount", async () => {
+    const { component } = await mount(SettingsLinkComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SettingsLinkComponent, RouterModule.forRoot([])],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(SettingsLinkComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

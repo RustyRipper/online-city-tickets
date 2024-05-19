@@ -3,7 +3,7 @@ import type { CanActivateFn } from "@angular/router";
 
 import { hasRole } from "./has-role.guard";
 
-describe("hasRoleGuard", () => {
+describe(hasRole.name, () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
     TestBed.runInInjectionContext(() => hasRole(null)(...guardParameters));
 

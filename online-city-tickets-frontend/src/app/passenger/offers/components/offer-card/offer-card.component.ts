@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
-import type { TicketOfferDto } from "~/generated/api/models";
+import type { Offer } from "~/passenger/offers/types";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
 
 @Component({
@@ -12,7 +12,7 @@ import { WalletService } from "~/passenger/wallet/services/wallet.service";
   styleUrl: "./offer-card.component.css",
 })
 export class OfferCardComponent {
-  @Input({ required: true }) public offer!: TicketOfferDto;
+  @Input({ required: true }) public offer!: Offer;
   @Input() public linked: boolean = false;
 
   protected get routerLink(): string | null {

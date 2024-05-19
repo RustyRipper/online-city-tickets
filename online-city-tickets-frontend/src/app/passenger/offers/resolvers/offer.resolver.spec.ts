@@ -5,7 +5,7 @@ import type { TicketOfferDto } from "~/generated/api/models";
 
 import { offerResolver } from "./offer.resolver";
 
-describe("offerResolver", () => {
+describe(offerResolver.name, () => {
   const executeResolver: ResolveFn<TicketOfferDto> = (...resolverParameters) =>
     TestBed.runInInjectionContext(() => offerResolver(...resolverParameters));
 

@@ -1,31 +1,23 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { Offer } from "~/passenger/offers/types";
+import { mount } from "~/shared/testing/mount";
 
 import { OfferCardComponent } from "./offer-card.component";
 
-describe("OfferCardComponent", () => {
-  let component: OfferCardComponent;
-  let fixture: ComponentFixture<OfferCardComponent>;
+const offer = {
+  id: 1,
+  scope: "single-fare",
+  kind: "standard",
+  displayNameEn: "Single fare",
+  displayNamePl: "Jednorazowy",
+  priceGrosze: 100,
+} satisfies Offer;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [OfferCardComponent, RouterModule.forRoot([])],
-    }).compileComponents();
+describe(OfferCardComponent.name, () => {
+  it("should mount", async () => {
+    const { component } = await mount(OfferCardComponent, {
+      inputs: { offer },
+    });
 
-    fixture = TestBed.createComponent(OfferCardComponent);
-    component = fixture.componentInstance;
-    component.offer = {
-      id: 1,
-      scope: "single-fare",
-      kind: "standard",
-      displayNameEn: "Single fare",
-      displayNamePl: "Jednorazowy",
-      priceGrosze: 100,
-    };
-    fixture.detectChanges();
-  });
-
-  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

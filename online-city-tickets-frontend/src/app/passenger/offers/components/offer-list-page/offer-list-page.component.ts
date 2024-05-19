@@ -3,19 +3,18 @@ import { Component, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { SelectButtonModule } from "primeng/selectbutton";
 
-import type { TicketOfferDto } from "~/generated/api/models";
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
 import { OffersService } from "~/passenger/offers/services/offers.service";
+import { Offer } from "~/passenger/offers/types";
 
-type OfferKind = TicketOfferDto["kind"];
-type OfferKindItem = { label: string; value: OfferKind };
+type OfferKindItem = { label: string; value: Offer["kind"] };
 type OfferGroup = {
-  [s in TicketOfferDto["scope"]]: {
+  [s in Offer["scope"]]: {
     label: string;
     scope: s;
-    offers: TicketOfferDto[];
+    offers: Offer[];
   };
-}[TicketOfferDto["scope"]];
+}[Offer["scope"]];
 
 const GROUP_ORDER = [
   {
@@ -40,7 +39,7 @@ const GROUP_ORDER = [
   styleUrl: "./offer-list-page.component.css",
 })
 export class OfferListPageComponent implements OnInit {
-  private offers: TicketOfferDto[] = [];
+  private offers: Offer[] = [];
 
   protected readonly ticketKinds: OfferKindItem[] = [
     { label: "Standard", value: "standard" },
