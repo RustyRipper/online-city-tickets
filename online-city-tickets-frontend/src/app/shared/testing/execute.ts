@@ -32,12 +32,10 @@ async function unwrap<T>(maybeAsync: MaybeAsync<T>): Promise<T | null> {
 /** Used to execute Angular resolvers and guards for testing. */
 export function execute<T>(
   resolver: ResolveFn<T>,
-  { params, storage, customInjects }: ExecuteOptions = {},
+  { params, ...options }: ExecuteOptions = {},
 ): ExecuteResult<T> {
-  const { httpTestingController } = configureTestBed({
-    storage,
-    customInjects,
-  });
+  const { httpTestingController } = configureTestBed(options);
+  const mockHttp = mockHttpFactory(httpTestingController);
 
   const result = unwrap(
     TestBed.runInInjectionContext(() =>
@@ -45,5 +43,5 @@ export function execute<T>(
     ),
   );
 
-  return { result, mockHttp: mockHttpFactory(httpTestingController) };
+  return { result, mockHttp };
 }

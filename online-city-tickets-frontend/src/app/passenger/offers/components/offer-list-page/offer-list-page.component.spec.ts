@@ -2,7 +2,7 @@ import { By } from "@angular/platform-browser";
 
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
 import { Offer } from "~/passenger/offers/types";
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { OfferListPageComponent } from "./offer-list-page.component";
 
@@ -36,9 +36,9 @@ const offers = [
 
 describe(OfferListPageComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(OfferListPageComponent);
+    const { sut } = await mount(OfferListPageComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 
   it("should download offers from the API", async () => {

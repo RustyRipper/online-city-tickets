@@ -1,5 +1,5 @@
 import type { Offer } from "~/passenger/offers/types";
-import { execute } from "~/shared/testing/execute";
+import { execute } from "~/shared/testing";
 
 import { offerResolver } from "./offer.resolver";
 

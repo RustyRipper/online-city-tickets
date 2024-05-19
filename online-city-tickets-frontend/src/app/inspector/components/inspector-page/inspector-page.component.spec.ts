@@ -1,11 +1,11 @@
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { InspectorPageComponent } from "./inspector-page.component";
 
 describe(InspectorPageComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(InspectorPageComponent);
+    const { sut } = await mount(InspectorPageComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });

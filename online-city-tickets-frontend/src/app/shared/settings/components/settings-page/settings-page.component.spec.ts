@@ -1,11 +1,11 @@
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { SettingsPageComponent } from "./settings-page.component";
 
 describe(SettingsPageComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(SettingsPageComponent);
+    const { sut } = await mount(SettingsPageComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });

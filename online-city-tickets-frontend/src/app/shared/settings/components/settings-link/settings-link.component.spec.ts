@@ -1,11 +1,11 @@
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { SettingsLinkComponent } from "./settings-link.component";
 
 describe(SettingsLinkComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(SettingsLinkComponent);
+    const { sut } = await mount(SettingsLinkComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });

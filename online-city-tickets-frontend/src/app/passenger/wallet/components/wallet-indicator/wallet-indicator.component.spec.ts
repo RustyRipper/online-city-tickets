@@ -1,21 +1,19 @@
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { WalletIndicatorComponent } from "./wallet-indicator.component";
 
 describe(WalletIndicatorComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(WalletIndicatorComponent);
+    const { sut } = await mount(WalletIndicatorComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 
   it("should display the balance", async () => {
-    const { component, element, mockHttp } = await mount(
-      WalletIndicatorComponent,
-    );
+    const { sut, element, mockHttp } = await mount(WalletIndicatorComponent);
     mockHttp("/account", { type: "passenger", walletBalanceGrosze: 12345 });
 
-    expect(component.label).toBe("123.45 zł");
+    expect(sut.label).toBe("123.45 zł");
     expect(element.textContent).toContain("123.45 zł");
   });
 });

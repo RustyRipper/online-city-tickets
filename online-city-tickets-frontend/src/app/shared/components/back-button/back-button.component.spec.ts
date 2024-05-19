@@ -1,11 +1,11 @@
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { BackButtonComponent } from "./back-button.component";
 
 describe(BackButtonComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(BackButtonComponent);
+    const { sut } = await mount(BackButtonComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });

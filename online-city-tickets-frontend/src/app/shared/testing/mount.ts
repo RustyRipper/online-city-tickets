@@ -12,7 +12,7 @@ type MountOptions<T> = {
 } & ConfigureTestBedOptions;
 
 type MountResult<T> = Promise<{
-  component: T;
+  sut: T;
   element: HTMLElement;
   debug: DebugElement;
   mockHttp: MockHttp;
@@ -21,24 +21,26 @@ type MountResult<T> = Promise<{
 /** Used to mount Angular components for testing. */
 export async function mount<T>(
   Component: Type<T>,
-  { inputs, resolvedData, storage }: MountOptions<T> = {},
+  { inputs, ...options }: MountOptions<T> = {},
 ): MountResult<T> {
-  const { httpTestingController } = configureTestBed({ storage, resolvedData });
+  const { httpTestingController } = configureTestBed(options);
   await TestBed.compileComponents();
 
   const fixture = TestBed.createComponent(Component);
-  const component = fixture.componentInstance;
+  const sut = fixture.componentInstance;
   for (const [key, value] of Object.entries(inputs ?? {}) as InputEntries<T>) {
-    component[key] = value;
+    sut[key] = value;
   }
   fixture.detectChanges();
 
+  const mockHttp = mockHttpFactory(httpTestingController, () =>
+    fixture.detectChanges(),
+  );
+
   return {
-    component,
+    sut,
     element: fixture.nativeElement,
     debug: fixture.debugElement,
-    mockHttp: mockHttpFactory(httpTestingController, () =>
-      fixture.detectChanges(),
-    ),
+    mockHttp,
   };
 }

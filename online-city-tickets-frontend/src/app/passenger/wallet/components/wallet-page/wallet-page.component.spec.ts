@@ -1,11 +1,11 @@
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { WalletPageComponent } from "./wallet-page.component";
 
 describe(WalletPageComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(WalletPageComponent);
+    const { sut } = await mount(WalletPageComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });

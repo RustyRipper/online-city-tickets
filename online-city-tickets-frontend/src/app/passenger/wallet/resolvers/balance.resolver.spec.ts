@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 
-import { execute } from "~/shared/testing/execute";
+import { execute } from "~/shared/testing";
 
 import { WalletService } from "../services/wallet.service";
 import { balanceResolver } from "./balance.resolver";

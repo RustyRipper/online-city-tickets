@@ -1,5 +1,5 @@
 import type { Offer } from "~/passenger/offers/types";
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { OfferDetailsPageComponent } from "./offer-details-page.component";
 
@@ -14,10 +14,10 @@ const offer = {
 
 describe(OfferDetailsPageComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(OfferDetailsPageComponent, {
+    const { sut } = await mount(OfferDetailsPageComponent, {
       resolvedData: { offer, balance: 0 },
     });
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });

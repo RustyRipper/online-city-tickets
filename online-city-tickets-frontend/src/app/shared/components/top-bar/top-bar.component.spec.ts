@@ -1,11 +1,11 @@
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { TopBarComponent } from "./top-bar.component";
 
 describe(TopBarComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(TopBarComponent);
+    const { sut } = await mount(TopBarComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });

@@ -1,20 +1,42 @@
-import { HttpClientModule } from "@angular/common/http";
-import { TestBed } from "@angular/core/testing";
+import { firstValueFrom } from "rxjs";
+
+import type { Offer } from "~/passenger/offers/types";
+import { provide } from "~/shared/testing";
 
 import { OffersService } from "./offers.service";
 
-describe(OffersService.name, () => {
-  let service: OffersService;
+const offer = {
+  id: 1,
+  scope: "single-fare",
+  kind: "standard",
+  displayNameEn: "Single fare",
+  displayNamePl: "Jednorazowy",
+  priceGrosze: 100,
+} satisfies Offer;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [{ provide: Storage, useValue: sessionStorage }],
+describe(OffersService.name, () => {
+  it("should read preferred ticket offer kind from storage", () => {
+    const { sut } = provide(OffersService, {
+      storage: {
+        TICKET_KIND: JSON.stringify("reduced"),
+      },
     });
-    service = TestBed.inject(OffersService);
+
+    expect(sut.preferredKindCell.value).toBe("reduced");
   });
 
-  it("should be created", () => {
-    expect(service).toBeTruthy();
+  it("should initially have no offers", async () => {
+    const { sut } = provide(OffersService);
+
+    expect(await firstValueFrom(sut.offers$)).toEqual([]);
+  });
+
+  it("should fetch new offers on revalidation", async () => {
+    const { sut, mockHttp } = provide(OffersService);
+
+    sut.revalidateOffers();
+    mockHttp("/offers", [offer]);
+
+    expect(await firstValueFrom(sut.offers$)).toEqual([offer]);
   });
 });

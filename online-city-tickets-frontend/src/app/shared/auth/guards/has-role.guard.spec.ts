@@ -1,7 +1,7 @@
 import { UrlTree } from "@angular/router";
 
 import type { Account } from "~/shared/auth/types";
-import { execute } from "~/shared/testing/execute";
+import { execute } from "~/shared/testing";
 
 import { hasRole } from "./has-role.guard";
 

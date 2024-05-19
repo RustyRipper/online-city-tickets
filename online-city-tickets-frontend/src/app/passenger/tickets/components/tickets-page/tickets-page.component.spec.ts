@@ -1,11 +1,11 @@
-import { mount } from "~/shared/testing/mount";
+import { mount } from "~/shared/testing";
 
 import { TicketsPageComponent } from "./tickets-page.component";
 
 describe(TicketsPageComponent.name, () => {
   it("should mount", async () => {
-    const { component } = await mount(TicketsPageComponent);
+    const { sut } = await mount(TicketsPageComponent);
 
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });
