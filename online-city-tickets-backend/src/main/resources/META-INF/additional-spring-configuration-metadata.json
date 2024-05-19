@@ -2,13 +2,18 @@
   "properties": [
     {
       "name": "jwt.expiration",
-      "type": "java.lang.String",
+      "type": "java.lang.int",
       "description": "Json Web Token expiration time in milliseconds"
     },
     {
       "name": "jwt.secret",
       "type": "java.lang.String",
       "description": "Json Web Token secret key for development environment"
+    },
+    {
+      "name": "data_seeder.enabled",
+      "type": "java.lang.boolean",
+      "description": "Flag to enable data seeder"
     }
   ]
 }

@@ -23,7 +23,7 @@ public class DataSeeder {
     private final AccountService accountService;
     private final TicketOfferRepository ticketOfferRepository;
 
-    public void seedData() {
+    public void seedAccounts() {
         accountRepository.save(Account.builder()
                 .email("admin@tickets.pl")
                 .role(Role.valueOf("ADMIN"))
@@ -33,7 +33,9 @@ public class DataSeeder {
 
         accountService.createPassenger("passenger@tickets.pl", "Mr Passenger", "123456789", "12345678");
         accountService.createInspector("inspector@tickets.pl", "Mr Inspector", "12345678");
+    }
 
+    public void seedTicketOffers() {
         seedTicketOffers(TicketKind.STANDARD);
         seedTicketOffers(TicketKind.REDUCED);
     }

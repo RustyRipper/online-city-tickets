@@ -10,6 +10,9 @@ jobs:
     name: Build and test project
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: online-city-tickets-backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +25,11 @@ jobs:
           java-version: '21'
           distribution: 'microsoft'
 
-      - name: Run Build and Tests
-        run: |
-          cd online-city-tickets-backend
-          ./gradlew build
+      - name: Run Build
+        run: ./gradlew assemble
+
+      - name: Run Unit Tests
+        run: ./gradlew test
+
+      - name: Run Integration Tests
+        run: ./gradlew integrationTest

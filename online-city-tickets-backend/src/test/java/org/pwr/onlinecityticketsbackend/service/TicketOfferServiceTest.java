@@ -2,95 +2,97 @@ package org.pwr.onlinecityticketsbackend.service;
 
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
-import java.time.Duration;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.ListAssert;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.dto.LongTermTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.dto.SingleFareTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.dto.TimeLimitedTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.mapper.TicketOfferMapper;
 import org.pwr.onlinecityticketsbackend.model.LongTermOffer;
 import org.pwr.onlinecityticketsbackend.model.SingleFareOffer;
-import org.pwr.onlinecityticketsbackend.model.TicketKind;
+import org.pwr.onlinecityticketsbackend.model.TicketOffer;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
 import org.pwr.onlinecityticketsbackend.repository.TicketOfferRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class TicketOfferServiceTest {
     @Mock
     private TicketOfferRepository ticketOfferRepository;
 
+    @Mock
+    private TicketOfferMapper ticketOfferMapper;
+
     @InjectMocks
     private TicketOfferService sut;
-
-    @Autowired
-    private TicketOfferService ticketOfferService;
-
-    @Test
-    void shouldGetAllSeededOffers() {
-        // when
-        var result = ticketOfferService.getOffers();
-
-        // then
-        Assertions.assertEquals(30, result.size());
-        Assertions.assertEquals(2,
-                result.stream().filter(offer -> offer.getScope().equals("single-fare")).count());
-        Assertions.assertEquals(8,
-                result.stream().filter(offer -> offer.getScope().equals("time-limited")).count());
-        Assertions.assertEquals(20,
-                result.stream().filter(offer -> offer.getScope().equals("long-term")).count());
-        Assertions.assertEquals(15,
-                result.stream().filter(offer -> offer.getKind()
-                        .equals(TicketKind.STANDARD.toString().toLowerCase())).count());
-        Assertions.assertEquals(15,
-                result.stream().filter(offer -> offer.getKind()
-                        .equals(TicketKind.REDUCED.toString().toLowerCase())).count());
-    }
 
     @Test
     void shouldGetAllOffers() {
         // given
-        var singleFareOffer = SingleFareOffer.builder().pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
-        var longTermOffer = LongTermOffer.builder().pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
-        var timeLimitedOffer = TimeLimitedOffer.builder().pricePln(BigDecimal.ONE)
-                .durationInMinutes(Duration.ofMinutes(1)).kind(TicketKind.STANDARD).build();
+        var singleFareOffer = new SingleFareOffer();
+        var longTermOffer = new LongTermOffer();
+        var timeLimitedOffer = new TimeLimitedOffer();
+
+        var singleFareDto = new SingleFareTicketOfferDto();
+        var longTermDto = new LongTermTicketOfferDto();
+        var timeLimitedDto = new TimeLimitedTicketOfferDto();
 
         // when
-        when(ticketOfferRepository.findAll()).thenReturn(java.util.List.of(singleFareOffer, longTermOffer,
-                timeLimitedOffer));
+        when(ticketOfferRepository.findAll())
+                .thenReturn(List.of(singleFareOffer, longTermOffer, timeLimitedOffer));
+        when(ticketOfferMapper.toDto(singleFareOffer)).thenReturn(singleFareDto);
+        when(ticketOfferMapper.toDto(longTermOffer)).thenReturn(longTermDto);
+        when(ticketOfferMapper.toDto(timeLimitedOffer)).thenReturn(timeLimitedDto);
         var result = sut.getOffers();
 
         // then
-        Assertions.assertEquals(3, result.size());
+        ListAssert.assertThatList(result)
+                .hasSize(3)
+                .containsExactlyInAnyOrder(singleFareDto, longTermDto, timeLimitedDto);
     }
 
     @Test
-    void shouldGetOfferById() {
-        // given
-        var singleFareOffer = SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD)
-                .build();
-        var longTermOffer = LongTermOffer.builder().id(2L).pricePln(BigDecimal.ONE).kind(TicketKind.STANDARD).build();
-        var timeLimitedOffer = TimeLimitedOffer.builder().id(3L).pricePln(BigDecimal.ONE)
-                .durationInMinutes(Duration.ofMinutes(1)).kind(TicketKind.STANDARD).build();
-
+    void shouldGetNoOffersWhenEmpty() {
         // when
-        when(ticketOfferRepository.findById(1L)).thenReturn(java.util.Optional.of(singleFareOffer));
-        when(ticketOfferRepository.findById(2L)).thenReturn(java.util.Optional.of(longTermOffer));
-        when(ticketOfferRepository.findById(3L)).thenReturn(java.util.Optional.of(timeLimitedOffer));
-        var resultSingleFare = sut.getOfferById(1L);
-        var resultLongTerm = sut.getOfferById(2L);
-        var resultTimeLimited = sut.getOfferById(3L);
+        when(ticketOfferRepository.findAll()).thenReturn(List.of());
+        var result = sut.getOffers();
 
         // then
-        Assertions.assertEquals(TicketOfferMapper.INSTANCE.toSingleFareTicketOfferDto(singleFareOffer),
-                resultSingleFare.get());
-        Assertions.assertEquals(TicketOfferMapper.INSTANCE.toLongTermTicketOfferDto(longTermOffer),
-                resultLongTerm.get());
-        Assertions.assertEquals(TicketOfferMapper.INSTANCE.toTimeLimitedTicketOfferDto(timeLimitedOffer),
-                resultTimeLimited.get());
+        ListAssert.assertThatList(result).isEmpty();
+    }
+
+    @ParameterizedTest
+    @MethodSource("shouldGetOfferByIdParameterProvider")
+    void shouldGetOfferById(TicketOffer model, BaseTicketOfferDto dto) {
+        // when
+        when(ticketOfferRepository.existsById(1L)).thenReturn(true);
+        when(ticketOfferRepository.findById(1L)).thenReturn(Optional.of(model));
+        when(ticketOfferMapper.toDto(model)).thenReturn(dto);
+
+        var result = sut.getOfferById(1L);
+
+        // then
+        Assertions.assertThat(result).isPresent();
+        Assertions.assertThat(result).hasValue(dto);
+    }
+
+    static Stream<Arguments> shouldGetOfferByIdParameterProvider() {
+        return Stream.of(
+                Arguments.of(new SingleFareOffer(), new SingleFareTicketOfferDto()),
+                Arguments.of(new LongTermOffer(), new LongTermTicketOfferDto()),
+                Arguments.of(new TimeLimitedOffer(), new TimeLimitedTicketOfferDto()));
     }
 
     @Test
@@ -99,6 +101,7 @@ public class TicketOfferServiceTest {
         var result = sut.getOfferById(0L);
 
         // then
-        Assertions.assertTrue(result.isEmpty());
+        Assertions.assertThat(result).isEmpty();
     }
+
 }
