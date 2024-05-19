@@ -1,5 +1,5 @@
 import type { Offer } from "~/passenger/offers/types";
-import { executeResolver } from "~/shared/testing/execute-resolver";
+import { execute } from "~/shared/testing/execute";
 
 import { offerResolver } from "./offer.resolver";
 
@@ -14,7 +14,7 @@ const offer = {
 
 describe(offerResolver.name, () => {
   it("should return the offer if it exists", async () => {
-    const { result, mockHttp } = executeResolver(offerResolver, {
+    const { result, mockHttp } = execute(offerResolver, {
       params: { id: "123" },
     });
     mockHttp("/offers/123", offer);
@@ -23,7 +23,7 @@ describe(offerResolver.name, () => {
   });
 
   it("should return an empty observable if the offer does not exist", async () => {
-    const { result, mockHttp } = executeResolver(offerResolver, {
+    const { result, mockHttp } = execute(offerResolver, {
       params: { id: "123" },
     });
     mockHttp("/offers/123", {}, 404);

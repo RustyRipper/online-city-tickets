@@ -12,10 +12,11 @@ import {
 import { Observable, firstValueFrom } from "rxjs";
 
 import { API_BASE } from "./consts";
-import { MemoryStorage } from "./memory-storage";
+import { type Initial, MemoryStorage } from "./memory-storage";
 
 type ExecuteOptions = {
   params?: Record<string, string>;
+  storage?: Initial;
   customInjects?: () => void;
 };
 
@@ -35,16 +36,18 @@ async function unwrap<T>(maybeAsync: MaybeAsync<T>): Promise<T | null> {
   }
 }
 
-/** Used to execute Angular resolvers for testing. */
-export function executeResolver<T>(
+/** Used to execute Angular resolvers and guards for testing. */
+export function execute<T>(
   resolver: ResolveFn<T>,
-  { params = {}, customInjects }: ExecuteOptions = {},
+  { params = {}, storage = {}, customInjects }: ExecuteOptions = {},
 ): ExecuteResult<T> {
   const imports = [
     RouterModule.forRoot([{ path: "**", component: {} as any }]),
     HttpClientTestingModule,
   ];
-  const providers = [{ provide: Storage, useValue: new MemoryStorage() }];
+  const providers = [
+    { provide: Storage, useValue: new MemoryStorage(storage) },
+  ];
   TestBed.configureTestingModule({ imports, providers });
   const httpTestingController = TestBed.inject(HttpTestingController);
   customInjects?.();
