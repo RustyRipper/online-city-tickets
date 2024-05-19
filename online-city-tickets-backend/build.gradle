@@ -13,10 +13,10 @@ java {
 }
 
 sourceSets {
-    integration {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-    }
+	integration {
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.output
+	}
 }
 
 configurations {
@@ -24,7 +24,7 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 	integrationImplementation.extendsFrom implementation
-    integrationRuntimeOnly.extendsFrom runtimeOnly
+	integrationRuntimeOnly.extendsFrom runtimeOnly
 }
 
 repositories {
@@ -66,18 +66,18 @@ tasks.named('test') {
 }
 
 tasks.register('integrationTest', Test) {
-    description = 'Runs integration tests.'
-    group = 'verification'
+	description = 'Runs integration tests.'
+	group = 'verification'
 
-    testClassesDirs = sourceSets.integration.output.classesDirs
-    classpath = sourceSets.integration.runtimeClasspath
-    shouldRunAfter test
+	testClassesDirs = sourceSets.integration.output.classesDirs
+	classpath = sourceSets.integration.runtimeClasspath
+	shouldRunAfter test
 
-    useJUnitPlatform()
+	useJUnitPlatform()
 
-    testLogging {
-        events "passed"
-    }
+	testLogging {
+		events "passed"
+	}
 }
 
 check.dependsOn integrationTest

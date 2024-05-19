@@ -21,11 +21,7 @@ import org.pwr.onlinecityticketsbackend.model.TicketOffer;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
 
 public class TicketOfferMapperTest {
-    private final TicketOfferMapper sut;
-
-    TicketOfferMapperTest() {
-        this.sut = Mappers.getMapper(TicketOfferMapper.class);
-    }
+    private final TicketOfferMapper sut = Mappers.getMapper(TicketOfferMapper.class);
 
     @ParameterizedTest
     @MethodSource("shouldMapToDtoParameterProvider")
