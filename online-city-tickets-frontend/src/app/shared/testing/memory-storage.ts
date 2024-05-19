@@ -1,3 +1,8 @@
+import { SCHEMA } from "../store/schema";
+
+type S = typeof SCHEMA;
+type Initial = { [K in keyof S]?: string } & Record<string, string>;
+
 /**
  * A in-memory implementation of `Storage` for testing purposes.
  * Each instance of `MemoryStorage` is isolated from others.
@@ -5,7 +10,7 @@
 export class MemoryStorage implements Storage {
   private readonly map: Map<string, string>;
 
-  public constructor(initial = {}) {
+  public constructor(initial: Initial = {}) {
     this.map = new Map(Object.entries(initial));
   }
 
