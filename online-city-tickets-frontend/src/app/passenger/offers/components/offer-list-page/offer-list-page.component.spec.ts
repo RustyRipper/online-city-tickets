@@ -1,24 +1,52 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+
+import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
+import { Offer } from "~/passenger/offers/types";
+import { mount } from "~/shared/testing";
 
 import { OfferListPageComponent } from "./offer-list-page.component";
 
-describe("OfferListPageComponent", () => {
-  let component: OfferListPageComponent;
-  let fixture: ComponentFixture<OfferListPageComponent>;
+const offers = [
+  {
+    id: 1,
+    kind: "standard",
+    scope: "single-fare",
+    displayNameEn: "Single fare",
+    displayNamePl: "Jednorazowy",
+    priceGrosze: 100,
+  },
+  {
+    id: 2,
+    kind: "standard",
+    scope: "time-limited",
+    displayNameEn: "24 hours",
+    displayNamePl: "24 godziny",
+    durationMinutes: 24 * 60,
+    priceGrosze: 200,
+  },
+  {
+    id: 3,
+    kind: "reduced",
+    scope: "single-fare",
+    displayNameEn: "Single fare",
+    displayNamePl: "Jednorazowy",
+    priceGrosze: 50,
+  },
+] satisfies Offer[];
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [OfferListPageComponent, HttpClientModule],
-      providers: [{ provide: Storage, useValue: sessionStorage }],
-    }).compileComponents();
+describe(OfferListPageComponent.name, () => {
+  it("should mount", async () => {
+    const { sut } = await mount(OfferListPageComponent);
 
-    fixture = TestBed.createComponent(OfferListPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    expect(sut).toBeTruthy();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  it("should download offers from the API", async () => {
+    const { debug, mockHttp } = await mount(OfferListPageComponent);
+    mockHttp("/offers", offers);
+
+    expect(debug.queryAll(By.directive(OfferCardComponent)).length).toBe(
+      offers.filter((o) => o.kind === "standard").length,
+    );
   });
 });

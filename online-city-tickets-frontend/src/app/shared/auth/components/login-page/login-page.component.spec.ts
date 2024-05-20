@@ -1,25 +1,33 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { mount } from "~/shared/testing";
 
 import { LoginPageComponent } from "./login-page.component";
 
-describe("LoginPageComponent", () => {
-  let component: LoginPageComponent;
-  let fixture: ComponentFixture<LoginPageComponent>;
+describe(LoginPageComponent.name, () => {
+  it("should mount", async () => {
+    const { sut } = await mount(LoginPageComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [LoginPageComponent, RouterModule.forRoot([]), HttpClientModule],
-      providers: [{ provide: Storage, useValue: sessionStorage }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(LoginPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    expect(sut).toBeTruthy();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  it("should allow valid form values", async () => {
+    const { sut } = await mount(LoginPageComponent);
+
+    sut.form.setValue({
+      email: "passenger@tickets.pl",
+      password: "12345678",
+    });
+
+    expect(sut.form.valid).toBeTrue();
+  });
+
+  it("should reject invalid form values", async () => {
+    const { sut } = await mount(LoginPageComponent);
+
+    sut.form.setValue({
+      email: "",
+      password: "",
+    });
+
+    expect(sut.form.valid).toBeFalse();
   });
 });

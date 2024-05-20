@@ -29,7 +29,7 @@ import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 export class LoginPageComponent {
   private status: "idle" | "loading" | "error" = "idle";
 
-  protected readonly form;
+  public readonly form;
 
   public constructor(
     private readonly authService: AuthService,
@@ -50,7 +50,7 @@ export class LoginPageComponent {
     return this.status === "error";
   }
 
-  protected async onSubmit() {
+  public async onSubmit() {
     this.status = "loading";
     const account = await this.authService.login(this.form.getRawValue());
     this.status = account ? "idle" : "error";

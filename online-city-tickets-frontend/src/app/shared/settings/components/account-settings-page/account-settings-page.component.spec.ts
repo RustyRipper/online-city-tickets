@@ -1,22 +1,11 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { mount } from "~/shared/testing";
 
 import { AccountSettingsPageComponent } from "./account-settings-page.component";
 
-describe("AccountSettingsPageComponent", () => {
-  let component: AccountSettingsPageComponent;
-  let fixture: ComponentFixture<AccountSettingsPageComponent>;
+describe(AccountSettingsPageComponent.name, () => {
+  it("should mount", async () => {
+    const { sut } = await mount(AccountSettingsPageComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AccountSettingsPageComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(AccountSettingsPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it("should create", () => {
-    expect(component).toBeTruthy();
+    expect(sut).toBeTruthy();
   });
 });

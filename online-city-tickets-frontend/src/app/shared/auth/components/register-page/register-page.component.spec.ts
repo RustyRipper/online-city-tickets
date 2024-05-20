@@ -1,29 +1,37 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { mount } from "~/shared/testing";
 
 import { RegisterPageComponent } from "./register-page.component";
 
-describe("RegisterPageComponent", () => {
-  let component: RegisterPageComponent;
-  let fixture: ComponentFixture<RegisterPageComponent>;
+describe(RegisterPageComponent.name, () => {
+  it("should mount", async () => {
+    const { sut } = await mount(RegisterPageComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RegisterPageComponent,
-        RouterModule.forRoot([]),
-        HttpClientModule,
-      ],
-      providers: [{ provide: Storage, useValue: sessionStorage }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(RegisterPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    expect(sut).toBeTruthy();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  it("should allow valid form values", async () => {
+    const { sut } = await mount(RegisterPageComponent);
+
+    sut.form.setValue({
+      fullName: "John Doe",
+      email: "passenger@tickets.pl",
+      password: "12345678",
+      repeat: "12345678",
+    });
+
+    expect(sut.form.valid).toBeTrue();
+  });
+
+  it("should reject invalid form values", async () => {
+    const { sut } = await mount(RegisterPageComponent);
+
+    sut.form.setValue({
+      fullName: "John Doe",
+      email: "passenger",
+      password: "123",
+      repeat: "456",
+    });
+
+    expect(sut.form.valid).toBeFalse();
   });
 });

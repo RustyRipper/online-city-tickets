@@ -1,28 +1,19 @@
-import { HttpClientModule } from "@angular/common/http";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterModule } from "@angular/router";
+import { mount } from "~/shared/testing";
 
 import { WalletIndicatorComponent } from "./wallet-indicator.component";
 
-describe("WalletIndicatorComponent", () => {
-  let component: WalletIndicatorComponent;
-  let fixture: ComponentFixture<WalletIndicatorComponent>;
+describe(WalletIndicatorComponent.name, () => {
+  it("should mount", async () => {
+    const { sut } = await mount(WalletIndicatorComponent);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        WalletIndicatorComponent,
-        RouterModule.forRoot([]),
-        HttpClientModule,
-      ],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(WalletIndicatorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    expect(sut).toBeTruthy();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  it("should display the balance", async () => {
+    const { sut, element, mockHttp } = await mount(WalletIndicatorComponent);
+    mockHttp("/account", { type: "passenger", walletBalanceGrosze: 12345 });
+
+    expect(sut.label).toBe("123.45 zł");
+    expect(element.textContent).toContain("123.45 zł");
   });
 });

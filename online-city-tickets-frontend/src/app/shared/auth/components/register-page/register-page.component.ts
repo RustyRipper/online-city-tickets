@@ -37,7 +37,7 @@ const repeatValidator: (name: string) => ValidatorFn = (name) => (control) =>
 export class RegisterPageComponent {
   private status: "idle" | "loading" | "error" = "idle";
 
-  protected readonly form;
+  public readonly form;
 
   public constructor(
     private readonly authService: AuthService,

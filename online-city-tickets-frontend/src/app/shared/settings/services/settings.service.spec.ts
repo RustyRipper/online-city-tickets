@@ -1,18 +1,17 @@
-import { TestBed } from "@angular/core/testing";
+import { provide } from "~/shared/testing";
 
 import { SettingsService } from "./settings.service";
 
-describe("SettingsService", () => {
-  let service: SettingsService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [{ provide: Storage, useValue: sessionStorage }],
+describe(SettingsService.name, () => {
+  it("should read preferences from storage", () => {
+    const { sut } = provide(SettingsService, {
+      storage: {
+        LANGUAGE: JSON.stringify("pl-PL"),
+        THEME: JSON.stringify("dark"),
+      },
     });
-    service = TestBed.inject(SettingsService);
-  });
 
-  it("should be created", () => {
-    expect(service).toBeTruthy();
+    expect(sut.languageCell.value).toBe("pl-PL");
+    expect(sut.themeCell.value).toBe("dark");
   });
 });

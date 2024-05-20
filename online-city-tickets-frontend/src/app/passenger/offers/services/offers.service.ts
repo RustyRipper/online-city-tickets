@@ -1,11 +1,9 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, catchError } from "rxjs";
 
-import type { TicketOfferDto } from "~/generated/api/models";
 import { OffersApi } from "~/generated/api/services";
+import type { Offer } from "~/passenger/offers/types";
 import { StoredCell } from "~/shared/store/stored-cell";
-
-export type Offer = TicketOfferDto;
 
 @Injectable({
   providedIn: "root",
