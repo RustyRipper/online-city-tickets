@@ -22,21 +22,17 @@ public class CreditCardInfo {
 
     @Column(updatable = false, nullable = false, length = 16)
     @Size(max = 16, message = "Card number is too long")
-    @NotNull(message = "Card number is required")
-    private String cardNumber;
+    @NotNull(message = "Card number is required") private String cardNumber;
 
     @Column(nullable = false, length = 5)
     @Size(max = 5, message = "Expiration date is too long")
-    @NotNull(message = "Expiration date is required")
-    private String expirationDate;
+    @NotNull(message = "Expiration date is required") private String expirationDate;
 
     @Column(updatable = false, nullable = false, length = 25)
     @Size(max = 25, message = "Holder name is too long")
-    @NotNull(message = "Holder name is required")
-    private String holderName;
+    @NotNull(message = "Holder name is required") private String holderName;
 
     @ManyToOne
     @JoinColumn(updatable = false, nullable = false, name = "owner_id")
-    @NotNull(message = "Holder name is required")
-    private Passenger owner;
+    @NotNull(message = "Holder name is required") private Passenger owner;
 }

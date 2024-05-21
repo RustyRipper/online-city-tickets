@@ -1,5 +1,6 @@
 package org.pwr.onlinecityticketsbackend.service;
 
+import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Test;
@@ -7,19 +8,15 @@ import org.pwr.onlinecityticketsbackend.mapper.TicketOfferMapper;
 import org.pwr.onlinecityticketsbackend.utils.repository.setup.TicketOfferSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @Transactional
 public class TicketOfferServiceIntegrationTest {
-    @Autowired
-    private TicketOfferMapper ticketOfferMapper;
+    @Autowired private TicketOfferMapper ticketOfferMapper;
 
-    @Autowired
-    private TicketOfferSetup ticketOfferSetup;
+    @Autowired private TicketOfferSetup ticketOfferSetup;
 
-    @Autowired
-    private TicketOfferService sut;
+    @Autowired private TicketOfferService sut;
 
     @Test
     public void shouldReturnNoOffersWhenNoOffersInDatabase() {
@@ -39,9 +36,12 @@ public class TicketOfferServiceIntegrationTest {
         var timeLimitedOffer = ticketOfferSetup.setupTimeLimitedOffer();
         var longTermOffer = ticketOfferSetup.setupLongTermOffer();
 
-        var expectedSingleFareTicketOfferDto = ticketOfferMapper.toSingleFareTicketOfferDto(singleFareOffer);
-        var expectedTimeLimitedTicketOfferDto = ticketOfferMapper.toTimeLimitedTicketOfferDto(timeLimitedOffer);
-        var expectedLongTermTicketOfferDto = ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
+        var expectedSingleFareTicketOfferDto =
+                ticketOfferMapper.toSingleFareTicketOfferDto(singleFareOffer);
+        var expectedTimeLimitedTicketOfferDto =
+                ticketOfferMapper.toTimeLimitedTicketOfferDto(timeLimitedOffer);
+        var expectedLongTermTicketOfferDto =
+                ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
 
         // when
         var result = sut.getOffers();
@@ -49,7 +49,8 @@ public class TicketOfferServiceIntegrationTest {
         // then
         ListAssert.assertThatList(result)
                 .hasSize(3)
-                .containsExactlyInAnyOrder(expectedSingleFareTicketOfferDto,
+                .containsExactlyInAnyOrder(
+                        expectedSingleFareTicketOfferDto,
                         expectedTimeLimitedTicketOfferDto,
                         expectedLongTermTicketOfferDto);
     }
@@ -61,7 +62,8 @@ public class TicketOfferServiceIntegrationTest {
         ticketOfferSetup.setupTimeLimitedOffer(false);
         var longTermOffer = ticketOfferSetup.setupLongTermOffer();
 
-        var expectedLongTermTicketOfferDto = ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
+        var expectedLongTermTicketOfferDto =
+                ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
 
         // when
         var result = sut.getOffers();
@@ -91,9 +93,12 @@ public class TicketOfferServiceIntegrationTest {
         var timeLimitedOffer = ticketOfferSetup.setupTimeLimitedOffer();
         var longTermOffer = ticketOfferSetup.setupLongTermOffer();
 
-        var expectedSingleFareTicketOfferDto = ticketOfferMapper.toSingleFareTicketOfferDto(singleFareOffer);
-        var expectedTimeLimitedTicketOfferDto = ticketOfferMapper.toTimeLimitedTicketOfferDto(timeLimitedOffer);
-        var expectedLongTermTicketOfferDto = ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
+        var expectedSingleFareTicketOfferDto =
+                ticketOfferMapper.toSingleFareTicketOfferDto(singleFareOffer);
+        var expectedTimeLimitedTicketOfferDto =
+                ticketOfferMapper.toTimeLimitedTicketOfferDto(timeLimitedOffer);
+        var expectedLongTermTicketOfferDto =
+                ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
 
         // when
         var singleFareOfferResult = sut.getOfferById(singleFareOffer.getId());

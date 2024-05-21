@@ -5,9 +5,8 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,14 +28,11 @@ import org.pwr.onlinecityticketsbackend.repository.TicketOfferRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class TicketOfferServiceTest {
-    @Mock
-    private TicketOfferRepository ticketOfferRepository;
+    @Mock private TicketOfferRepository ticketOfferRepository;
 
-    @Mock
-    private TicketOfferMapper ticketOfferMapper;
+    @Mock private TicketOfferMapper ticketOfferMapper;
 
-    @InjectMocks
-    private TicketOfferService sut;
+    @InjectMocks private TicketOfferService sut;
 
     @Test
     void shouldGetAllOffers() {
@@ -103,5 +99,4 @@ public class TicketOfferServiceTest {
         // then
         Assertions.assertThat(result).isEmpty();
     }
-
 }

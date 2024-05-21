@@ -1,7 +1,7 @@
 package org.pwr.onlinecityticketsbackend.controller;
 
 import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.service.TicketOfferService;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/offers")

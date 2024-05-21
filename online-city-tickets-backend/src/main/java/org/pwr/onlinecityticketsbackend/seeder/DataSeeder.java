@@ -1,8 +1,7 @@
 package org.pwr.onlinecityticketsbackend.seeder;
 
-import org.springframework.stereotype.Component;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

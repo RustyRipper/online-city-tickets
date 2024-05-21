@@ -3,7 +3,6 @@ package org.pwr.onlinecityticketsbackend.mapper;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,31 +36,41 @@ public class TicketOfferMapperTest {
     static Stream<Arguments> shouldMapToDtoParameterProvider() {
         return Stream.of(
                 Arguments.of(
-                        SingleFareOffer.builder().id(1L).pricePln(BigDecimal.ONE)
-                                .kind(TicketKind.STANDARD).build(),
+                        SingleFareOffer.builder()
+                                .id(1L)
+                                .pricePln(BigDecimal.ONE)
+                                .kind(TicketKind.STANDARD)
+                                .build(),
                         SingleFareTicketOfferDto.class),
                 Arguments.of(
-                        LongTermOffer.builder().id(1L).pricePln(BigDecimal.ONE)
-                                .kind(TicketKind.STANDARD).build(),
+                        LongTermOffer.builder()
+                                .id(1L)
+                                .pricePln(BigDecimal.ONE)
+                                .kind(TicketKind.STANDARD)
+                                .build(),
                         LongTermTicketOfferDto.class),
                 Arguments.of(
-                        TimeLimitedOffer.builder().id(1L).pricePln(BigDecimal.ONE)
+                        TimeLimitedOffer.builder()
+                                .id(1L)
+                                .pricePln(BigDecimal.ONE)
                                 .durationInMinutes(Duration.ofMinutes(1))
-                                .kind(TicketKind.STANDARD).build(),
+                                .kind(TicketKind.STANDARD)
+                                .build(),
                         TimeLimitedTicketOfferDto.class));
     }
 
     @Test
     void shouldMapLongTermOfferToLongTermTicketOfferDto() {
         // given
-        var model = LongTermOffer.builder()
-                .id(1L)
-                .displayNameEn("TestEn")
-                .displayNamePl("TestPl")
-                .intervalInDays(1)
-                .kind(TicketKind.STANDARD)
-                .pricePln(BigDecimal.ONE)
-                .build();
+        var model =
+                LongTermOffer.builder()
+                        .id(1L)
+                        .displayNameEn("TestEn")
+                        .displayNamePl("TestPl")
+                        .intervalInDays(1)
+                        .kind(TicketKind.STANDARD)
+                        .pricePln(BigDecimal.ONE)
+                        .build();
 
         // when
         var result = sut.toLongTermTicketOfferDto(model);
@@ -81,14 +90,15 @@ public class TicketOfferMapperTest {
     @Test
     void shouldMapTimeLimitedOfferToTimeLimitedTicketOfferDto() {
         // given
-        var model = TimeLimitedOffer.builder()
-                .id(1L)
-                .displayNameEn("TestEn")
-                .displayNamePl("TestPl")
-                .kind(TicketKind.STANDARD)
-                .pricePln(BigDecimal.ONE)
-                .durationInMinutes(Duration.ofMinutes(1))
-                .build();
+        var model =
+                TimeLimitedOffer.builder()
+                        .id(1L)
+                        .displayNameEn("TestEn")
+                        .displayNamePl("TestPl")
+                        .kind(TicketKind.STANDARD)
+                        .pricePln(BigDecimal.ONE)
+                        .durationInMinutes(Duration.ofMinutes(1))
+                        .build();
 
         // when
         var result = sut.toTimeLimitedTicketOfferDto(model);
@@ -101,20 +111,22 @@ public class TicketOfferMapperTest {
         Assertions.assertThat(result.getKind()).isEqualTo(model.getKind().toString().toLowerCase());
         Assertions.assertThat(result.getPriceGrosze())
                 .isEqualTo(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue());
-        Assertions.assertThat(result.getDurationMinutes()).isEqualTo(model.getDurationInMinutes().toMinutes());
+        Assertions.assertThat(result.getDurationMinutes())
+                .isEqualTo(model.getDurationInMinutes().toMinutes());
         Assertions.assertThat(result.getScope()).isEqualTo("time-limited");
     }
 
     @Test
     void shouldMapSingleFareOfferToSingleFareTicketOfferDto() {
         // given
-        var model = SingleFareOffer.builder()
-                .id(1L)
-                .displayNameEn("TestEn")
-                .displayNamePl("TestPl")
-                .kind(TicketKind.STANDARD)
-                .pricePln(BigDecimal.ONE)
-                .build();
+        var model =
+                SingleFareOffer.builder()
+                        .id(1L)
+                        .displayNameEn("TestEn")
+                        .displayNamePl("TestPl")
+                        .kind(TicketKind.STANDARD)
+                        .pricePln(BigDecimal.ONE)
+                        .build();
 
         // when
         var result = sut.toSingleFareTicketOfferDto(model);

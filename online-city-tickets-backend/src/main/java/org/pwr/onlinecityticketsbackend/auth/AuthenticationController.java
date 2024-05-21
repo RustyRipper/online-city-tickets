@@ -20,14 +20,15 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register/passenger")
-    public ResponseEntity<?> register(
-            @RequestBody RegisterRequestPassenger registerRequest) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequestPassenger registerRequest) {
         if (isRegisterRequestInvalid(registerRequest)) {
-            return new ResponseEntity<>(new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(
+                    new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
         }
 
         if (accountService.isEmailInUse(registerRequest.getEmail())) {
-            return new ResponseEntity<>(new ErrorResponse("Email already in use."), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(
+                    new ErrorResponse("Email already in use."), HttpStatus.CONFLICT);
         }
 
         AuthenticationResponse register = authenticationService.registerPassenger(registerRequest);
@@ -36,14 +37,15 @@ public class AuthenticationController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register/inspector")
-    public ResponseEntity<?> registerInspector(
-            @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerInspector(@RequestBody RegisterRequest registerRequest) {
         if (isRegisterRequestInvalid(registerRequest)) {
-            return new ResponseEntity<>(new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(
+                    new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
         }
 
         if (accountService.isEmailInUse(registerRequest.getEmail())) {
-            return new ResponseEntity<>(new ErrorResponse("Email already in use."), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(
+                    new ErrorResponse("Email already in use."), HttpStatus.CONFLICT);
         }
 
         AuthenticationResponse register = authenticationService.registerInspector(registerRequest);
@@ -56,13 +58,15 @@ public class AuthenticationController {
         try {
             return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
         } catch (Exception e) {
-            return new ResponseEntity<>(new ErrorResponse("Invalid credentials."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(
+                    new ErrorResponse("Invalid credentials."), HttpStatus.BAD_REQUEST);
         }
     }
 
     // TODO: add more validation
     private static boolean isRegisterRequestInvalid(RegisterRequest registerRequest) {
-        return registerRequest.getEmail() == null || registerRequest.getFullName() == null ||
-                registerRequest.getPassword() == null;
+        return registerRequest.getEmail() == null
+                || registerRequest.getFullName() == null
+                || registerRequest.getPassword() == null;
     }
 }

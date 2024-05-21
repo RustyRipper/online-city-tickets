@@ -6,29 +6,26 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.pwr.onlinecityticketsbackend.model.Account;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
+import org.pwr.onlinecityticketsbackend.model.Account;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
 
     @Value(value = "${jwt.secret}")
     private String SECRET_KEY;
+
     @Value(value = "${jwt.expiration}")
     private int JWT_EXPIRATION;
 
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            Account userDetails) {
-        return Jwts
-                .builder()
+    public String generateToken(Map<String, Object> extraClaims, Account userDetails) {
+        return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -53,8 +50,7 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         try {
-            return Jwts
-                    .parserBuilder()
+            return Jwts.parserBuilder()
                     .setSigningKey(getSignInKey())
                     .build()
                     .parseClaimsJws(token)

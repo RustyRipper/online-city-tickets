@@ -2,12 +2,11 @@ package org.pwr.onlinecityticketsbackend.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 @Data
 @Builder
@@ -21,11 +20,9 @@ public class Validation {
     private Long id;
 
     @Column(updatable = false, nullable = false)
-    @NotNull(message = "Time is required")
-    private Instant time;
+    @NotNull(message = "Time is required") private Instant time;
 
     @ManyToOne
     @JoinColumn(updatable = false, nullable = false, name = "vehicle_id")
-    @NotNull(message = "Vehicle is required")
-    private Vehicle vehicle;
+    @NotNull(message = "Vehicle is required") private Vehicle vehicle;
 }

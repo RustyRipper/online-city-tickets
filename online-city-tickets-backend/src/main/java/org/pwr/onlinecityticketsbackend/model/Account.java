@@ -3,6 +3,8 @@ package org.pwr.onlinecityticketsbackend.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.Collection;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +12,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
 
 @Data
 @Builder
@@ -30,17 +29,14 @@ public class Account implements UserDetails {
     private String email;
 
     @Column(nullable = false)
-    @NotNull(message = "Password is required")
-    private String password;
+    @NotNull(message = "Password is required") private String password;
 
     @Column(nullable = false, length = 50)
     @Size(max = 50, message = "FullName is too long")
-    @NotNull(message = "FullName is required")
-    private String fullName;
+    @NotNull(message = "FullName is required") private String fullName;
 
     @Column(updatable = false, nullable = false, length = 10)
-    @NotNull(message = "Role is required")
-    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Role is required") @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override
