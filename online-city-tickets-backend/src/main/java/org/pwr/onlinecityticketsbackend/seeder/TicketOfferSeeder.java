@@ -1,39 +1,21 @@
-package org.pwr.onlinecityticketsbackend.service;
+package org.pwr.onlinecityticketsbackend.seeder;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 
-import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.model.LongTermOffer;
-import org.pwr.onlinecityticketsbackend.model.Role;
 import org.pwr.onlinecityticketsbackend.model.SingleFareOffer;
 import org.pwr.onlinecityticketsbackend.model.TicketKind;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
-import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
 import org.pwr.onlinecityticketsbackend.repository.TicketOfferRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class DataSeeder {
-    private final AccountRepository accountRepository;
-    private final AccountService accountService;
+public class TicketOfferSeeder {
     private final TicketOfferRepository ticketOfferRepository;
-
-    public void seedAccounts() {
-        accountRepository.save(Account.builder()
-                .email("admin@tickets.pl")
-                .role(Role.valueOf("ADMIN"))
-                .password(new BCryptPasswordEncoder().encode("12345678"))
-                .fullName("Mr Admin")
-                .build());
-
-        accountService.createPassenger("passenger@tickets.pl", "Mr Passenger", "123456789", "12345678");
-        accountService.createInspector("inspector@tickets.pl", "Mr Inspector", "12345678");
-    }
 
     public void seedTicketOffers() {
         seedTicketOffers(TicketKind.STANDARD);

@@ -11,7 +11,7 @@ import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @Transactional
-public class TicketOfferServiceTest {
+public class TicketOfferServiceIntegrationTest {
     @Autowired
     private TicketOfferMapper ticketOfferMapper;
 
