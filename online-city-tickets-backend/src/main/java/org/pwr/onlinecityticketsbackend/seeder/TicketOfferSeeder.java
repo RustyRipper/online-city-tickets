@@ -27,7 +27,7 @@ public class TicketOfferSeeder {
 
         ticketOfferRepository.save(SingleFareOffer.builder()
                 .displayNameEn("Single fare")
-                .displayNamePl("Jednorazowy")
+                .displayNamePl("Jedno razowy")
                 .kind(kind)
                 .pricePln(BigDecimal.valueOf(4.60 * priceMultiplier))
                 .build());

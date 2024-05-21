@@ -22,8 +22,11 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'microsoft'
+          java-version: "21"
+          distribution: "microsoft"
+
+      - name: Check formatting
+        run: ./gradlew spotlessCheck
 
       - name: Run Build
         run: ./gradlew assemble
