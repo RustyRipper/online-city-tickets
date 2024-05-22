@@ -3,23 +3,15 @@
   "java.configuration.updateBuildConfiguration": "automatic",
   "editor.indentSize": 2,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "java.format.enabled": false,
   "[java]": {
-    "files.trimTrailingWhitespace": false,
-    "spotlessGradle.diagnostics.enable": true,
-    "spotlessGradle.format.enable": true,
-    "editor.defaultFormatter": "richardwillis.vscode-spotless-gradle",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.spotlessGradle": "explicit"
-    }
+    "editor.defaultFormatter": null
   },
-  "[gradle]": {
-    "files.trimTrailingWhitespace": false,
-    "spotlessGradle.diagnostics.enable": true,
-    "spotlessGradle.format.enable": true,
-    "editor.defaultFormatter": "richardwillis.vscode-spotless-gradle",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.spotlessGradle": "explicit"
-    }
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.java$",
+        "cmd": "gradle spotlessApply --project-dir ${workspaceFolder}/online-city-tickets-backend"
+      }
+    ]
   }
 }
