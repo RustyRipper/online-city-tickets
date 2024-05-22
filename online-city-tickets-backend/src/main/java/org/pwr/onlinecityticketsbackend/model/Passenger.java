@@ -17,7 +17,8 @@ public class Passenger extends Account {
     @Size(max = 15, message = "Phone number is too long")
     private String phoneNumber;
 
-    @NotNull(message = "Wallet balance is required") @Min(value = 0, message = "Wallet balance must be greater than or equal to 0")
+    @NotNull(message = "Wallet balance is required")
+    @Min(value = 0, message = "Wallet balance must be greater than or equal to 0")
     private BigDecimal walletBalancePln = BigDecimal.ZERO;
 
     @OneToOne

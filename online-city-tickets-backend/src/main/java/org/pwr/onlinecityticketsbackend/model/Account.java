@@ -29,14 +29,17 @@ public class Account implements UserDetails {
     private String email;
 
     @Column(nullable = false)
-    @NotNull(message = "Password is required") private String password;
+    @NotNull(message = "Password is required")
+    private String password;
 
     @Column(nullable = false, length = 50)
     @Size(max = 50, message = "FullName is too long")
-    @NotNull(message = "FullName is required") private String fullName;
+    @NotNull(message = "FullName is required")
+    private String fullName;
 
     @Column(updatable = false, nullable = false, length = 10)
-    @NotNull(message = "Role is required") @Enumerated(EnumType.STRING)
+    @NotNull(message = "Role is required")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override

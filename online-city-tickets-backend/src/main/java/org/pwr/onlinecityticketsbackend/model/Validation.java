@@ -20,9 +20,11 @@ public class Validation {
     private Long id;
 
     @Column(updatable = false, nullable = false)
-    @NotNull(message = "Time is required") private Instant time;
+    @NotNull(message = "Time is required")
+    private Instant time;
 
     @ManyToOne
     @JoinColumn(updatable = false, nullable = false, name = "vehicle_id")
-    @NotNull(message = "Vehicle is required") private Vehicle vehicle;
+    @NotNull(message = "Vehicle is required")
+    private Vehicle vehicle;
 }

@@ -24,10 +24,12 @@ public class Vehicle {
     private Long id;
 
     @Column(nullable = false)
-    @NotNull(message = "IsActive is required") @Builder.Default
+    @NotNull(message = "IsActive is required")
+    @Builder.Default
     private boolean isActive = true;
 
     @Column(updatable = false, nullable = false, length = 10)
     @Size(max = 10, message = "Side number is too long")
-    @NotNull(message = "Side number is required") private String sideNumber;
+    @NotNull(message = "Side number is required")
+    private String sideNumber;
 }

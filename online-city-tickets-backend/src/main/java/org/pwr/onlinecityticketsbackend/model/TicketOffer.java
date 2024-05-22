@@ -26,20 +26,25 @@ public abstract class TicketOffer {
     private Long id;
 
     @Column(nullable = false)
-    @NotNull(message = "IsActive is required") @Builder.Default
+    @NotNull(message = "IsActive is required")
+    @Builder.Default
     private boolean isActive = true;
 
     @Column(nullable = false, length = 50)
     @Size(max = 50, message = "Display name En is too long")
-    @NotNull(message = "Display name En is required") private String displayNameEn;
+    @NotNull(message = "Display name En is required")
+    private String displayNameEn;
 
     @Column(nullable = false, length = 50)
     @Size(max = 50, message = "Display name Pl is too long")
-    @NotNull(message = "Display name Pl is required") private String displayNamePl;
+    @NotNull(message = "Display name Pl is required")
+    private String displayNamePl;
 
     @Column(nullable = false, updatable = false)
-    @NotNull(message = "Ticket kind is required") private TicketKind kind;
+    @NotNull(message = "Ticket kind is required")
+    private TicketKind kind;
 
     @Column(nullable = false, updatable = false)
-    @NotNull(message = "Price Pln is required") private BigDecimal pricePln;
+    @NotNull(message = "Price Pln is required")
+    private BigDecimal pricePln;
 }

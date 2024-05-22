@@ -22,18 +22,22 @@ public class Ticket {
 
     @Column(updatable = false, nullable = false, unique = true, length = 10)
     @Size(max = 10, message = "Code is too long")
-    @NotNull(message = "Side number is required") private String code;
+    @NotNull(message = "Side number is required")
+    private String code;
 
     @Column(updatable = false, nullable = false)
-    @NotNull(message = "Purchase time is required") @Builder.Default
+    @NotNull(message = "Purchase time is required")
+    @Builder.Default
     private Instant purchaseTime = Instant.now();
 
     @JoinColumn(updatable = false, nullable = false, name = "passenger_id")
-    @NotNull(message = "Passenger is required") @ManyToOne
+    @NotNull(message = "Passenger is required")
+    @ManyToOne
     private Passenger passenger;
 
     @JoinColumn(updatable = false, nullable = false, name = "offer_id")
-    @NotNull(message = "Offer is required") @ManyToOne
+    @NotNull(message = "Offer is required")
+    @ManyToOne
     private TicketOffer offer;
 
     @JoinColumn(name = "validation_id")

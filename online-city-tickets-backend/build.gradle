@@ -17,8 +17,7 @@ spotless {
 		endWithNewline()
 	}
 	java {
-		googleJavaFormat('1.21.0').aosp().reflowLongStrings().skipJavadocFormatting()
-		formatAnnotations()
+		googleJavaFormat('1.21.0').aosp()
 
 		if (project.hasProperty('projSpotlessTarget')) {
 			target project.projSpotlessTarget
