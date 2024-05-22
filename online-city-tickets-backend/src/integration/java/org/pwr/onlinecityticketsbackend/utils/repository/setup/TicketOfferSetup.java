@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TicketOfferSetup {
-    @Autowired
-    private TicketOfferRepository ticketOfferRepository;
+    @Autowired private TicketOfferRepository ticketOfferRepository;
 
     public SingleFareOffer setupSingleFareOffer(boolean isActive) {
         var singleFareOffer = TicketOfferGenerator.generateSingleFareOffer();

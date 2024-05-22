@@ -1,10 +1,8 @@
 package org.pwr.onlinecityticketsbackend.utils.generator;
 
-import net.datafaker.Faker;
-
 import java.math.BigDecimal;
 import java.time.Duration;
-
+import net.datafaker.Faker;
 import org.pwr.onlinecityticketsbackend.model.LongTermOffer;
 import org.pwr.onlinecityticketsbackend.model.SingleFareOffer;
 import org.pwr.onlinecityticketsbackend.model.TicketKind;

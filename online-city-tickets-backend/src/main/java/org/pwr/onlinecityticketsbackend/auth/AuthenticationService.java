@@ -37,9 +37,9 @@ public class AuthenticationService {
     protected AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getEmail(),
-                        authenticationRequest.getPassword()));
-        return buildAuthenticationResponse(accountService.getAccountByEmail(authenticationRequest.getEmail()));
+                        authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+        return buildAuthenticationResponse(
+                accountService.getAccountByEmail(authenticationRequest.getEmail()));
     }
 
     private AuthenticationResponse buildAuthenticationResponse(Account account) {

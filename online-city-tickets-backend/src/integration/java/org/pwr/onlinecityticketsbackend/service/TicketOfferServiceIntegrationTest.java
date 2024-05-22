@@ -1,25 +1,24 @@
 package org.pwr.onlinecityticketsbackend.service;
 
+import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ListAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
+import org.pwr.onlinecityticketsbackend.exception.TicketOfferNotFound;
 import org.pwr.onlinecityticketsbackend.mapper.TicketOfferMapper;
 import org.pwr.onlinecityticketsbackend.utils.repository.setup.TicketOfferSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @Transactional
-public class TicketOfferServiceTest {
-    @Autowired
-    private TicketOfferMapper ticketOfferMapper;
+public class TicketOfferServiceIntegrationTest {
+    @Autowired private TicketOfferMapper ticketOfferMapper;
 
-    @Autowired
-    private TicketOfferSetup ticketOfferSetup;
+    @Autowired private TicketOfferSetup ticketOfferSetup;
 
-    @Autowired
-    private TicketOfferService sut;
+    @Autowired private TicketOfferService sut;
 
     @Test
     public void shouldReturnNoOffersWhenNoOffersInDatabase() {
@@ -39,9 +38,12 @@ public class TicketOfferServiceTest {
         var timeLimitedOffer = ticketOfferSetup.setupTimeLimitedOffer();
         var longTermOffer = ticketOfferSetup.setupLongTermOffer();
 
-        var expectedSingleFareTicketOfferDto = ticketOfferMapper.toSingleFareTicketOfferDto(singleFareOffer);
-        var expectedTimeLimitedTicketOfferDto = ticketOfferMapper.toTimeLimitedTicketOfferDto(timeLimitedOffer);
-        var expectedLongTermTicketOfferDto = ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
+        var expectedSingleFareTicketOfferDto =
+                ticketOfferMapper.toSingleFareTicketOfferDto(singleFareOffer);
+        var expectedTimeLimitedTicketOfferDto =
+                ticketOfferMapper.toTimeLimitedTicketOfferDto(timeLimitedOffer);
+        var expectedLongTermTicketOfferDto =
+                ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
 
         // when
         var result = sut.getOffers();
@@ -49,7 +51,8 @@ public class TicketOfferServiceTest {
         // then
         ListAssert.assertThatList(result)
                 .hasSize(3)
-                .containsExactlyInAnyOrder(expectedSingleFareTicketOfferDto,
+                .containsExactlyInAnyOrder(
+                        expectedSingleFareTicketOfferDto,
                         expectedTimeLimitedTicketOfferDto,
                         expectedLongTermTicketOfferDto);
     }
@@ -61,7 +64,8 @@ public class TicketOfferServiceTest {
         ticketOfferSetup.setupTimeLimitedOffer(false);
         var longTermOffer = ticketOfferSetup.setupLongTermOffer();
 
-        var expectedLongTermTicketOfferDto = ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
+        var expectedLongTermTicketOfferDto =
+                ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
 
         // when
         var result = sut.getOffers();
@@ -73,27 +77,30 @@ public class TicketOfferServiceTest {
     }
 
     @Test
-    public void shouldGetNoOfferByIdWhenNoOfferInDatabase() {
+    public void shouldNotGetOfferByIdWhenNoOfferInDatabase() {
         // given
         var id = 1L;
 
         // when
-        var result = sut.getOfferById(id);
+        ThrowingCallable resultCallable = () -> sut.getOfferById(id);
 
         // then
-        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(TicketOfferNotFound.class);
     }
 
     @Test
-    public void shouldGetOfferByIdWhenOfferInDatabase() {
+    public void shouldGetOfferByIdWhenOfferInDatabase() throws TicketOfferNotFound {
         // given
         var singleFareOffer = ticketOfferSetup.setupSingleFareOffer();
         var timeLimitedOffer = ticketOfferSetup.setupTimeLimitedOffer();
         var longTermOffer = ticketOfferSetup.setupLongTermOffer();
 
-        var expectedSingleFareTicketOfferDto = ticketOfferMapper.toSingleFareTicketOfferDto(singleFareOffer);
-        var expectedTimeLimitedTicketOfferDto = ticketOfferMapper.toTimeLimitedTicketOfferDto(timeLimitedOffer);
-        var expectedLongTermTicketOfferDto = ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
+        var expectedSingleFareTicketOfferDto =
+                ticketOfferMapper.toSingleFareTicketOfferDto(singleFareOffer);
+        var expectedTimeLimitedTicketOfferDto =
+                ticketOfferMapper.toTimeLimitedTicketOfferDto(timeLimitedOffer);
+        var expectedLongTermTicketOfferDto =
+                ticketOfferMapper.toLongTermTicketOfferDto(longTermOffer);
 
         // when
         var singleFareOfferResult = sut.getOfferById(singleFareOffer.getId());
@@ -101,14 +108,14 @@ public class TicketOfferServiceTest {
         var longTermOfferResult = sut.getOfferById(longTermOffer.getId());
 
         // then
-        Assertions.assertThat(singleFareOfferResult).isPresent();
-        Assertions.assertThat(singleFareOfferResult).hasValue(expectedSingleFareTicketOfferDto);
+        Assertions.assertThat(singleFareOfferResult).isNotNull();
+        Assertions.assertThat(singleFareOfferResult).isEqualTo(expectedSingleFareTicketOfferDto);
 
-        Assertions.assertThat(timeLimitedOfferResult).isPresent();
-        Assertions.assertThat(timeLimitedOfferResult).hasValue(expectedTimeLimitedTicketOfferDto);
+        Assertions.assertThat(timeLimitedOfferResult).isNotNull();
+        Assertions.assertThat(timeLimitedOfferResult).isEqualTo(expectedTimeLimitedTicketOfferDto);
 
-        Assertions.assertThat(longTermOfferResult).isPresent();
-        Assertions.assertThat(longTermOfferResult).hasValue(expectedLongTermTicketOfferDto);
+        Assertions.assertThat(longTermOfferResult).isNotNull();
+        Assertions.assertThat(longTermOfferResult).isEqualTo(expectedLongTermTicketOfferDto);
     }
 
     @Test
@@ -117,9 +124,9 @@ public class TicketOfferServiceTest {
         var singleFareOffer = ticketOfferSetup.setupSingleFareOffer(false);
 
         // when
-        var result = sut.getOfferById(singleFareOffer.getId());
+        ThrowingCallable resultCallable = () -> sut.getOfferById(singleFareOffer.getId());
 
         // then
-        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(TicketOfferNotFound.class);
     }
 }

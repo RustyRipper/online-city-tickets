@@ -2,8 +2,16 @@
   "java.compile.nullAnalysis.mode": "automatic",
   "java.configuration.updateBuildConfiguration": "automatic",
   "editor.indentSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[java]": {
-    "editor.indentSize": "tabSize"
+    "editor.defaultFormatter": null
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.java$",
+        "cmd": "rf=${relativeFile}; gradle -PprojSpotlessTarget=${rf#*/} spotlessApply --project-dir ${workspaceFolder}/online-city-tickets-backend"
+      }
+    ]
+  }
 }
