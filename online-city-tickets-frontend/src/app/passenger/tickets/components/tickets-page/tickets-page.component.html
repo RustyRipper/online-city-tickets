@@ -1,6 +1,10 @@
 <main>
-  <p>You don't have any active tickets!</p>
+  <p>{{ i18n.t("tickets-page.no-tickets") }}</p>
   <a routerLink="/passenger/offers">
-    <p-button label="View offers" icon="pi pi-shopping-cart" iconPos="right" />
+    <p-button
+      [label]="i18n.t('tickets-page.view-offers')"
+      icon="pi pi-shopping-cart"
+      iconPos="right"
+    />
   </a>
 </main>

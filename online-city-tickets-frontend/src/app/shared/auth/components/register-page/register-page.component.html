@@ -1,8 +1,8 @@
-<app-top-bar title="Register" />
+<app-top-bar [title]="i18n.t('register-page.register')" />
 <main>
   <form [formGroup]="form">
     <div class="field">
-      <label for="fullName">Name</label>
+      <label for="fullName">{{ i18n.t("register-page.name") }}</label>
       <input
         formControlName="fullName"
         id="fullName"
@@ -15,10 +15,10 @@
       *ngIf="form.get('fullName')!.touched && form.get('fullName')!.errors"
       class="error"
     >
-      This is not a valid full name.
+      {{ i18n.t("register-page.invalid-name") }}
     </small>
     <div class="field">
-      <label for="email">Email</label>
+      <label for="email">{{ i18n.t("register-page.email") }}</label>
       <input
         formControlName="email"
         id="email"
@@ -32,10 +32,10 @@
       *ngIf="form.get('email')!.touched && form.get('email')!.errors"
       class="error"
     >
-      This is not a valid email.
+      {{ i18n.t("register-page.invalid-email") }}
     </small>
     <div class="field">
-      <label for="password">Password</label>
+      <label for="password">{{ i18n.t("register-page.password") }}</label>
       <p-password
         formControlName="password"
         inputId="password"
@@ -48,10 +48,10 @@
       *ngIf="form.get('password')!.touched && form.get('password')!.errors"
       class="error"
     >
-      The password is too short.
+      {{ i18n.t("register-page.password-short") }}
     </small>
     <div class="field">
-      <label for="repeat">Repeat</label>
+      <label for="repeat">{{ i18n.t("register-page.repeat") }}</label>
       <p-password
         formControlName="repeat"
         inputId="repeat"
@@ -64,26 +64,28 @@
       *ngIf="form.get('repeat')!.touched && form.get('repeat')!.errors"
       class="error"
     >
-      The passwords do not match.
+      {{ i18n.t("register-page.password-mismatch") }}
     </small>
     <div class="center">
       <p-button
         [disabled]="!form.valid"
         [loading]="isLoading"
         (onClick)="onSubmit()"
-        label="Register"
+        [label]="i18n.t('register-page.submit')"
         type="submit"
         icon="pi pi-user-plus"
         iconPos="right"
       />
     </div>
-    <small *ngIf="isError" class="error">Email already in use.</small>
+    <small *ngIf="isError" class="error">{{
+      i18n.t("register-page.email-taken")
+    }}</small>
   </form>
-  <p-divider [align]="'center'">OR</p-divider>
+  <p-divider [align]="'center'">{{ i18n.t("register-page.or") }}</p-divider>
   <div class="center">
     <a routerLink="/auth/login"
       ><p-button
-        label="Login"
+        [label]="i18n.t('register-page.login')"
         icon="pi pi-sign-in"
         iconPos="right"
         severity="secondary"

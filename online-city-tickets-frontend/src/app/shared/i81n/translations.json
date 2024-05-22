@@ -1,0 +1,194 @@
+{
+  "home-page.home": {
+    "en-US": "Home",
+    "pl-PL": "Ekran główny"
+  },
+  "home-page.tickets": {
+    "en-US": "Tickets",
+    "pl-PL": "Bilety"
+  },
+  "home-page.shop": {
+    "en-US": "Shop",
+    "pl-PL": "Sklep"
+  },
+  "tickets-page.no-tickets": {
+    "en-US": "You don't have any tickets!",
+    "pl-PL": "Nie masz żadnych biletów!"
+  },
+  "tickets-page.view-offers": {
+    "en-US": "View offers",
+    "pl-PL": "Zobacz oferty"
+  },
+  "offer-list-page.standard": {
+    "en-US": "Standard",
+    "pl-PL": "Normalne"
+  },
+  "offer-list-page.reduced": {
+    "en-US": "Reduced",
+    "pl-PL": "Ulgowe"
+  },
+  "offer-list-page.single-fare": {
+    "en-US": "Single fare",
+    "pl-PL": "Jednorazowe"
+  },
+  "offer-list-page.time-limited": {
+    "en-US": "Time limited",
+    "pl-PL": "Czasowe"
+  },
+  "offer-list-page.long-term": {
+    "en-US": "Long term",
+    "pl-PL": "Okresowe"
+  },
+  "offer-card.standard": {
+    "en-US": "Standard",
+    "pl-PL": "Normalny"
+  },
+  "offer-card.reduced": {
+    "en-US": "Reduced",
+    "pl-PL": "Ulgowy"
+  },
+  "wallet-page.wallet": {
+    "en-US": "Wallet",
+    "pl-PL": "Portfel"
+  },
+  "settings-page.settings": {
+    "en-US": "Settings",
+    "pl-PL": "Ustawienia"
+  },
+  "settings-page.account": {
+    "en-US": "Account",
+    "pl-PL": "Konto"
+  },
+  "settings-page.edit": {
+    "en-US": "Edit",
+    "pl-PL": "Edytuj"
+  },
+  "settings-page.switch": {
+    "en-US": "Switch",
+    "pl-PL": "Zmień"
+  },
+  "settings-page.preferences": {
+    "en-US": "Preferences",
+    "pl-PL": "Preferencje"
+  },
+  "settings-page.language": {
+    "en-US": "Language",
+    "pl-PL": "Język"
+  },
+  "settings-page.english": {
+    "en-US": "English",
+    "pl-PL": "Angielski"
+  },
+  "settings-page.polish": {
+    "en-US": "Polish",
+    "pl-PL": "Polski"
+  },
+  "settings-page.theme": {
+    "en-US": "Theme",
+    "pl-PL": "Motyw"
+  },
+  "settings-page.light": {
+    "en-US": "Light",
+    "pl-PL": "Jasny"
+  },
+  "settings-page.dark": {
+    "en-US": "Dark",
+    "pl-PL": "Ciemny"
+  },
+  "account-settings-page.account-settings": {
+    "en-US": "Account settings",
+    "pl-PL": "Ustawienia konta"
+  },
+  "inspector-page.inspector": {
+    "en-US": "Inspector",
+    "pl-PL": "Kontroler"
+  },
+  "login-page.login": {
+    "en-US": "Login",
+    "pl-PL": "Logowanie"
+  },
+  "login-page.email": {
+    "en-US": "Email",
+    "pl-PL": "Email"
+  },
+  "login-page.invalid-email": {
+    "en-US": "This is not a valid email.",
+    "pl-PL": "To nie jest poprawny email."
+  },
+  "login-page.password": {
+    "en-US": "Password",
+    "pl-PL": "Hasło"
+  },
+  "login-page.password-short": {
+    "en-US": "The password is too short.",
+    "pl-PL": "Hasło jest za krótkie."
+  },
+  "login-page.submit": {
+    "en-US": "Login",
+    "pl-PL": "Zaloguj się"
+  },
+  "login-page.invalid-credentials": {
+    "en-US": "Invalid credentials.",
+    "pl-PL": "Nieprawidłowe dane logowania."
+  },
+  "login-page.or": {
+    "en-US": "OR",
+    "pl-PL": "LUB"
+  },
+  "login-page.register": {
+    "en-US": "Register",
+    "pl-PL": "Rejestracja"
+  },
+  "register-page.register": {
+    "en-US": "Register",
+    "pl-PL": "Rejestracja"
+  },
+  "register-page.name": {
+    "en-US": "Name",
+    "pl-PL": "Imię i nazwisko"
+  },
+  "register-page.invalid-name": {
+    "en-US": "This is not a valid full name.",
+    "pl-PL": "To nie jest poprawne imię i nazwisko."
+  },
+  "register-page.email": {
+    "en-US": "Email",
+    "pl-PL": "Email"
+  },
+  "register-page.invalid-email": {
+    "en-US": "This is not a valid email.",
+    "pl-PL": "To nie jest poprawny email."
+  },
+  "register-page.password": {
+    "en-US": "Password",
+    "pl-PL": "Hasło"
+  },
+  "register-page.password-short": {
+    "en-US": "The password is too short.",
+    "pl-PL": "Hasło jest za krótkie."
+  },
+  "register-page.repeat": {
+    "en-US": "Repeat",
+    "pl-PL": "Powtórz"
+  },
+  "register-page.password-mismatch": {
+    "en-US": "The passwords do not match.",
+    "pl-PL": "Hasła nie są takie same."
+  },
+  "register-page.submit": {
+    "en-US": "Register",
+    "pl-PL": "Zarejestruj się"
+  },
+  "register-page.email-taken": {
+    "en-US": "This email is already taken.",
+    "pl-PL": "Ten email jest już zajęty."
+  },
+  "register-page.or": {
+    "en-US": "OR",
+    "pl-PL": "LUB"
+  },
+  "register-page.login": {
+    "en-US": "Login",
+    "pl-PL": "Logowanie"
+  }
+}

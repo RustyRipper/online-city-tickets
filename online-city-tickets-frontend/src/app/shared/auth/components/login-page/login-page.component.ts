@@ -9,6 +9,7 @@ import { PasswordModule } from "primeng/password";
 
 import { AuthService } from "~/shared/auth/services/auth.service";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { I18nService } from "~/shared/i81n/i18n.service";
 
 @Component({
   selector: "app-login-page",
@@ -34,6 +35,7 @@ export class LoginPageComponent {
   public constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
+    protected readonly i18n: I18nService,
     formBuilder: FormBuilder,
   ) {
     this.form = formBuilder.nonNullable.group({

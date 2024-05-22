@@ -1,27 +1,27 @@
-<app-top-bar title="Settings">
+<app-top-bar [title]="i18n.t('settings-page.settings')">
   <app-back-button left />
 </app-top-bar>
 <main>
-  <h2>Account</h2>
+  <h2>{{ i18n.t("settings-page.account") }}</h2>
   <div class="item">
     <a routerLink="account"
       ><p-button
-        label="Edit"
+        [label]="i18n.t('settings-page.edit')"
         icon="pi pi-user-edit"
         iconPos="right"
         text="true"
     /></a>
     <p-button
-      label="Switch"
+      [label]="i18n.t('settings-page.switch')"
       icon="pi pi-sign-out"
       iconPos="right"
       text="true"
       (onClick)="onAccountSwitch()"
     />
   </div>
-  <h2>Preferences</h2>
+  <h2>{{ i18n.t("settings-page.preferences") }}</h2>
   <div class="item">
-    <label>Language</label>
+    <label>{{ i18n.t("settings-page.language") }}</label>
     <p-dropdown
       [options]="languages"
       [(ngModel)]="settingsService.languageCell.value"
@@ -30,7 +30,7 @@
     />
   </div>
   <div class="item">
-    <label>Theme</label>
+    <label>{{ i18n.t("settings-page.theme") }}</label>
     <p-dropdown
       [options]="themes"
       [(ngModel)]="settingsService.themeCell.value"

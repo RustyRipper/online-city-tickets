@@ -6,6 +6,7 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
 import { OffersService } from "~/passenger/offers/services/offers.service";
 import { Offer } from "~/passenger/offers/types";
+import { I18nService } from "~/shared/i81n/i18n.service";
 
 type OfferKindItem = { label: string; value: Offer["kind"] };
 type OfferGroup = {
@@ -15,21 +16,7 @@ type OfferGroup = {
     offers: Offer[];
   };
 }[Offer["scope"]];
-
-const GROUP_ORDER = [
-  {
-    scope: "single-fare",
-    label: "Single fare",
-  },
-  {
-    scope: "time-limited",
-    label: "Time limited",
-  },
-  {
-    scope: "long-term",
-    label: "Long term",
-  },
-] as const;
+type GroupOrder = Omit<OfferGroup, "offers">[];
 
 @Component({
   selector: "app-offer-list-page",
@@ -41,14 +28,32 @@ const GROUP_ORDER = [
 export class OfferListPageComponent implements OnInit {
   private offers: Offer[] = [];
 
+  private readonly groupOrder: GroupOrder = [
+    {
+      scope: "single-fare",
+      label: this.i18n.t("offer-list-page.single-fare"),
+    },
+    {
+      scope: "time-limited",
+      label: this.i18n.t("offer-list-page.time-limited"),
+    },
+    {
+      scope: "long-term",
+      label: this.i18n.t("offer-list-page.long-term"),
+    },
+  ];
+
   protected readonly ticketKinds: OfferKindItem[] = [
-    { label: "Standard", value: "standard" },
-    { label: "Reduced", value: "reduced" },
+    { label: this.i18n.t("offer-list-page.standard"), value: "standard" },
+    { label: this.i18n.t("offer-list-page.reduced"), value: "reduced" },
   ];
 
   protected readonly kindCell = this.offersService.preferredKindCell;
 
-  public constructor(private readonly offersService: OffersService) {}
+  public constructor(
+    private readonly offersService: OffersService,
+    private readonly i18n: I18nService,
+  ) {}
 
   public ngOnInit(): void {
     this.offersService.offers$.subscribe((v) => (this.offers = v));
@@ -57,11 +62,13 @@ export class OfferListPageComponent implements OnInit {
 
   protected get groups(): OfferGroup[] {
     const offers = this.offers.filter((o) => o.kind === this.kindCell.value);
-    return GROUP_ORDER.map((group) => ({
-      ...group,
-      offers: offers
-        .filter((offer) => offer.scope === group.scope)
-        .sort((a, b) => a.priceGrosze - b.priceGrosze),
-    })).filter((group) => group.offers.length > 0);
+    return this.groupOrder
+      .map((group) => ({
+        ...group,
+        offers: offers
+          .filter((offer) => offer.scope === group.scope)
+          .sort((a, b) => a.priceGrosze - b.priceGrosze),
+      }))
+      .filter((group) => group.offers.length > 0);
   }
 }
