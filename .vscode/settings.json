@@ -10,7 +10,7 @@
     "commands": [
       {
         "match": "\\.java$",
-        "cmd": "gradle spotlessApply --project-dir ${workspaceFolder}/online-city-tickets-backend"
+        "cmd": "rf=${relativeFile}; gradle -PprojSpotlessTarget=${rf#*/} spotlessApply --project-dir ${workspaceFolder}/online-city-tickets-backend"
       }
     ]
   }

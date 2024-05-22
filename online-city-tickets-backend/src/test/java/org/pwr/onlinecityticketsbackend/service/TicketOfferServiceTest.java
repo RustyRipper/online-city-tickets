@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ListAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,6 +20,7 @@ import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.dto.LongTermTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.dto.SingleFareTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.dto.TimeLimitedTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.exception.TicketOfferNotFound;
 import org.pwr.onlinecityticketsbackend.mapper.TicketOfferMapper;
 import org.pwr.onlinecityticketsbackend.model.LongTermOffer;
 import org.pwr.onlinecityticketsbackend.model.SingleFareOffer;
@@ -71,7 +73,7 @@ public class TicketOfferServiceTest {
 
     @ParameterizedTest
     @MethodSource("shouldGetOfferByIdParameterProvider")
-    void shouldGetOfferById(TicketOffer model, BaseTicketOfferDto dto) {
+    void shouldGetOfferById(TicketOffer model, BaseTicketOfferDto dto) throws TicketOfferNotFound {
         // when
         when(ticketOfferRepository.existsById(1L)).thenReturn(true);
         when(ticketOfferRepository.findById(1L)).thenReturn(Optional.of(model));
@@ -80,8 +82,8 @@ public class TicketOfferServiceTest {
         var result = sut.getOfferById(1L);
 
         // then
-        Assertions.assertThat(result).isPresent();
-        Assertions.assertThat(result).hasValue(dto);
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isEqualTo(dto);
     }
 
     static Stream<Arguments> shouldGetOfferByIdParameterProvider() {
@@ -94,9 +96,9 @@ public class TicketOfferServiceTest {
     @Test
     void shouldNotGetOfferByIdWhenNotExists() {
         // when
-        var result = sut.getOfferById(0L);
+        ThrowingCallable resultCallable = () -> sut.getOfferById(0L);
 
         // then
-        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(TicketOfferNotFound.class);
     }
 }

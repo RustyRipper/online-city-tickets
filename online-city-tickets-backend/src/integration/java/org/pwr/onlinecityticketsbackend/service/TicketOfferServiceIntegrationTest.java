@@ -3,7 +3,9 @@ package org.pwr.onlinecityticketsbackend.service;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ListAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
+import org.pwr.onlinecityticketsbackend.exception.TicketOfferNotFound;
 import org.pwr.onlinecityticketsbackend.mapper.TicketOfferMapper;
 import org.pwr.onlinecityticketsbackend.utils.repository.setup.TicketOfferSetup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,19 +77,19 @@ public class TicketOfferServiceIntegrationTest {
     }
 
     @Test
-    public void shouldGetNoOfferByIdWhenNoOfferInDatabase() {
+    public void shouldNotGetOfferByIdWhenNoOfferInDatabase() {
         // given
         var id = 1L;
 
         // when
-        var result = sut.getOfferById(id);
+        ThrowingCallable resultCallable = () -> sut.getOfferById(id);
 
         // then
-        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(TicketOfferNotFound.class);
     }
 
     @Test
-    public void shouldGetOfferByIdWhenOfferInDatabase() {
+    public void shouldGetOfferByIdWhenOfferInDatabase() throws TicketOfferNotFound {
         // given
         var singleFareOffer = ticketOfferSetup.setupSingleFareOffer();
         var timeLimitedOffer = ticketOfferSetup.setupTimeLimitedOffer();
@@ -106,14 +108,14 @@ public class TicketOfferServiceIntegrationTest {
         var longTermOfferResult = sut.getOfferById(longTermOffer.getId());
 
         // then
-        Assertions.assertThat(singleFareOfferResult).isPresent();
-        Assertions.assertThat(singleFareOfferResult).hasValue(expectedSingleFareTicketOfferDto);
+        Assertions.assertThat(singleFareOfferResult).isNotNull();
+        Assertions.assertThat(singleFareOfferResult).isEqualTo(expectedSingleFareTicketOfferDto);
 
-        Assertions.assertThat(timeLimitedOfferResult).isPresent();
-        Assertions.assertThat(timeLimitedOfferResult).hasValue(expectedTimeLimitedTicketOfferDto);
+        Assertions.assertThat(timeLimitedOfferResult).isNotNull();
+        Assertions.assertThat(timeLimitedOfferResult).isEqualTo(expectedTimeLimitedTicketOfferDto);
 
-        Assertions.assertThat(longTermOfferResult).isPresent();
-        Assertions.assertThat(longTermOfferResult).hasValue(expectedLongTermTicketOfferDto);
+        Assertions.assertThat(longTermOfferResult).isNotNull();
+        Assertions.assertThat(longTermOfferResult).isEqualTo(expectedLongTermTicketOfferDto);
     }
 
     @Test
@@ -122,9 +124,9 @@ public class TicketOfferServiceIntegrationTest {
         var singleFareOffer = ticketOfferSetup.setupSingleFareOffer(false);
 
         // when
-        var result = sut.getOfferById(singleFareOffer.getId());
+        ThrowingCallable resultCallable = () -> sut.getOfferById(singleFareOffer.getId());
 
         // then
-        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(TicketOfferNotFound.class);
     }
 }

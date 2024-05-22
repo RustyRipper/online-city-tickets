@@ -10,16 +10,22 @@ group = 'org.pwr'
 version = '0.0.1-SNAPSHOT'
 
 spotless {
-format 'misc', {
-	target '*.gradle', '.gitattributes', '.gitignore'
-	trimTrailingWhitespace()
-	indentWithTabs()
-	endWithNewline()
-}
-java {
-	googleJavaFormat('1.21.0').aosp().reflowLongStrings().skipJavadocFormatting()
-	formatAnnotations()
-}
+	format 'misc', {
+		target '*.gradle', '.gitattributes', '.gitignore'
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+	}
+	java {
+		googleJavaFormat('1.21.0').aosp().reflowLongStrings().skipJavadocFormatting()
+		formatAnnotations()
+
+		if (project.hasProperty('projSpotlessTarget')) {
+			target project.projSpotlessTarget
+		} else {
+			target 'src/*/java/**/*.java'
+		}
+	}
 }
 
 java {

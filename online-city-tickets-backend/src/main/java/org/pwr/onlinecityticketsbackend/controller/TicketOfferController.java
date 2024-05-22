@@ -3,6 +3,7 @@ package org.pwr.onlinecityticketsbackend.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.exception.TicketOfferNotFound;
 import org.pwr.onlinecityticketsbackend.service.TicketOfferService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +23,8 @@ public class TicketOfferController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<? extends BaseTicketOfferDto> getOfferById(@PathVariable long id) {
-        var offer = ticketOfferService.getOfferById(id);
-        return offer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<? extends BaseTicketOfferDto> getOfferById(@PathVariable long id)
+            throws TicketOfferNotFound {
+        return ResponseEntity.ok(ticketOfferService.getOfferById(id));
     }
 }
