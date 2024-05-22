@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 
 public class TicketOfferNotFound extends RestApiException {
     public TicketOfferNotFound() {
-        super(HttpStatus.NOT_FOUND, "Ticket offer not found.");
+        super(HttpStatus.NOT_FOUND, "TICKET_OFFER_NOT_FOUND");
     }
 }

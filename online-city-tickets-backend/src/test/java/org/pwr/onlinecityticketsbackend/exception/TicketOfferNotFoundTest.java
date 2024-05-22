@@ -11,6 +11,6 @@ public class TicketOfferNotFoundTest {
     public void shouldTicketOfferNotFoundBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(Exception.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.NOT_FOUND);
-        Assertions.assertThat(sut.getDescription()).isEqualTo("Ticket offer not found.");
+        Assertions.assertThat(sut.getDescription()).isEqualTo("TICKET_OFFER_NOT_FOUND");
     }
 }
