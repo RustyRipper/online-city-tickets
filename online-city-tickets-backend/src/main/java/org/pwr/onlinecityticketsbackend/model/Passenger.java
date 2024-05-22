@@ -21,7 +21,7 @@ public class Passenger extends Account {
     @Min(value = 0, message = "Wallet balance must be greater than or equal to 0")
     private BigDecimal walletBalancePln = BigDecimal.ZERO;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_credit_card_id")
     private CreditCardInfo defaultCreditCard;
 }

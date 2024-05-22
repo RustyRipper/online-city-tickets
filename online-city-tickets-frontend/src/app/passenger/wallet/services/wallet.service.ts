@@ -32,8 +32,6 @@ export class WalletService {
       .getAccount()
       .pipe(
         mergeMap((account) => {
-          // FIXME: remove this once backend is updated
-          account = AuthService.fixAccountObject(account);
           return account.type === "passenger"
             ? of(account.walletBalanceGrosze)
             : EMPTY;
