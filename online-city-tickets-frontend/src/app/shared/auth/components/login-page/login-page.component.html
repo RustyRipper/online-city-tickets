@@ -1,8 +1,8 @@
-<app-top-bar title="Login" />
+<app-top-bar [title]="i18n.t('login-page.login')" />
 <main>
   <form [formGroup]="form">
     <div class="field">
-      <label for="email">Email</label>
+      <label for="email">{{ i18n.t("login-page.email") }}</label>
       <input
         formControlName="email"
         id="email"
@@ -16,10 +16,10 @@
       *ngIf="form.get('email')!.touched && form.get('email')!.errors"
       class="error"
     >
-      This is not a valid email.
+      {{ i18n.t("login-page.invalid-email") }}
     </small>
     <div class="field">
-      <label for="password">Password</label>
+      <label for="password">{{ i18n.t("login-page.password") }}</label>
       <p-password
         formControlName="password"
         inputId="password"
@@ -32,26 +32,28 @@
       *ngIf="form.get('password')!.touched && form.get('password')!.errors"
       class="error"
     >
-      The password is too short.
+      {{ i18n.t("login-page.password-short") }}
     </small>
     <div class="center">
       <p-button
         [disabled]="!form.valid"
         [loading]="isLoading"
         (onClick)="onSubmit()"
-        label="Login"
+        [label]="i18n.t('login-page.submit')"
         type="submit"
         icon="pi pi-sign-in"
         iconPos="right"
       />
     </div>
-    <small *ngIf="isError" class="error">Invalid credentials.</small>
+    <small *ngIf="isError" class="error">{{
+      i18n.t("login-page.invalid-credentials")
+    }}</small>
   </form>
-  <p-divider [align]="'center'">OR</p-divider>
+  <p-divider [align]="'center'">{{ i18n.t("login-page.or") }}</p-divider>
   <div class="center">
     <a routerLink="/auth/register"
       ><p-button
-        label="Register"
+        [label]="i18n.t('login-page.register')"
         icon="pi pi-user-plus"
         iconPos="right"
         severity="secondary"
