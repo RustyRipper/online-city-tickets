@@ -1,7 +1,9 @@
 package org.pwr.onlinecityticketsbackend.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.pwr.onlinecityticketsbackend.model.ErrorResponse;
+import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
+import org.pwr.onlinecityticketsbackend.exception.AuthenticationEmailInUse;
+import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
 import org.pwr.onlinecityticketsbackend.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +22,13 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register/passenger")
-    public ResponseEntity<?> register(@RequestBody RegisterRequestPassenger registerRequest) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequestPassenger registerRequest)
+            throws AuthenticationInvalidRequest, AuthenticationEmailInUse {
         if (isRegisterRequestInvalid(registerRequest)) {
-            return new ResponseEntity<>(
-                    new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
+            throw new AuthenticationInvalidRequest();
         }
-
         if (accountService.isEmailInUse(registerRequest.getEmail())) {
-            return new ResponseEntity<>(
-                    new ErrorResponse("Email already in use."), HttpStatus.CONFLICT);
+            throw new AuthenticationEmailInUse();
         }
 
         AuthenticationResponse register = authenticationService.registerPassenger(registerRequest);
@@ -37,15 +37,13 @@ public class AuthenticationController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register/inspector")
-    public ResponseEntity<?> registerInspector(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerInspector(@RequestBody RegisterRequest registerRequest)
+            throws AuthenticationInvalidRequest, AuthenticationEmailInUse {
         if (isRegisterRequestInvalid(registerRequest)) {
-            return new ResponseEntity<>(
-                    new ErrorResponse("Invalid request body."), HttpStatus.BAD_REQUEST);
+            throw new AuthenticationInvalidRequest();
         }
-
         if (accountService.isEmailInUse(registerRequest.getEmail())) {
-            return new ResponseEntity<>(
-                    new ErrorResponse("Email already in use."), HttpStatus.CONFLICT);
+            throw new AuthenticationEmailInUse();
         }
 
         AuthenticationResponse register = authenticationService.registerInspector(registerRequest);
@@ -53,14 +51,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(
-            @RequestBody AuthenticationRequest authenticationRequest) {
-        try {
-            return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
-        } catch (Exception e) {
-            return new ResponseEntity<>(
-                    new ErrorResponse("Invalid credentials."), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest)
+            throws AccountNotFound {
+        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
 
     // TODO: add more validation

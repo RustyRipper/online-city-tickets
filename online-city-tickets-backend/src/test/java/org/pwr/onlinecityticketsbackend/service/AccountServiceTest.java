@@ -1,0 +1,146 @@
+package org.pwr.onlinecityticketsbackend.service;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+import java.util.Optional;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
+import org.pwr.onlinecityticketsbackend.model.Account;
+import org.pwr.onlinecityticketsbackend.model.Inspector;
+import org.pwr.onlinecityticketsbackend.model.Passenger;
+import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
+import org.pwr.onlinecityticketsbackend.repository.InspectorRepository;
+import org.pwr.onlinecityticketsbackend.repository.PassengerRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@ExtendWith(MockitoExtension.class)
+public class AccountServiceTest {
+    @Mock private PassengerRepository passengerRepository;
+    @Mock private AccountRepository accountRepository;
+    @Mock private PasswordEncoder passwordEncoder;
+    @Mock private InspectorRepository inspectorRepository;
+
+    @InjectMocks private AccountService sut;
+
+    @Test
+    void shouldGetAllAccounts() {
+        // given
+        var account1 = new Account();
+        var account2 = new Account();
+
+        // when
+        when(accountRepository.findAll()).thenReturn(List.of(account1, account2));
+        var result = sut.getAllAccounts();
+
+        // then
+        Assertions.assertThat(result).hasSize(2).containsExactlyInAnyOrder(account1, account2);
+    }
+
+    @Test
+    void shouldCreatePassenger() {
+        // given
+        var passenger = new Passenger();
+        passenger.setFullName("fullname");
+        passenger.setEmail("email");
+        passenger.setPhoneNumber("phoneNumber");
+        passenger.setPassword("password");
+
+        // when
+        when(passengerRepository.save(any(Passenger.class))).thenReturn(passenger);
+        var result = sut.createPassenger("email", "fullname", "phoneNumber", "password");
+
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getFullName()).isEqualTo("fullname");
+        Assertions.assertThat(result.getEmail()).isEqualTo("email");
+        Assertions.assertThat(result.getPhoneNumber()).isEqualTo("phoneNumber");
+    }
+
+    @Test
+    void shouldCreateInspector() {
+        // given
+        var inspector = new Inspector();
+        inspector.setFullName("fullname");
+        inspector.setEmail("email");
+        inspector.setPassword("password");
+
+        // when
+        when(inspectorRepository.save(any(Inspector.class))).thenReturn(inspector);
+        var result = sut.createInspector("email", "fullname", "password");
+
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getFullName()).isEqualTo("fullname");
+        Assertions.assertThat(result.getEmail()).isEqualTo("email");
+    }
+
+    @Test
+    void shouldGetAccountByEmail() throws AccountNotFound {
+        // given
+        var account = new Account();
+        account.setEmail("email");
+
+        // when
+        when(accountRepository.findByEmail(anyString())).thenReturn(Optional.of(account));
+        var result = sut.getAccountByEmail("email");
+
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getEmail()).isEqualTo("email");
+    }
+
+    @Test
+    void shouldThrowAccountNotFoundWhenEmailNotExists() {
+        // when
+        when(accountRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        ThrowableAssert.ThrowingCallable resultCallable = () -> sut.getAccountByEmail("email");
+
+        // then
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(AccountNotFound.class);
+    }
+
+    @Test
+    void shouldCheckEmailInUse() {
+        // when
+        when(accountRepository.findByEmail(anyString())).thenReturn(Optional.of(new Account()));
+        var result = sut.isEmailInUse("email");
+
+        // then
+        Assertions.assertThat(result).isTrue();
+    }
+
+    @Test
+    void shouldGetAccountById() throws AccountNotFound {
+        // given
+        var account = new Account();
+        account.setId(1L);
+
+        // when
+        when(accountRepository.findById(anyLong())).thenReturn(Optional.of(account));
+        var result = sut.getAccountById(1L);
+
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getId()).isEqualTo(1L);
+    }
+
+    @Test
+    void shouldThrowAccountNotFoundWhenIdNotExists() {
+        // when
+        when(accountRepository.findById(anyLong())).thenReturn(Optional.empty());
+        ThrowableAssert.ThrowingCallable resultCallable = () -> sut.getAccountById(1L);
+
+        // then
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(AccountNotFound.class);
+    }
+}

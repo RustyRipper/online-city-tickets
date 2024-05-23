@@ -2,6 +2,7 @@ package org.pwr.onlinecityticketsbackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
+import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
 import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
 import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.model.ErrorResponse;
@@ -23,7 +24,7 @@ public class AccountController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'INSPECTOR')")
     @GetMapping
-    public ResponseEntity<?> getAccount() {
+    public ResponseEntity<?> getAccount() throws AccountNotFound {
         Account account = RequestContext.getAccountFromRequest();
         assert account != null;
         if (account.getRole().equals(Role.ADMIN)) {

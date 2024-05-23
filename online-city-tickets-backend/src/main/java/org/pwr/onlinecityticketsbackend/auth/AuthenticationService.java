@@ -3,6 +3,7 @@ package org.pwr.onlinecityticketsbackend.auth;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
 import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.service.AccountService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +18,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    protected AuthenticationResponse registerPassenger(RegisterRequestPassenger registerRequest) {
+    public AuthenticationResponse registerPassenger(RegisterRequestPassenger registerRequest) {
         return buildAuthenticationResponse(
                 accountService.createPassenger(
                         registerRequest.getEmail(),
@@ -26,7 +27,7 @@ public class AuthenticationService {
                         registerRequest.getPassword()));
     }
 
-    protected AuthenticationResponse registerInspector(RegisterRequest registerRequest) {
+    public AuthenticationResponse registerInspector(RegisterRequest registerRequest) {
         return buildAuthenticationResponse(
                 accountService.createInspector(
                         registerRequest.getEmail(),
@@ -34,7 +35,8 @@ public class AuthenticationService {
                         registerRequest.getPassword()));
     }
 
-    protected AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest)
+            throws AccountNotFound {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getEmail(), authenticationRequest.getPassword()));
