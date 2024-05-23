@@ -1,5 +1,7 @@
 package org.pwr.onlinecityticketsbackend.service;
 
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
@@ -10,9 +12,6 @@ import org.pwr.onlinecityticketsbackend.repository.InspectorRepository;
 import org.pwr.onlinecityticketsbackend.repository.PassengerRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +29,12 @@ public class AccountService {
         return inspectorRepository.findAll();
     }
 
-    public Optional<Account> getCurrentAccountById(Long id){
+    public Optional<Account> getCurrentAccountById(Long id) {
         return accountRepository.findById(id);
     }
 
-    public Passenger createPassenger(String email, String fullname, String phoneNumber, String password) {
+    public Passenger createPassenger(
+            String email, String fullname, String phoneNumber, String password) {
         Passenger passenger = new Passenger();
         passenger.setFullName(fullname);
         passenger.setEmail(email);
@@ -54,17 +54,18 @@ public class AccountService {
     }
 
     public Account getAccountByEmail(String email) {
-        return accountRepository.findByEmail(email)
+        return accountRepository
+                .findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
-
     }
+
     public boolean isEmailInUse(String email) {
         return accountRepository.findByEmail(email).isPresent();
     }
 
     public Account getAccountById(Long id) {
-        return accountRepository.findById(id)
+        return accountRepository
+                .findById(id)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
-
     }
 }

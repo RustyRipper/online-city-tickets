@@ -2,12 +2,11 @@ package org.pwr.onlinecityticketsbackend.mapper;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
-import org.mapstruct.InjectionStrategy;
 import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.dto.LongTermTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.dto.SingleFareTicketOfferDto;
@@ -18,7 +17,9 @@ import org.pwr.onlinecityticketsbackend.model.TicketKind;
 import org.pwr.onlinecityticketsbackend.model.TicketOffer;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(
+        componentModel = MappingConstants.ComponentModel.SPRING,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface TicketOfferMapper {
     default BaseTicketOfferDto toDto(TicketOffer ticketOffer) {
         return switch (ticketOffer) {
@@ -39,7 +40,10 @@ public interface TicketOfferMapper {
 
     @Mapping(source = "pricePln", target = "priceGrosze", qualifiedByName = "pricePlnToGrosze")
     @Mapping(source = "kind", target = "kind", qualifiedByName = "kindToString")
-    @Mapping(source = "durationInMinutes", target = "durationMinutes", qualifiedByName = "durationInMinutes")
+    @Mapping(
+            source = "durationInMinutes",
+            target = "durationMinutes",
+            qualifiedByName = "durationInMinutes")
     TimeLimitedTicketOfferDto toTimeLimitedTicketOfferDto(TimeLimitedOffer timeLimitedOffer);
 
     @Named("pricePlnToGrosze")

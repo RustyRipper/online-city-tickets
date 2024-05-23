@@ -11,5 +11,4 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @SuperBuilder
 @NoArgsConstructor
-public class SingleFareOffer extends TicketOffer {
-}
+public class SingleFareOffer extends TicketOffer {}

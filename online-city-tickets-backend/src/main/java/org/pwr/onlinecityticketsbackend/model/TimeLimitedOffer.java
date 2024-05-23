@@ -3,13 +3,12 @@ package org.pwr.onlinecityticketsbackend.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotNull;
+import java.time.Duration;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.time.Duration;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
