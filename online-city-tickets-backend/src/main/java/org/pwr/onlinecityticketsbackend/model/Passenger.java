@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Cascade;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -25,9 +24,4 @@ public class Passenger extends Account {
     @Min(value = 0, message = "Wallet balance must be greater than or equal to 0")
     @Builder.Default
     private BigDecimal walletBalancePln = BigDecimal.ZERO;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "default_credit_card_id")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private CreditCardInfo defaultCreditCard;
 }

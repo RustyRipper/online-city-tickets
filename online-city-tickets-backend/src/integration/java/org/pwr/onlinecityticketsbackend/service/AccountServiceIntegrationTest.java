@@ -32,8 +32,6 @@ public class AccountServiceIntegrationTest {
         Assertions.assertThat(result.getPhoneNumber()).isEqualTo(passenger.getPhoneNumber());
         Assertions.assertThat(result.getEmail()).isEqualTo(passenger.getEmail());
         Assertions.assertThat(result.getRole()).isEqualTo(Role.PASSENGER);
-        Assertions.assertThat(result.getDefaultCreditCard())
-                .isEqualTo(passenger.getDefaultCreditCard());
         Assertions.assertThat(result.getWalletBalancePln())
                 .isEqualTo(passenger.getWalletBalancePln());
     }

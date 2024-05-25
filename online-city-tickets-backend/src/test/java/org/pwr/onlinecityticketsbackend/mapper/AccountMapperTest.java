@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.pwr.onlinecityticketsbackend.dto.InspectorDto;
+import org.pwr.onlinecityticketsbackend.dto.PassengerDto;
 import org.pwr.onlinecityticketsbackend.model.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -13,7 +15,6 @@ public class AccountMapperTest {
     @Test
     void shouldMapPassengerToAccountDto() {
         // given
-        var creditCardModel = CreditCardInfo.builder().id(1L).build();
 
         var model =
                 Passenger.builder()
@@ -21,14 +22,13 @@ public class AccountMapperTest {
                         .email("passenger@example.com")
                         .fullName("Passenger Name")
                         .phoneNumber("123456789")
-                        .defaultCreditCard(creditCardModel)
                         .walletBalancePln(new BigDecimal("100.00"))
                         .password(new BCryptPasswordEncoder().encode("password"))
                         .role(Role.PASSENGER)
                         .build();
 
         // when
-        var result = sut.toDto(model);
+        var result = (PassengerDto) sut.toDto(model);
 
         // then
         Assertions.assertThat(result).isNotNull();
@@ -36,7 +36,6 @@ public class AccountMapperTest {
         Assertions.assertThat(result.getFullName()).isEqualTo(model.getFullName());
         Assertions.assertThat(result.getPhoneNumber()).isEqualTo(model.getPhoneNumber());
         Assertions.assertThat(result.getType()).isEqualTo(model.getRole().toString().toLowerCase());
-        Assertions.assertThat(result.getDefaultCreditCardId()).isEqualTo(creditCardModel.getId());
         Assertions.assertThat(result.getWalletBalanceGrosze())
                 .isEqualTo(
                         model.getWalletBalancePln().multiply(BigDecimal.valueOf(100)).intValue());
@@ -55,7 +54,7 @@ public class AccountMapperTest {
                         .build();
 
         // when
-        var result = sut.toDto(model);
+        var result = (InspectorDto) sut.toDto(model);
 
         // then
         Assertions.assertThat(result).isNotNull();

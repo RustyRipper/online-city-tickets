@@ -1,16 +1,15 @@
 package org.pwr.onlinecityticketsbackend.dto;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountDto {
+public abstract sealed class AccountDto permits PassengerDto, InspectorDto {
     private String email;
     private String fullName;
     private String type;
     private String phoneNumber;
-    private double walletBalanceGrosze;
-    private long defaultCreditCardId;
 }

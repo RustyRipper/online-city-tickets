@@ -1,8 +1,7 @@
 package org.pwr.onlinecityticketsbackend.utils.generator;
 
 import java.math.BigDecimal;
-import java.util.concurrent.atomic.AtomicLong;
-import org.pwr.onlinecityticketsbackend.model.CreditCardInfo;
+import net.datafaker.Faker;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
 import org.pwr.onlinecityticketsbackend.model.Role;
@@ -11,34 +10,24 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AccountGenerator {
-    private static final AtomicLong counter = new AtomicLong();
+    private static final Faker faker = new Faker();
 
     public Passenger generatePassenger() {
-        Passenger passenger =
-                Passenger.builder()
-                        .email("passenger" + counter.incrementAndGet() + "@example.com")
-                        .fullName("Passenger " + counter.get())
-                        .phoneNumber("123456789")
-                        .password(new BCryptPasswordEncoder().encode("password"))
-                        .walletBalancePln(new BigDecimal("1.0"))
-                        .role(Role.PASSENGER)
-                        .build();
-        passenger.setDefaultCreditCard(
-                CreditCardInfo.builder()
-                        .owner(passenger)
-                        .cardNumber("1234567890123456")
-                        .expirationDate("12/23")
-                        .holderName("123")
-                        .label("default")
-                        .build());
-        return passenger;
+        return Passenger.builder()
+                .email(faker.lorem().word() + "@example.com")
+                .fullName(faker.lorem().word())
+                .phoneNumber(faker.numerify("89#########"))
+                .password(new BCryptPasswordEncoder().encode(faker.lorem().word()))
+                .walletBalancePln(BigDecimal.valueOf(faker.number().randomDouble(2, 0, 1000)))
+                .role(Role.PASSENGER)
+                .build();
     }
 
     public Inspector generateInspector() {
         return Inspector.builder()
-                .email("inspector" + counter.incrementAndGet() + "@example.com")
-                .fullName("Inspector " + counter.get())
-                .password(new BCryptPasswordEncoder().encode("password"))
+                .email(faker.lorem().word() + "@example.com")
+                .fullName(faker.lorem().word())
+                .password(new BCryptPasswordEncoder().encode(faker.lorem().word()))
                 .role(Role.INSPECTOR)
                 .build();
     }

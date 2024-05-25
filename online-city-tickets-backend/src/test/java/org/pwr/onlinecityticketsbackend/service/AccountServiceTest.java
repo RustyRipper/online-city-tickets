@@ -1,8 +1,11 @@
 package org.pwr.onlinecityticketsbackend.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -14,13 +17,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.pwr.onlinecityticketsbackend.config.RequestContext;
+import org.pwr.onlinecityticketsbackend.dto.AccountDto;
+import org.pwr.onlinecityticketsbackend.dto.PassengerDto;
 import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
+import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
 import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
+import org.pwr.onlinecityticketsbackend.model.Role;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
 import org.pwr.onlinecityticketsbackend.repository.InspectorRepository;
 import org.pwr.onlinecityticketsbackend.repository.PassengerRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +40,7 @@ public class AccountServiceTest {
     @Mock private AccountRepository accountRepository;
     @Mock private PasswordEncoder passwordEncoder;
     @Mock private InspectorRepository inspectorRepository;
+    @Mock private AccountMapper accountMapper;
 
     @InjectMocks private AccountService sut;
 
@@ -142,5 +154,47 @@ public class AccountServiceTest {
 
         // then
         Assertions.assertThatThrownBy(resultCallable).isInstanceOf(AccountNotFound.class);
+    }
+
+    @Test
+    public void testGetCurrentAccountByEmail() throws AccountNotFound {
+        Account account = new Account();
+        account.setEmail("test@test.com");
+        account.setRole(Role.PASSENGER);
+
+        AccountDto accountDto = new PassengerDto();
+        accountDto.setEmail("test@test.com");
+
+        Authentication authentication = mock(Authentication.class);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getPrincipal()).thenReturn(account);
+
+        when(accountRepository.findByEmail(account.getEmail())).thenReturn(Optional.of(account));
+        when(accountMapper.toDto(account)).thenReturn(accountDto);
+
+        PassengerDto result = (PassengerDto) sut.getCurrentAccountByEmail();
+
+        assertEquals("test@test.com", result.getEmail());
+    }
+
+    @Test
+    public void testGetCurrentAccountByEmail_ThrowsAccountNotFound() {
+        Account account = new Account();
+        account.setEmail("admin@test.com");
+        account.setRole(Role.ADMIN);
+
+        Authentication authentication = mock(Authentication.class);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getPrincipal()).thenReturn(account);
+
+        when(RequestContext.getAccountFromRequest()).thenReturn(account);
+
+        assertThrows(AccountNotFound.class, () -> sut.getCurrentAccountByEmail());
     }
 }

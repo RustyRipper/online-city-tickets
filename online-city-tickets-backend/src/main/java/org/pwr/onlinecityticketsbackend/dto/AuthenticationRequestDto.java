@@ -1,4 +1,4 @@
-package org.pwr.onlinecityticketsbackend.auth;
+package org.pwr.onlinecityticketsbackend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String jwt;
+public class AuthenticationRequestDto {
+    private String email;
+    private String password;
 }

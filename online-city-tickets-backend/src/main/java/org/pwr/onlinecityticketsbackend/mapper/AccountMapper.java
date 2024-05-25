@@ -23,14 +23,10 @@ public interface AccountMapper {
             source = "walletBalancePln",
             target = "walletBalanceGrosze",
             qualifiedByName = "pricePlnToGrosze")
-    @Mapping(
-            source = "defaultCreditCard",
-            target = "defaultCreditCardId",
-            qualifiedByName = "creditCardToId")
-    AccountDto toPassengerDto(Passenger passenger);
+    PassengerDto toPassengerDto(Passenger passenger);
 
     @Mapping(source = "role", target = "type", qualifiedByName = "roleToType")
-    AccountDto toInspectorDto(Inspector inspector);
+    InspectorDto toInspectorDto(Inspector inspector);
 
     @Named("roleToType")
     default String roleToType(Role role) {
@@ -40,10 +36,5 @@ public interface AccountMapper {
     @Named("pricePlnToGrosze")
     default int pricePlnToGrosze(BigDecimal pricePln) {
         return pricePln.multiply(BigDecimal.valueOf(100)).intValue();
-    }
-
-    @Named("creditCardToId")
-    default long creditCardToId(CreditCardInfo creditCard) {
-        return creditCard == null ? 0 : creditCard.getId();
     }
 }

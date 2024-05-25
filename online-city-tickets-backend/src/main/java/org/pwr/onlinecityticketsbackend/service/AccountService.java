@@ -2,11 +2,11 @@ package org.pwr.onlinecityticketsbackend.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.pwr.onlinecityticketsbackend.config.RequestContext;
+import org.pwr.onlinecityticketsbackend.dto.AccountDto;
 import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
-import org.pwr.onlinecityticketsbackend.model.Account;
-import org.pwr.onlinecityticketsbackend.model.Inspector;
-import org.pwr.onlinecityticketsbackend.model.Passenger;
-import org.pwr.onlinecityticketsbackend.model.Role;
+import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
+import org.pwr.onlinecityticketsbackend.model.*;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
 import org.pwr.onlinecityticketsbackend.repository.InspectorRepository;
 import org.pwr.onlinecityticketsbackend.repository.PassengerRepository;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
+    private final AccountMapper accountMapper;
     private final PassengerRepository passengerRepository;
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
@@ -43,6 +44,15 @@ public class AccountService {
         inspector.setPassword(passwordEncoder.encode(password));
         inspector.setRole(Role.INSPECTOR);
         return inspectorRepository.save(inspector);
+    }
+
+    public AccountDto getCurrentAccountByEmail() throws AccountNotFound {
+        Account account = RequestContext.getAccountFromRequest();
+        assert account != null;
+        if (account.getRole().equals(Role.ADMIN)) {
+            throw new AccountNotFound();
+        }
+        return accountMapper.toDto(getAccountByEmail(account.getEmail()));
     }
 
     public Account getAccountByEmail(String email) throws AccountNotFound {
