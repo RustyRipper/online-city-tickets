@@ -9,7 +9,7 @@ type InputEntries<T> = [keyof T, T[keyof T]][];
 
 type MountOptions<T> = {
   inputs?: Inputs<T>;
-} & ConfigureTestBedOptions;
+} & ConfigureTestBedOptions<unknown>;
 
 type MountResult<T> = Promise<{
   sut: T;

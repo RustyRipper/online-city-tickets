@@ -29,7 +29,7 @@ main {
 }
 
 .sheet {
-  border: var(--fbc-borders);
+  border: 1px solid var(--main-border);
   border-bottom: none;
   border-radius: 2rem 2rem 0 0;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);

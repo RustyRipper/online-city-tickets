@@ -1,22 +1,28 @@
 import { Injectable } from "@angular/core";
-import type { z } from "zod";
 
-import { SettingsService } from "~/shared/settings/services/settings.service";
-import type { SCHEMA } from "~/shared/store/schema";
+import { StoredCell, type StoredCellValue } from "~/shared/store/stored-cell";
 
 import translations from "./translations.json";
 
-type Language = z.infer<(typeof SCHEMA)["LANGUAGE"]>;
+type Language = StoredCellValue<"LANGUAGE">;
 type TranslationKey = keyof typeof translations;
 
 @Injectable({
   providedIn: "root",
 })
 export class I18nService {
-  public constructor(private readonly settingsService: SettingsService) {}
+  private readonly languageCell: StoredCell<Language>;
+
+  public constructor(storage: Storage) {
+    this.languageCell = StoredCell.of(storage, "LANGUAGE", "en-US");
+  }
 
   public get language(): Language {
-    return this.settingsService.languageCell.value;
+    return this.languageCell.value;
+  }
+
+  public set language(language: Language) {
+    this.languageCell.value = language;
   }
 
   public t(

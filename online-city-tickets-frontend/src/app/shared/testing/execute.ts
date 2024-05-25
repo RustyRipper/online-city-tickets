@@ -11,7 +11,7 @@ import { type ConfigureTestBedOptions, configureTestBed } from "./test-bed";
 
 type ExecuteOptions = {
   params?: Record<string, string>;
-} & ConfigureTestBedOptions;
+} & ConfigureTestBedOptions<unknown>;
 
 type ExecuteResult<T> = {
   result: Promise<T | null>;

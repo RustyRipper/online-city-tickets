@@ -10,5 +10,5 @@ div[right] {
 }
 
 :host ::ng-deep .p-tabmenu {
-  border-bottom: var(--fbc-borders);
+  border-bottom: 1px solid var(--main-border);
 }
