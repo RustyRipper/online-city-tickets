@@ -1,12 +1,14 @@
 package org.pwr.onlinecityticketsbackend.service;
 
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.pwr.onlinecityticketsbackend.model.Account;
-import org.pwr.onlinecityticketsbackend.model.Inspector;
-import org.pwr.onlinecityticketsbackend.model.Passenger;
-import org.pwr.onlinecityticketsbackend.model.Role;
+import org.pwr.onlinecityticketsbackend.config.RequestContext;
+import org.pwr.onlinecityticketsbackend.dto.AccountDto;
+import org.pwr.onlinecityticketsbackend.dto.UpdateAccountReqDto;
+import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
+import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
+import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
+import org.pwr.onlinecityticketsbackend.model.*;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
 import org.pwr.onlinecityticketsbackend.repository.InspectorRepository;
 import org.pwr.onlinecityticketsbackend.repository.PassengerRepository;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
+    private final AccountMapper accountMapper;
     private final PassengerRepository passengerRepository;
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
@@ -23,14 +26,6 @@ public class AccountService {
 
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
-    }
-
-    public List<Inspector> getAllInspectors() {
-        return inspectorRepository.findAll();
-    }
-
-    public Optional<Account> getCurrentAccountById(Long id) {
-        return accountRepository.findById(id);
     }
 
     public Passenger createPassenger(
@@ -53,19 +48,57 @@ public class AccountService {
         return inspectorRepository.save(inspector);
     }
 
-    public Account getAccountByEmail(String email) {
-        return accountRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+    public AccountDto getCurrentAccountByEmail() throws AccountNotFound {
+        Account account = RequestContext.getAccountFromRequest();
+        assert account != null;
+        if (account.getRole().equals(Role.ADMIN)) {
+            throw new AccountNotFound();
+        }
+        return accountMapper.toDto(getAccountByEmail(account.getEmail()));
+    }
+
+    public Account getAccountByEmail(String email) throws AccountNotFound {
+        return accountRepository.findByEmail(email).orElseThrow(AccountNotFound::new);
     }
 
     public boolean isEmailInUse(String email) {
         return accountRepository.findByEmail(email).isPresent();
     }
 
-    public Account getAccountById(Long id) {
-        return accountRepository
-                .findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+    public Account getAccountById(Long id) throws AccountNotFound {
+        return accountRepository.findById(id).orElseThrow(AccountNotFound::new);
+    }
+
+    public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto)
+            throws AuthenticationInvalidRequest {
+        Account account = RequestContext.getAccountFromRequest();
+        assert account != null;
+        if (account.getRole().equals(Role.ADMIN)) {
+            throw new AuthenticationInvalidRequest();
+        }
+        if (account.getRole().equals(Role.INSPECTOR)
+                && updateAccountReqDto.getPhoneNumber() != null) {
+            throw new AuthenticationInvalidRequest();
+        }
+        account.setFullName(
+                updateAccountReqDto.getFullName() == null
+                        ? account.getFullName()
+                        : updateAccountReqDto.getFullName());
+        account.setPassword(
+                updateAccountReqDto.getNewPassword() == null
+                        ? account.getPassword()
+                        : passwordEncoder.encode(updateAccountReqDto.getNewPassword()));
+
+        if (account instanceof Passenger passenger) {
+            passenger.setPhoneNumber(
+                    updateAccountReqDto.getPhoneNumber() == null
+                            ? passenger.getPhoneNumber()
+                            : updateAccountReqDto.getPhoneNumber());
+
+            account = passengerRepository.save(passenger);
+        } else if (account instanceof Inspector inspector) {
+            account = inspectorRepository.save(inspector);
+        }
+        return accountMapper.toDto(account);
     }
 }

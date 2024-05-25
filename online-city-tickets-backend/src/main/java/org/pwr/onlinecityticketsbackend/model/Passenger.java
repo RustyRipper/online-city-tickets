@@ -5,12 +5,15 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Passenger extends Account {
 
     @Column(unique = true, length = 15)
@@ -19,9 +22,6 @@ public class Passenger extends Account {
 
     @NotNull(message = "Wallet balance is required")
     @Min(value = 0, message = "Wallet balance must be greater than or equal to 0")
+    @Builder.Default
     private BigDecimal walletBalancePln = BigDecimal.ZERO;
-
-    @OneToOne
-    @JoinColumn(name = "default_credit_card_id")
-    private CreditCardInfo defaultCreditCard;
 }

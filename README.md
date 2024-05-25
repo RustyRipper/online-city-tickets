@@ -1,5 +1,11 @@
 # Online City Tickets
 
+## Run app - docker-compose
+
+```bash
+docker-compose up --build -d 
+```
+
 ## Backend
 
 > [!NOTE]
