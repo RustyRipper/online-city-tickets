@@ -81,24 +81,37 @@ public class AccountService {
             throw new AuthenticationInvalidRequest();
         }
         account.setFullName(
-                updateAccountReqDto.getFullName() == null
+                isFullNameInvalid(updateAccountReqDto.getFullName())
                         ? account.getFullName()
                         : updateAccountReqDto.getFullName());
         account.setPassword(
-                updateAccountReqDto.getNewPassword() == null
+                isPasswordInvalid(updateAccountReqDto.getNewPassword())
                         ? account.getPassword()
                         : passwordEncoder.encode(updateAccountReqDto.getNewPassword()));
 
         if (account instanceof Passenger passenger) {
             passenger.setPhoneNumber(
-                    updateAccountReqDto.getPhoneNumber() == null
+                    isPhoneInvalid(updateAccountReqDto.getPhoneNumber())
                             ? passenger.getPhoneNumber()
                             : updateAccountReqDto.getPhoneNumber());
-
-            account = passengerRepository.save(passenger);
-        } else if (account instanceof Inspector inspector) {
-            account = inspectorRepository.save(inspector);
         }
+        account = accountRepository.save(account);
         return accountMapper.toDto(account);
+    }
+
+    private static boolean isPhoneInvalid(String phoneNumber) {
+        return phoneNumber == null || phoneNumber.length() < 9 || !phoneNumber.matches("[0-9]+");
+    }
+
+    public static boolean isEmailInvalid(String email) {
+        return email == null || email.length() < 3 || !email.contains("@");
+    }
+
+    public static boolean isPasswordInvalid(String password) {
+        return password == null || password.length() < 8;
+    }
+
+    public static boolean isFullNameInvalid(String fullName) {
+        return fullName == null || fullName.isEmpty();
     }
 }

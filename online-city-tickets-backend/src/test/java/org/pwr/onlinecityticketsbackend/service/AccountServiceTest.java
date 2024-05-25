@@ -213,8 +213,7 @@ public class AccountServiceTest {
         passenger.setRole(Role.PASSENGER);
 
         when(RequestContext.getAccountFromRequest()).thenReturn(passenger);
-        when(passengerRepository.save(any(Passenger.class))).thenReturn(passenger);
-        when(accountMapper.toDto(passenger)).thenReturn(new PassengerDto());
+
         // when
         sut.updateAccount(updateAccountReqDto);
 
