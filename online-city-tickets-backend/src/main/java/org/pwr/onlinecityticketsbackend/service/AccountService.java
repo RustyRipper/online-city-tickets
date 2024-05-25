@@ -4,7 +4,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.AccountDto;
+import org.pwr.onlinecityticketsbackend.dto.UpdateAccountReqDto;
 import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
+import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
 import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
 import org.pwr.onlinecityticketsbackend.model.*;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
@@ -65,5 +67,38 @@ public class AccountService {
 
     public Account getAccountById(Long id) throws AccountNotFound {
         return accountRepository.findById(id).orElseThrow(AccountNotFound::new);
+    }
+
+    public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto)
+            throws AuthenticationInvalidRequest {
+        Account account = RequestContext.getAccountFromRequest();
+        assert account != null;
+        if (account.getRole().equals(Role.ADMIN)) {
+            throw new AuthenticationInvalidRequest();
+        }
+        if (account.getRole().equals(Role.INSPECTOR)
+                && updateAccountReqDto.getPhoneNumber() != null) {
+            throw new AuthenticationInvalidRequest();
+        }
+        account.setFullName(
+                updateAccountReqDto.getFullName() == null
+                        ? account.getFullName()
+                        : updateAccountReqDto.getFullName());
+        account.setPassword(
+                updateAccountReqDto.getNewPassword() == null
+                        ? account.getPassword()
+                        : passwordEncoder.encode(updateAccountReqDto.getNewPassword()));
+
+        if (account instanceof Passenger passenger) {
+            passenger.setPhoneNumber(
+                    updateAccountReqDto.getPhoneNumber() == null
+                            ? passenger.getPhoneNumber()
+                            : updateAccountReqDto.getPhoneNumber());
+
+            account = passengerRepository.save(passenger);
+        } else if (account instanceof Inspector inspector) {
+            account = inspectorRepository.save(inspector);
+        }
+        return accountMapper.toDto(account);
     }
 }

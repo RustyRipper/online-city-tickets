@@ -11,6 +11,7 @@ services:
   springboot:
     container_name: springboot
     image: spring
+    build: ./online-city-tickets-backend
     ports:
       - "8080:8080"
     depends_on:
@@ -20,6 +21,7 @@ services:
     restart: always
     container_name: angular
     image: angular
+    build: ./online-city-tickets-frontend
     ports:
       - "8000:80"
     stdin_open: true

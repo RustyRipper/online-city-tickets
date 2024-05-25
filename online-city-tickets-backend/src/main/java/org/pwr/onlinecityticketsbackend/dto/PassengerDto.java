@@ -10,5 +10,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public final class PassengerDto extends AccountDto {
+    private String phoneNumber;
     private double walletBalanceGrosze;
 }

@@ -2,6 +2,7 @@ FROM openjdk:21-jdk AS TEMP_BUILD_IMAGE
 COPY build.gradle settings.gradle gradlew /
 COPY gradle /gradle
 COPY src /src
+RUN microdnf install findutils
 RUN ./gradlew assemble
 
 # Production

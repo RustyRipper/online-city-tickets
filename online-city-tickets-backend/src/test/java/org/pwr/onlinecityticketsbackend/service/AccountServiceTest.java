@@ -20,7 +20,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.AccountDto;
 import org.pwr.onlinecityticketsbackend.dto.PassengerDto;
+import org.pwr.onlinecityticketsbackend.dto.UpdateAccountReqDto;
 import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
+import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
 import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
 import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
@@ -196,5 +198,66 @@ public class AccountServiceTest {
         when(RequestContext.getAccountFromRequest()).thenReturn(account);
 
         assertThrows(AccountNotFound.class, () -> sut.getCurrentAccountByEmail());
+    }
+
+    @Test
+    void shouldUpdateAccount() throws AuthenticationInvalidRequest {
+        // given
+        UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
+        updateAccountReqDto.setFullName("newFullName");
+        updateAccountReqDto.setPhoneNumber("123123123");
+
+        Passenger passenger = new Passenger();
+        passenger.setFullName("oldFullName");
+        passenger.setPhoneNumber("876567987");
+        passenger.setRole(Role.PASSENGER);
+
+        when(RequestContext.getAccountFromRequest()).thenReturn(passenger);
+        when(passengerRepository.save(any(Passenger.class))).thenReturn(passenger);
+        when(accountMapper.toDto(passenger)).thenReturn(new PassengerDto());
+        // when
+        sut.updateAccount(updateAccountReqDto);
+
+        // then
+        assertEquals("newFullName", passenger.getFullName());
+        assertEquals("123123123", passenger.getPhoneNumber());
+    }
+
+    @Test
+    void shouldNotUpdateAccountWhenRoleIsAdmin() {
+        // given
+        UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
+        Account account = new Account();
+        account.setRole(Role.ADMIN);
+
+        when(RequestContext.getAccountFromRequest()).thenReturn(account);
+
+        // when
+        ThrowableAssert.ThrowingCallable resultCallable =
+                () -> sut.updateAccount(updateAccountReqDto);
+
+        // then
+        Assertions.assertThatThrownBy(resultCallable)
+                .isInstanceOf(AuthenticationInvalidRequest.class);
+    }
+
+    @Test
+    void shouldNotUpdatePhoneNumberWhenRoleIsInspector() {
+        // given
+        UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
+        updateAccountReqDto.setPhoneNumber("123456789");
+
+        Inspector inspector = new Inspector();
+        inspector.setRole(Role.INSPECTOR);
+
+        when(RequestContext.getAccountFromRequest()).thenReturn(inspector);
+
+        // when
+        ThrowableAssert.ThrowingCallable resultCallable =
+                () -> sut.updateAccount(updateAccountReqDto);
+
+        // then
+        Assertions.assertThatThrownBy(resultCallable)
+                .isInstanceOf(AuthenticationInvalidRequest.class);
     }
 }

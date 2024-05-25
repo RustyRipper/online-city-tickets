@@ -11,5 +11,4 @@ public abstract sealed class AccountDto permits PassengerDto, InspectorDto {
     private String email;
     private String fullName;
     private String type;
-    private String phoneNumber;
 }
