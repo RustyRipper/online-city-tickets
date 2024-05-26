@@ -78,12 +78,8 @@ public class AuthenticationService {
     }
 
     private static boolean isRegisterRequestInvalid(RegisterRequestDto registerRequestDto) {
-        return registerRequestDto.getEmail() == null
-                || registerRequestDto.getEmail().length() < 3
-                || !registerRequestDto.getEmail().contains("@")
-                || registerRequestDto.getPassword() == null
-                || registerRequestDto.getPassword().length() < 6
-                || registerRequestDto.getFullName() == null
-                || registerRequestDto.getFullName().length() < 3;
+        return AccountService.isEmailInvalid(registerRequestDto.getEmail())
+                || AccountService.isPasswordInvalid(registerRequestDto.getPassword())
+                || AccountService.isFullNameInvalid(registerRequestDto.getFullName());
     }
 }

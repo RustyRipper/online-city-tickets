@@ -24,7 +24,7 @@ public class AccountController {
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'INSPECTOR')")
     @PatchMapping
     public ResponseEntity<?> updateAccount(@RequestBody UpdateAccountReqDto updateAccountReqDto)
-            throws AuthenticationInvalidRequest {
+            throws AuthenticationInvalidRequest, AccountNotFound {
         return ResponseEntity.ok(accountService.updateAccount(updateAccountReqDto));
     }
 }

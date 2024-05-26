@@ -50,7 +50,6 @@ public class AccountService {
 
     public AccountDto getCurrentAccountByEmail() throws AccountNotFound {
         Account account = RequestContext.getAccountFromRequest();
-        assert account != null;
         if (account.getRole().equals(Role.ADMIN)) {
             throw new AccountNotFound();
         }
@@ -70,9 +69,8 @@ public class AccountService {
     }
 
     public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto)
-            throws AuthenticationInvalidRequest {
+            throws AuthenticationInvalidRequest, AccountNotFound {
         Account account = RequestContext.getAccountFromRequest();
-        assert account != null;
         if (account.getRole().equals(Role.ADMIN)) {
             throw new AuthenticationInvalidRequest();
         }
@@ -81,24 +79,40 @@ public class AccountService {
             throw new AuthenticationInvalidRequest();
         }
         account.setFullName(
-                updateAccountReqDto.getFullName() == null
+                isFullNameInvalid(updateAccountReqDto.getFullName())
                         ? account.getFullName()
                         : updateAccountReqDto.getFullName());
-        account.setPassword(
-                updateAccountReqDto.getNewPassword() == null
-                        ? account.getPassword()
-                        : passwordEncoder.encode(updateAccountReqDto.getNewPassword()));
+
+        if (updateAccountReqDto.getNewPassword() != null) {
+            if (isPasswordInvalid(updateAccountReqDto.getNewPassword())) {
+                throw new AuthenticationInvalidRequest();
+            }
+            account.setPassword(passwordEncoder.encode(updateAccountReqDto.getNewPassword()));
+        }
 
         if (account instanceof Passenger passenger) {
             passenger.setPhoneNumber(
-                    updateAccountReqDto.getPhoneNumber() == null
+                    isPhoneInvalid(updateAccountReqDto.getPhoneNumber())
                             ? passenger.getPhoneNumber()
                             : updateAccountReqDto.getPhoneNumber());
-
-            account = passengerRepository.save(passenger);
-        } else if (account instanceof Inspector inspector) {
-            account = inspectorRepository.save(inspector);
         }
+        account = accountRepository.save(account);
         return accountMapper.toDto(account);
+    }
+
+    private static boolean isPhoneInvalid(String phoneNumber) {
+        return phoneNumber == null || !phoneNumber.matches("[0-9]{9}");
+    }
+
+    public static boolean isEmailInvalid(String email) {
+        return email == null || email.length() < 3 || !email.contains("@");
+    }
+
+    public static boolean isPasswordInvalid(String password) {
+        return password == null || password.length() < 8;
+    }
+
+    public static boolean isFullNameInvalid(String fullName) {
+        return fullName == null || fullName.isEmpty();
     }
 }
