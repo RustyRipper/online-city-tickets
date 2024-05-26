@@ -1,14 +1,13 @@
 package org.pwr.onlinecityticketsbackend.service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+import org.apache.commons.lang3.RandomStringUtils;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.PurchaseTicketReqDto;
 import org.pwr.onlinecityticketsbackend.dto.TicketDto;
-import org.pwr.onlinecityticketsbackend.exception.TicketInsufficientFunds;
+import org.pwr.onlinecityticketsbackend.exception.*;
 import org.pwr.onlinecityticketsbackend.mapper.TicketMapper;
 import org.pwr.onlinecityticketsbackend.model.*;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
@@ -22,15 +21,13 @@ public class TicketService {
 
     @Autowired private TicketMapper ticketMapper;
     @Autowired private TicketRepository ticketRepository;
-
     @Autowired private AccountRepository accountRepository;
-
     @Autowired private TicketOfferRepository ticketOfferRepository;
 
-    public List<TicketDto> listTickets() {
+    public List<TicketDto> listTickets() throws AccountNotFound, AuthenticationInvalidRequest {
         Account account = RequestContext.getAccountFromRequest();
         if (account.getRole().equals(Role.INSPECTOR)) {
-            // throw new
+            throw new AuthenticationInvalidRequest();
         }
         Passenger passenger = (Passenger) account;
 
@@ -40,16 +37,19 @@ public class TicketService {
     }
 
     public TicketDto purchaseTicket(PurchaseTicketReqDto purchaseTicketReqDto)
-            throws TicketInsufficientFunds {
+            throws TicketInsufficientFunds,
+                    AccountNotFound,
+                    TicketOfferNotFound,
+                    AuthenticationInvalidRequest {
         Account account = RequestContext.getAccountFromRequest();
         if (account.getRole().equals(Role.INSPECTOR)) {
-            // throw new
+            throw new AuthenticationInvalidRequest();
         }
 
         Optional<TicketOffer> ticketOffer =
                 ticketOfferRepository.findById(purchaseTicketReqDto.getOfferId());
-        if (!ticketOffer.isPresent()) {
-            // throw new
+        if (ticketOffer.isEmpty()) {
+            throw new TicketOfferNotFound();
         }
         Passenger passenger = (Passenger) account;
 
@@ -57,28 +57,30 @@ public class TicketService {
             throw new TicketInsufficientFunds();
         }
 
-        passenger.setWalletBalancePln(passenger.getWalletBalancePln().subtract(ticketOffer.get().getPricePln()));
+        passenger.setWalletBalancePln(
+                passenger.getWalletBalancePln().subtract(ticketOffer.get().getPricePln()));
         accountRepository.save(passenger);
 
-        Ticket newTicket = new Ticket();
-        newTicket.setPassenger(passenger);
-        newTicket.setOffer(ticketOffer.get());
-        newTicket.setPurchaseTime(Instant.from(LocalDateTime.now()));
-
-        Ticket savedTicket = ticketRepository.save(newTicket);
-        return ticketMapper.toDto(savedTicket);
+        return ticketMapper.toDto(
+                ticketRepository.save(
+                        Ticket.builder()
+                                .code(RandomStringUtils.randomAlphabetic(10).toUpperCase())
+                                .passenger(passenger)
+                                .offer(ticketOffer.get())
+                                .purchaseTime(Instant.now())
+                                .build()));
     }
 
-    public TicketDto getTicket(String code) {
+    public TicketDto getTicket(String code)
+            throws AccountNotFound, TicketNotFound, AuthenticationInvalidRequest {
         Account account = RequestContext.getAccountFromRequest();
-        assert account != null;
         if (account.getRole().equals(Role.INSPECTOR)) {
-            // throw new
+            throw new AuthenticationInvalidRequest();
         }
 
         Optional<Ticket> ticket = ticketRepository.findByCode(code);
         if (ticket.isEmpty()) {
-            // throw new
+            throw new TicketNotFound();
         }
         return ticketMapper.toDto(ticket.get());
     }

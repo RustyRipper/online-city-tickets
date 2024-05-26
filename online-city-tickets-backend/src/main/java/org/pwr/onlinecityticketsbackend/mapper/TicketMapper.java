@@ -1,13 +1,13 @@
 package org.pwr.onlinecityticketsbackend.mapper;
 
-import org.mapstruct.*;
-import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
-import org.pwr.onlinecityticketsbackend.dto.TicketDto;
-import org.pwr.onlinecityticketsbackend.model.*;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
+import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.dto.TicketDto;
+import org.pwr.onlinecityticketsbackend.model.*;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
@@ -15,14 +15,19 @@ import java.time.ZoneId;
         uses = TicketOfferMapper.class)
 public interface TicketMapper {
 
-    @Mapping(source = "offer", target = "offer", qualifiedByName = "mapToBaseTicketOfferDto", ignore = true)
-    @Mapping(source = "validation.time", target = "validation.time", qualifiedByName = "mapToDateTime")
+    TicketOfferMapper firstMapper = Mappers.getMapper(TicketOfferMapper.class);
+
+    @Mapping(source = "offer", target = "offer", qualifiedByName = "mapToBaseTicketOfferDto")
+    @Mapping(
+            source = "validation.time",
+            target = "validation.time",
+            qualifiedByName = "mapToDateTime")
     @Mapping(source = "purchaseTime", target = "purchaseTime", qualifiedByName = "mapToDateTime")
     TicketDto toDto(Ticket ticket);
 
     @Named("mapToBaseTicketOfferDto")
-    default BaseTicketOfferDto mapToBaseTicketOfferDto(TicketOffer offer, @Context TicketOfferMapper ticketOfferMapper) {
-        return ticketOfferMapper.toDto(offer);
+    default BaseTicketOfferDto mapToBaseTicketOfferDto(TicketOffer offer) {
+        return firstMapper.toDto(offer);
     }
 
     @Named("mapToDateTime")
