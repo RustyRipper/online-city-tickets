@@ -183,7 +183,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testGetCurrentAccountByEmail_ThrowsAccountNotFound() {
+    public void testGetCurrentAccountByEmail_ThrowsAccountNotFound() throws AccountNotFound {
         Account account = new Account();
         account.setEmail("admin@test.com");
         account.setRole(Role.ADMIN);
@@ -201,7 +201,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    void shouldUpdateAccount() throws AuthenticationInvalidRequest {
+    void shouldUpdateAccount() throws AuthenticationInvalidRequest, AccountNotFound {
         // given
         UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
         updateAccountReqDto.setFullName("newFullName");
@@ -223,7 +223,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    void shouldNotUpdateAccountWhenRoleIsAdmin() {
+    void shouldNotUpdateAccountWhenRoleIsAdmin() throws AccountNotFound {
         // given
         UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
         Account account = new Account();
@@ -241,7 +241,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    void shouldNotUpdatePhoneNumberWhenRoleIsInspector() {
+    void shouldNotUpdatePhoneNumberWhenRoleIsInspector() throws AccountNotFound {
         // given
         UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
         updateAccountReqDto.setPhoneNumber("123456789");

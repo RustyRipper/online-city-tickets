@@ -50,7 +50,6 @@ public class AccountService {
 
     public AccountDto getCurrentAccountByEmail() throws AccountNotFound {
         Account account = RequestContext.getAccountFromRequest();
-        assert account != null;
         if (account.getRole().equals(Role.ADMIN)) {
             throw new AccountNotFound();
         }
@@ -70,9 +69,8 @@ public class AccountService {
     }
 
     public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto)
-            throws AuthenticationInvalidRequest {
+            throws AuthenticationInvalidRequest, AccountNotFound {
         Account account = RequestContext.getAccountFromRequest();
-        assert account != null;
         if (account.getRole().equals(Role.ADMIN)) {
             throw new AuthenticationInvalidRequest();
         }
@@ -84,10 +82,13 @@ public class AccountService {
                 isFullNameInvalid(updateAccountReqDto.getFullName())
                         ? account.getFullName()
                         : updateAccountReqDto.getFullName());
-        account.setPassword(
-                isPasswordInvalid(updateAccountReqDto.getNewPassword())
-                        ? account.getPassword()
-                        : passwordEncoder.encode(updateAccountReqDto.getNewPassword()));
+
+        if (updateAccountReqDto.getNewPassword() != null) {
+            if (isPasswordInvalid(updateAccountReqDto.getNewPassword())) {
+                throw new AuthenticationInvalidRequest();
+            }
+            account.setPassword(passwordEncoder.encode(updateAccountReqDto.getNewPassword()));
+        }
 
         if (account instanceof Passenger passenger) {
             passenger.setPhoneNumber(
@@ -100,7 +101,7 @@ public class AccountService {
     }
 
     private static boolean isPhoneInvalid(String phoneNumber) {
-        return phoneNumber == null || phoneNumber.length() < 9 || !phoneNumber.matches("[0-9]+");
+        return phoneNumber == null || !phoneNumber.matches("[0-9]{9}");
     }
 
     public static boolean isEmailInvalid(String email) {

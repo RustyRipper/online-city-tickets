@@ -16,7 +16,7 @@ public class AccountGenerator {
         return Passenger.builder()
                 .email(faker.internet().emailAddress())
                 .fullName(faker.lorem().word())
-                .phoneNumber(faker.numerify("89#########"))
+                .phoneNumber(faker.numerify("89#######"))
                 .password(new BCryptPasswordEncoder().encode(faker.lorem().word()))
                 .walletBalancePln(BigDecimal.valueOf(faker.number().randomDouble(2, 0, 1000)))
                 .role(Role.PASSENGER)
