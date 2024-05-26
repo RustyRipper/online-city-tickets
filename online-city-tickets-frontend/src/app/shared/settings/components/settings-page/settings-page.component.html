@@ -24,7 +24,7 @@
     <label>{{ i18n.t("settings-page.language") }}</label>
     <p-dropdown
       [options]="languages"
-      [(ngModel)]="settingsService.languageCell.value"
+      [(ngModel)]="i18n.language"
       optionLabel="label"
       optionValue="value"
     />
@@ -33,7 +33,7 @@
     <label>{{ i18n.t("settings-page.theme") }}</label>
     <p-dropdown
       [options]="themes"
-      [(ngModel)]="settingsService.themeCell.value"
+      [(ngModel)]="themeService.theme"
       optionLabel="label"
       optionValue="value"
     />

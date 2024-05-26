@@ -36,3 +36,5 @@ export class StoredCell<V> {
     this.storage.setItem(this.key, JSON.stringify(value));
   }
 }
+
+export type StoredCellValue<K extends keyof S> = z.infer<S[K]>;

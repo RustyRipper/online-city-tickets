@@ -14,21 +14,22 @@ import {
 @Component({})
 class DummyComponent {}
 
-export type ConfigureTestBedOptions = {
+export type ConfigureTestBedOptions<I> = {
   storage?: InitialStorage;
   resolvedData?: Record<string, unknown>;
-  customInjects?: () => void;
+  injects?: (testBed: TestBed) => I;
 };
 
-type ConfigureTestBedResult = {
+type ConfigureTestBedResult<I> = {
   httpTestingController: HttpTestingController;
+  injected: I | null;
 };
 
-export function configureTestBed({
+export function configureTestBed<I>({
   storage,
   resolvedData,
-  customInjects,
-}: ConfigureTestBedOptions): ConfigureTestBedResult {
+  injects,
+}: ConfigureTestBedOptions<I>): ConfigureTestBedResult<I> {
   const imports = [
     RouterModule.forRoot([{ path: "**", component: DummyComponent }]),
     HttpClientTestingModule,
@@ -45,7 +46,7 @@ export function configureTestBed({
   TestBed.configureTestingModule({ imports, providers });
 
   const httpTestingController = TestBed.inject(HttpTestingController);
-  customInjects?.();
+  const injected = injects?.(TestBed) ?? null;
 
-  return { httpTestingController };
+  return { httpTestingController, injected };
 }

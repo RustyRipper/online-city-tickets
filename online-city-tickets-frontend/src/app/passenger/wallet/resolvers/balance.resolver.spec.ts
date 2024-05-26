@@ -1,5 +1,3 @@
-import { TestBed } from "@angular/core/testing";
-
 import { execute } from "~/shared/testing";
 
 import { WalletService } from "../services/wallet.service";
@@ -14,7 +12,7 @@ describe(balanceResolver.name, () => {
 
   it("should return balance for passenger", async () => {
     const { result, mockHttp } = execute(balanceResolver, {
-      customInjects: () => TestBed.inject(WalletService).revalidate(123),
+      injects: (tb) => tb.inject(WalletService).revalidate(123),
     });
     mockHttp("/account", { type: "passenger", walletBalanceGrosze: 123 });
 
