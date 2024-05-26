@@ -37,9 +37,6 @@ export class AuthService {
       this.jwtCell.value = jwt;
       let account = await firstValueFrom(this.accountsApi.getAccount());
 
-      // FIXME: remove this once backend is updated
-      account = AuthService.fixAccountObject(account);
-
       this.accountTypeCell.value = account.type;
       return account;
     } catch {
@@ -64,33 +61,6 @@ export class AuthService {
       return this.login({ email: body.email, password: body.password });
     } catch {
       return null;
-    }
-  }
-
-  /** @deprecated remove this once backend is updated */
-  public static fixAccountObject(brokenAccount: any): Account {
-    if (brokenAccount.type && !brokenAccount.role) {
-      return brokenAccount; // already fixed
-    }
-
-    switch (brokenAccount.role) {
-      case "PASSENGER":
-        return {
-          type: "passenger",
-          email: brokenAccount.email,
-          fullName: brokenAccount.fullName,
-          walletBalanceGrosze: brokenAccount.walletBalancePln * 100,
-          phoneNumber: brokenAccount.phoneNumber,
-          defaultCreditCardId: brokenAccount.defaultCreditCard,
-        };
-      case "INSPECTOR":
-        return {
-          type: "inspector",
-          email: brokenAccount.email,
-          fullName: brokenAccount.fullName,
-        };
-      default:
-        throw new Error(`Invalid role: ${brokenAccount.role}`);
     }
   }
 }

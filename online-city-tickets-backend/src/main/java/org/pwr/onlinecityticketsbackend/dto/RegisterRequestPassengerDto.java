@@ -1,4 +1,4 @@
-package org.pwr.onlinecityticketsbackend.auth;
+package org.pwr.onlinecityticketsbackend.dto;
 
 import lombok.*;
 
@@ -6,6 +6,6 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequestPassenger extends RegisterRequest {
+public class RegisterRequestPassengerDto extends RegisterRequestDto {
     private String phoneNumber;
 }

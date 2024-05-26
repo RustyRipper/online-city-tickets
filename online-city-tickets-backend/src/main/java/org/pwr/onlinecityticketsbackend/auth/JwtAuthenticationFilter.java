@@ -37,8 +37,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 setSecurityContext(httpRequest, jwt);
             } catch (ExpiredJwtException e) {
-                httpResponse.getWriter().write(e.getMessage());
+                httpResponse.setContentType("application/json");
                 httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                httpResponse
+                        .getWriter()
+                        .write("{\"status\": 401, \"description\": \"JWT_EXPIRED\"}");
                 return;
             }
         }
@@ -53,16 +56,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(httpRequest));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            } else {
+            if (!jwtService.isTokenValid(jwt, userDetails)) {
                 throw new ExpiredJwtException(null, null, "Token has expired");
             }
+            UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+            SecurityContextHolder.getContext().setAuthentication(authToken);
         }
     }
 }
