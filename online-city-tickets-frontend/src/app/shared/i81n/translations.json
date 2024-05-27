@@ -210,5 +210,13 @@
   "register-page.login": {
     "en-US": "Login",
     "pl-PL": "Logowanie"
+  },
+  "auth-interceptor.jwt-expired": {
+    "en-US": "Your session has expired. Please log in again.",
+    "pl-PL": "Twoja sesja wygasła. Zaloguj się ponownie."
+  },
+  "auth-interceptor.server-error": {
+    "en-US": "Server unreachable.",
+    "pl-PL": "Serwer nieosiągalny."
   }
 }
