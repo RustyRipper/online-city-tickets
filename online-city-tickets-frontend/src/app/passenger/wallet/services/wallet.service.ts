@@ -9,7 +9,6 @@ import {
 } from "rxjs";
 
 import { AccountsApi } from "~/generated/api/services";
-import { AuthService } from "~/shared/auth/services/auth.service";
 
 @Injectable({
   providedIn: "root",

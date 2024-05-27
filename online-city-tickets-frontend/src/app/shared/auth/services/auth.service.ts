@@ -30,18 +30,13 @@ export class AuthService {
     return this.accountTypeCell.value;
   }
 
-  public async login(body: LoginReq): Promise<Account | null> {
-    try {
-      this.jwtCell.value = null;
-      const { jwt } = await firstValueFrom(this.authApi.login({ body }));
-      this.jwtCell.value = jwt;
-      let account = await firstValueFrom(this.accountsApi.getAccount());
-
-      this.accountTypeCell.value = account.type;
-      return account;
-    } catch {
-      return null;
-    }
+  public async login(body: LoginReq): Promise<Account> {
+    this.jwtCell.value = null;
+    const { jwt } = await firstValueFrom(this.authApi.login({ body }));
+    this.jwtCell.value = jwt;
+    let account = await firstValueFrom(this.accountsApi.getAccount());
+    this.accountTypeCell.value = account.type;
+    return account;
   }
 
   public logout(): void {
@@ -49,18 +44,9 @@ export class AuthService {
     this.accountTypeCell.value = null;
   }
 
-  public async register(body: RegisterAsPassengerReq): Promise<Account | null> {
-    try {
-      this.jwtCell.value = null;
-      const { ok } = await firstValueFrom(
-        this.authApi.registerAsPassenger$Response({ body }),
-      );
-      if (!ok) {
-        return null;
-      }
-      return this.login({ email: body.email, password: body.password });
-    } catch {
-      return null;
-    }
+  public async register(body: RegisterAsPassengerReq): Promise<Account> {
+    this.jwtCell.value = null;
+    await firstValueFrom(this.authApi.registerAsPassenger({ body }));
+    return this.login({ email: body.email, password: body.password });
   }
 }
