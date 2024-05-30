@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
     Optional<Ticket> findByCode(String code);
 
-    List<Ticket> findByPassengerEmail(String email);
+    List<Ticket> findByPassengerId(Long id);
 }

@@ -1,10 +1,10 @@
 package org.pwr.onlinecityticketsbackend.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.Data;
 
 @Data
 public class ValidationDto {
-    private LocalDateTime time;
+    private Instant time;
     private String vehicleSideNumber;
 }

@@ -46,6 +46,7 @@ public class TicketServiceTest {
     @BeforeEach
     public void setup() throws AccountNotFound {
         passenger = new Passenger();
+        passenger.setId(1L);
         passenger.setWalletBalancePln(BigDecimal.valueOf(100));
         passenger.setRole(Role.PASSENGER);
         passenger.setEmail("123@wp.pl");
@@ -105,13 +106,13 @@ public class TicketServiceTest {
         tickets.add(new Ticket());
         tickets.add(new Ticket());
 
-        when(ticketRepository.findByPassengerEmail(passenger.getEmail())).thenReturn(tickets);
+        when(ticketRepository.findByPassengerId(passenger.getId())).thenReturn(tickets);
         when(ticketMapper.toDto(any(Ticket.class))).thenReturn(new TicketDto());
 
         List<TicketDto> ticketDtos = ticketService.listTickets();
 
         assertEquals(2, ticketDtos.size());
-        verify(ticketRepository, times(1)).findByPassengerEmail(passenger.getEmail());
+        verify(ticketRepository, times(1)).findByPassengerId(passenger.getId());
         verify(ticketMapper, times(2)).toDto(any(Ticket.class));
     }
 
@@ -120,6 +121,7 @@ public class TicketServiceTest {
             throws AccountNotFound, TicketNotFound, AuthenticationInvalidRequest {
         Ticket ticket = new Ticket();
         ticket.setCode("1234567890");
+        ticket.setPassenger(passenger);
 
         when(ticketRepository.findByCode(anyString())).thenReturn(Optional.of(ticket));
         when(ticketMapper.toDto(any(Ticket.class))).thenReturn(new TicketDto());

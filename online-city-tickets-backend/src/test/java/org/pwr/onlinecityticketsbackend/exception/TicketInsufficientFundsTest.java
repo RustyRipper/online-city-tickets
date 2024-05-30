@@ -12,6 +12,6 @@ class TicketInsufficientFundsTest {
     public void shouldAccountNotFoundBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.PAYMENT_REQUIRED);
-        Assertions.assertThat(sut.getDescription()).isEqualTo("INSUFFICIENTS_FUNDS");
+        Assertions.assertThat(sut.getDescription()).isEqualTo("INSUFFICIENT_FUNDS");
     }
 }

@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 
 public class TicketInsufficientFunds extends RestApiException {
     public TicketInsufficientFunds() {
-        super(HttpStatus.PAYMENT_REQUIRED, "INSUFFICIENTS_FUNDS");
+        super(HttpStatus.PAYMENT_REQUIRED, "INSUFFICIENT_FUNDS");
     }
 }
