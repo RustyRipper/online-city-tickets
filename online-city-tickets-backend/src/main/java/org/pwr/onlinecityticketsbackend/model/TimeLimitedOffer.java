@@ -20,5 +20,5 @@ public class TimeLimitedOffer extends TicketOffer {
 
     @Column(nullable = false, updatable = false)
     @NotNull(message = "Duration is required")
-    private Duration durationInMinutes;
+    private Duration duration;
 }

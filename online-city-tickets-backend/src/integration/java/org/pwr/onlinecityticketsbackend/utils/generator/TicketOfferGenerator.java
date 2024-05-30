@@ -26,7 +26,7 @@ public final class TicketOfferGenerator {
                 .displayNamePl(faker.lorem().word())
                 .kind(faker.options().option(TicketKind.class))
                 .pricePln(BigDecimal.valueOf(faker.number().randomDouble(2, 0, 1000)))
-                .durationInMinutes(Duration.ofMinutes(faker.number().numberBetween(1, 1440)))
+                .duration(Duration.ofMinutes(faker.number().numberBetween(1, 1440)))
                 .build();
     }
 
@@ -36,7 +36,7 @@ public final class TicketOfferGenerator {
                 .displayNamePl(faker.lorem().word())
                 .kind(faker.options().option(TicketKind.class))
                 .pricePln(BigDecimal.valueOf(faker.number().randomDouble(2, 0, 1000)))
-                .intervalInDays(faker.number().numberBetween(1, 365))
+                .validDays(faker.number().numberBetween(1, 365))
                 .build();
     }
 }

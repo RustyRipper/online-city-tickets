@@ -9,4 +9,5 @@ public class TicketDto {
     private Instant purchaseTime;
     private BaseTicketOfferDto offer;
     private ValidationDto validation;
+    private String ticketStatus;
 }

@@ -40,10 +40,7 @@ public interface TicketOfferMapper {
 
     @Mapping(source = "pricePln", target = "priceGrosze", qualifiedByName = "pricePlnToGrosze")
     @Mapping(source = "kind", target = "kind", qualifiedByName = "kindToString")
-    @Mapping(
-            source = "durationInMinutes",
-            target = "durationMinutes",
-            qualifiedByName = "durationInMinutes")
+    @Mapping(source = "duration", target = "durationMinutes", qualifiedByName = "durationInMinutes")
     TimeLimitedTicketOfferDto toTimeLimitedTicketOfferDto(TimeLimitedOffer timeLimitedOffer);
 
     @Named("pricePlnToGrosze")

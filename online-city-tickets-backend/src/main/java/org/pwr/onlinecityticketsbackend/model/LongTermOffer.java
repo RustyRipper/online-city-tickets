@@ -19,5 +19,5 @@ public class LongTermOffer extends TicketOffer {
 
     @Column(nullable = false, updatable = false)
     @NotNull(message = "Duration is required")
-    private int intervalInDays;
+    private int validDays;
 }
