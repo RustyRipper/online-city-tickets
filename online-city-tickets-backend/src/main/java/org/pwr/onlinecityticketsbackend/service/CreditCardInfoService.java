@@ -69,6 +69,12 @@ public class CreditCardInfoService {
             throw new NotPassenger();
         }
 
-        throw new UnsupportedOperationException("Not implemented yet");
+        var creditCardInfo =
+                creditCardInfoRepository
+                        .findById(id)
+                        .filter(c -> c.getOwner().equals(account))
+                        .orElseThrow(CardNotFound::new);
+
+        creditCardInfoRepository.delete(creditCardInfo);
     }
 }

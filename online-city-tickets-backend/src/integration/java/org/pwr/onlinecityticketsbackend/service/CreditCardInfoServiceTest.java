@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.pwr.onlinecityticketsbackend.exception.CardNotFound;
 import org.pwr.onlinecityticketsbackend.exception.NotPassenger;
 import org.pwr.onlinecityticketsbackend.mapper.CreditCardInfoMapper;
+import org.pwr.onlinecityticketsbackend.repository.CreditCardInfoRepository;
 import org.pwr.onlinecityticketsbackend.utils.repository.setup.AccountSetup;
 import org.pwr.onlinecityticketsbackend.utils.repository.setup.CreditCardInfoSetup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class CreditCardInfoServiceTest {
     @Autowired private AccountSetup accountSetup;
     @Autowired private CreditCardInfoSetup creditCardInfoSetup;
     @Autowired private CreditCardInfoMapper creditCardInfoMapper;
+    @Autowired private CreditCardInfoRepository creditCardInfoRepository;
     @Autowired private CreditCardInfoService sut;
 
     @Test
@@ -119,5 +121,59 @@ public class CreditCardInfoServiceTest {
 
         // then
         Assertions.assertThat(result).isNotNull().isEqualTo(expectedCreditCardInfo);
+    }
+
+    @Test
+    public void deleteCreditCardByIdForUserShouldThrowNotPassengerWhenAccountIsNotPassenger() {
+        // given
+        var inspector = accountSetup.setupInspector();
+
+        // when
+        ThrowingCallable result = () -> sut.deleteCreditCardByIdForUser(1L, inspector);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(NotPassenger.class);
+    }
+
+    @Test
+    public void deleteCreditCardByIdForUserShouldThrowCardNotFoundWhenCreditCardInfoNotFound() {
+        // given
+        var passenger = accountSetup.setupPassenger();
+
+        // when
+        ThrowingCallable result = () -> sut.deleteCreditCardByIdForUser(1L, passenger);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(CardNotFound.class);
+    }
+
+    @Test
+    public void
+            deleteCreditCardByIdForUserShouldThrowCardNotFoundWhenTryingToDeleteCreditCardInfoOfAnotherPassenger() {
+        // given
+        var passenger1 = accountSetup.setupPassenger();
+        var passenger2 = accountSetup.setupPassenger();
+        var creditCardInfo = creditCardInfoSetup.setupCreditCardInfo(passenger1);
+
+        // when
+        ThrowingCallable result =
+                () -> sut.deleteCreditCardByIdForUser(creditCardInfo.getId(), passenger2);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(CardNotFound.class);
+    }
+
+    @Test
+    public void deleteCreditCardByIdForUserShouldDeleteCreditCardInfoWhenCreditCardInfoFound()
+            throws NotPassenger, CardNotFound {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var creditCardInfo = creditCardInfoSetup.setupCreditCardInfo(passenger);
+
+        // when
+        sut.deleteCreditCardByIdForUser(creditCardInfo.getId(), passenger);
+
+        // then
+        Assertions.assertThat(creditCardInfoRepository.findById(creditCardInfo.getId())).isEmpty();
     }
 }
