@@ -1,4 +1,4 @@
-package org.pwr.onlinecityticketsbackend.dto;
+package org.pwr.onlinecityticketsbackend.dto.account;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,7 +1,7 @@
 package org.pwr.onlinecityticketsbackend.mapper;
 
 import org.mapstruct.*;
-import org.pwr.onlinecityticketsbackend.dto.TicketDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.TicketDto;
 import org.pwr.onlinecityticketsbackend.model.*;
 
 @Mapper(

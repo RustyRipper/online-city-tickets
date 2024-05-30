@@ -2,7 +2,7 @@ package org.pwr.onlinecityticketsbackend.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.pwr.onlinecityticketsbackend.dto.BaseTicketOfferDto;
+import org.pwr.onlinecityticketsbackend.dto.ticketOffer.BaseTicketOfferDto;
 import org.pwr.onlinecityticketsbackend.exception.TicketOfferNotFound;
 import org.pwr.onlinecityticketsbackend.mapper.TicketOfferMapper;
 import org.pwr.onlinecityticketsbackend.repository.TicketOfferRepository;

@@ -1,4 +1,4 @@
-package org.pwr.onlinecityticketsbackend.dto;
+package org.pwr.onlinecityticketsbackend.dto.ticketOffer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public final class LongTermTicketOfferDto extends BaseTicketOfferDto {
-    private final String scope = "long-term";
-    private int intervalInDays;
+public final class TimeLimitedTicketOfferDto extends BaseTicketOfferDto {
+    private final String scope = "time-limited";
+    private int durationMinutes;
 }

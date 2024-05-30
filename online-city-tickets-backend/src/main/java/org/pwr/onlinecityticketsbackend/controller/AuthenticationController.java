@@ -1,9 +1,9 @@
 package org.pwr.onlinecityticketsbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.pwr.onlinecityticketsbackend.dto.AuthenticationRequestDto;
-import org.pwr.onlinecityticketsbackend.dto.RegisterRequestDto;
-import org.pwr.onlinecityticketsbackend.dto.RegisterRequestPassengerDto;
+import org.pwr.onlinecityticketsbackend.dto.authentication.AuthenticationRequestDto;
+import org.pwr.onlinecityticketsbackend.dto.authentication.RegisterRequestDto;
+import org.pwr.onlinecityticketsbackend.dto.authentication.RegisterRequestPassengerDto;
 import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationEmailInUse;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
