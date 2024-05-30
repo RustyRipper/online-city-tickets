@@ -1,6 +1,6 @@
 <app-top-bar [title]="i18n.t('login-page.login')" />
 <main>
-  <form [formGroup]="form">
+  <form [formGroup]="form.group">
     <div class="field">
       <label for="email">{{ i18n.t("login-page.email") }}</label>
       <input
@@ -12,10 +12,7 @@
         required
       />
     </div>
-    <small
-      *ngIf="form.get('email')!.touched && form.get('email')!.errors"
-      class="error"
-    >
+    <small *ngIf="form.showError('email')" class="error">
       {{ i18n.t("login-page.invalid-email") }}
     </small>
     <div class="field">
@@ -28,16 +25,13 @@
         required
       />
     </div>
-    <small
-      *ngIf="form.get('password')!.touched && form.get('password')!.errors"
-      class="error"
-    >
+    <small *ngIf="form.showError('password')" class="error">
       {{ i18n.t("login-page.password-short") }}
     </small>
     <div class="center">
       <p-button
-        [disabled]="!form.valid"
-        [loading]="isLoading"
+        [disabled]="form.isSubmitDisabled"
+        [loading]="form.isLoading"
         (onClick)="onSubmit()"
         [label]="i18n.t('login-page.submit')"
         type="submit"
@@ -45,7 +39,7 @@
         iconPos="right"
       />
     </div>
-    <small *ngIf="isError" class="error">{{
+    <small *ngIf="form.isError" class="error">{{
       i18n.t("login-page.invalid-credentials")
     }}</small>
   </form>

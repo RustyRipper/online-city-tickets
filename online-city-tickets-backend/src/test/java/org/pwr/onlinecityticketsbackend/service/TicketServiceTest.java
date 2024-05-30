@@ -74,7 +74,7 @@ public class TicketServiceTest {
 
         when(ticketOfferRepository.findById(anyLong())).thenReturn(Optional.of(ticketOffer));
 
-        TicketDto ticketDto = ticketService.purchaseTicket(purchaseTicketReqDto);
+        ticketService.purchaseTicket(purchaseTicketReqDto);
 
         verify(accountRepository, times(1)).save(passenger);
         verify(ticketRepository, times(1)).save(any(Ticket.class));

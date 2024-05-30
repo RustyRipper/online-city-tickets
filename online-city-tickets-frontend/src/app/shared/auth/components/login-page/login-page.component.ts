@@ -9,6 +9,7 @@ import { PasswordModule } from "primeng/password";
 
 import { AuthService } from "~/shared/auth/services/auth.service";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { Form } from "~/shared/forms/form";
 import { I18nService } from "~/shared/i81n/i18n.service";
 
 @Component({
@@ -28,8 +29,6 @@ import { I18nService } from "~/shared/i81n/i18n.service";
   styleUrl: "../../auth-form.css",
 })
 export class LoginPageComponent {
-  private status: "idle" | "loading" | "error" = "idle";
-
   public readonly form;
 
   public constructor(
@@ -38,26 +37,18 @@ export class LoginPageComponent {
     protected readonly i18n: I18nService,
     formBuilder: FormBuilder,
   ) {
-    this.form = formBuilder.nonNullable.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required, Validators.minLength(8)]],
-    });
+    this.form = new Form(
+      formBuilder.nonNullable.group({
+        email: ["", [Validators.required, Validators.email]],
+        password: ["", [Validators.required, Validators.minLength(8)]],
+      }),
+    );
   }
 
-  protected get isLoading() {
-    return this.status === "loading";
-  }
-
-  protected get isError() {
-    return this.status === "error";
-  }
-
-  public async onSubmit() {
-    this.status = "loading";
-    const account = await this.authService.login(this.form.getRawValue());
-    this.status = account ? "idle" : "error";
-    if (account) {
+  public onSubmit() {
+    this.form.submit(async () => {
+      await this.authService.login(this.form.value);
       this.router.navigateByUrl("/passenger");
-    }
+    });
   }
 }

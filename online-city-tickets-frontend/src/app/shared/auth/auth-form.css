@@ -19,7 +19,8 @@ main {
 }
 
 .field ::ng-deep input,
-.field ::ng-deep .p-password {
+.field ::ng-deep .p-password,
+.field ::ng-deep .p-inputmask {
   width: 100%;
 }
 

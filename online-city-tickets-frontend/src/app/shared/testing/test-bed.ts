@@ -5,6 +5,7 @@ import {
 import { Component } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { ActivatedRoute, RouterModule } from "@angular/router";
+import { MessageService } from "primeng/api";
 
 import {
   type Initial as InitialStorage,
@@ -36,6 +37,7 @@ export function configureTestBed<I>({
   ];
 
   const providers = [
+    { provide: MessageService, useClass: MessageService },
     { provide: Storage, useValue: new MemoryStorage(storage) },
     {
       provide: ActivatedRoute,

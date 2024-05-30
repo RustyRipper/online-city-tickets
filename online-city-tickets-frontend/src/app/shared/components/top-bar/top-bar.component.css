@@ -9,7 +9,7 @@
 }
 
 :host ::ng-deep .p-toolbar .p-toolbar-group-center {
-  flex: 1;
+  flex: 2;
   justify-content: center;
 }
 

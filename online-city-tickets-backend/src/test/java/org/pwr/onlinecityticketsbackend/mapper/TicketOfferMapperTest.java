@@ -53,7 +53,7 @@ public class TicketOfferMapperTest {
                         TimeLimitedOffer.builder()
                                 .id(1L)
                                 .pricePln(BigDecimal.ONE)
-                                .durationInMinutes(Duration.ofMinutes(1))
+                                .duration(Duration.ofMinutes(1))
                                 .kind(TicketKind.STANDARD)
                                 .build(),
                         TimeLimitedTicketOfferDto.class));
@@ -67,7 +67,7 @@ public class TicketOfferMapperTest {
                         .id(1L)
                         .displayNameEn("TestEn")
                         .displayNamePl("TestPl")
-                        .intervalInDays(1)
+                        .validDays(1)
                         .kind(TicketKind.STANDARD)
                         .pricePln(BigDecimal.ONE)
                         .build();
@@ -80,7 +80,7 @@ public class TicketOfferMapperTest {
         Assertions.assertThat(result.getId()).isEqualTo(model.getId());
         Assertions.assertThat(result.getDisplayNameEn()).isEqualTo(model.getDisplayNameEn());
         Assertions.assertThat(result.getDisplayNamePl()).isEqualTo(model.getDisplayNamePl());
-        Assertions.assertThat(result.getIntervalInDays()).isEqualTo(model.getIntervalInDays());
+        Assertions.assertThat(result.getValidDays()).isEqualTo(model.getValidDays());
         Assertions.assertThat(result.getKind()).isEqualTo(model.getKind().toString().toLowerCase());
         Assertions.assertThat(result.getPriceGrosze())
                 .isEqualTo(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue());
@@ -97,7 +97,7 @@ public class TicketOfferMapperTest {
                         .displayNamePl("TestPl")
                         .kind(TicketKind.STANDARD)
                         .pricePln(BigDecimal.ONE)
-                        .durationInMinutes(Duration.ofMinutes(1))
+                        .duration(Duration.ofMinutes(1))
                         .build();
 
         // when
@@ -112,7 +112,7 @@ public class TicketOfferMapperTest {
         Assertions.assertThat(result.getPriceGrosze())
                 .isEqualTo(model.getPricePln().multiply(BigDecimal.valueOf(100)).intValue());
         Assertions.assertThat(result.getDurationMinutes())
-                .isEqualTo(model.getDurationInMinutes().toMinutes());
+                .isEqualTo(model.getDuration().toMinutes());
         Assertions.assertThat(result.getScope()).isEqualTo("time-limited");
     }
 
