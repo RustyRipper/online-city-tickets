@@ -21,28 +21,54 @@ public class CreditCardInfoService {
     private final CreditCardInfoMapper creditCardInfoMapper;
 
     public List<CreditCardDto> getAllCreditCardsForUser(Account account) throws NotPassenger {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+        if (!account.isPassenger()) {
+            throw new NotPassenger();
+        }
 
-    public CreditCardDto getCreditCardByIdForUser(Long id, Account account)
-            throws NotPassenger, CardExpired, InvalidCard, CardAlreadySaved {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return creditCardInfoRepository.findAllByOwnerId(account.getId()).stream()
+                .map(creditCardInfoMapper::toDto)
+                .toList();
     }
 
     public CreditCardDto addCreditCardForUser(
             SaveCreditCardReqDto saveCreditCardReqDto, Account account)
-            throws NotPassenger, CardNotFound {
+            throws NotPassenger, CardExpired, InvalidCard, CardAlreadySaved {
+        if (!account.isPassenger()) {
+            throw new NotPassenger();
+        }
+
         throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    public CreditCardDto getCreditCardByIdForUser(Long id, Account account)
+            throws NotPassenger, CardNotFound {
+        if (!account.isPassenger()) {
+            throw new NotPassenger();
+        }
+
+        return creditCardInfoRepository
+                .findById(id)
+                .filter(c -> c.getOwner().equals(account))
+                .map(creditCardInfoMapper::toDto)
+                .orElseThrow(CardNotFound::new);
     }
 
     public CreditCardDto updateCreditCardByIdForUser(
             Long id, SaveCreditCardReqDto saveCreditCardReqDto, Account account)
             throws NotPassenger, CardExpired, InvalidCard, CardNotFound {
+        if (!account.isPassenger()) {
+            throw new NotPassenger();
+        }
+
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     public void deleteCreditCardByIdForUser(Long id, Account account)
             throws NotPassenger, CardNotFound {
+        if (!account.isPassenger()) {
+            throw new NotPassenger();
+        }
+
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }

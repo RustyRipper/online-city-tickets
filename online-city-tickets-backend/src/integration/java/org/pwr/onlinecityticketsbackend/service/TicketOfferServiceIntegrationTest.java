@@ -15,9 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Transactional
 public class TicketOfferServiceIntegrationTest {
     @Autowired private TicketOfferMapper ticketOfferMapper;
-
     @Autowired private TicketOfferSetup ticketOfferSetup;
-
     @Autowired private TicketOfferService sut;
 
     @Test
@@ -108,14 +106,17 @@ public class TicketOfferServiceIntegrationTest {
         var longTermOfferResult = sut.getOfferById(longTermOffer.getId());
 
         // then
-        Assertions.assertThat(singleFareOfferResult).isNotNull();
-        Assertions.assertThat(singleFareOfferResult).isEqualTo(expectedSingleFareTicketOfferDto);
+        Assertions.assertThat(singleFareOfferResult)
+                .isNotNull()
+                .isEqualTo(expectedSingleFareTicketOfferDto);
 
-        Assertions.assertThat(timeLimitedOfferResult).isNotNull();
-        Assertions.assertThat(timeLimitedOfferResult).isEqualTo(expectedTimeLimitedTicketOfferDto);
+        Assertions.assertThat(timeLimitedOfferResult)
+                .isNotNull()
+                .isEqualTo(expectedTimeLimitedTicketOfferDto);
 
-        Assertions.assertThat(longTermOfferResult).isNotNull();
-        Assertions.assertThat(longTermOfferResult).isEqualTo(expectedLongTermTicketOfferDto);
+        Assertions.assertThat(longTermOfferResult)
+                .isNotNull()
+                .isEqualTo(expectedLongTermTicketOfferDto);
     }
 
     @Test

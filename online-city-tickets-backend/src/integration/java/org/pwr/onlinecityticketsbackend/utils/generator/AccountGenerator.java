@@ -6,13 +6,11 @@ import org.pwr.onlinecityticketsbackend.model.Inspector;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
 import org.pwr.onlinecityticketsbackend.model.Role;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 
-@Component
-public class AccountGenerator {
+public final class AccountGenerator {
     private static final Faker faker = new Faker();
 
-    public Passenger generatePassenger() {
+    public static Passenger generatePassenger() {
         return Passenger.builder()
                 .email(faker.internet().emailAddress())
                 .fullName(faker.lorem().word())
@@ -23,7 +21,7 @@ public class AccountGenerator {
                 .build();
     }
 
-    public Inspector generateInspector() {
+    public static Inspector generateInspector() {
         return Inspector.builder()
                 .email(faker.internet().emailAddress())
                 .fullName(faker.lorem().word())

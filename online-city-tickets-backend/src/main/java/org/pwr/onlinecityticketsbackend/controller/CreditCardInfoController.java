@@ -39,7 +39,7 @@ public class CreditCardInfoController {
     @PostMapping
     public ResponseEntity<CreditCardDto> addCreditCard(
             @RequestBody SaveCreditCardReqDto saveCreditCardReqDto)
-            throws UnauthorizedUser, NotPassenger, CardNotFound {
+            throws UnauthorizedUser, NotPassenger, CardExpired, InvalidCard, CardAlreadySaved {
         Account account = RequestContext.getAccountFromRequest();
         return ResponseEntity.status(201)
                 .body(creditCardInfoService.addCreditCardForUser(saveCreditCardReqDto, account));
@@ -47,7 +47,7 @@ public class CreditCardInfoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CreditCardDto> getCreditCardById(@PathVariable Long id)
-            throws UnauthorizedUser, NotPassenger, CardExpired, InvalidCard, CardAlreadySaved {
+            throws UnauthorizedUser, NotPassenger, CardNotFound {
         Account account = RequestContext.getAccountFromRequest();
         return ResponseEntity.ok(creditCardInfoService.getCreditCardByIdForUser(id, account));
     }
