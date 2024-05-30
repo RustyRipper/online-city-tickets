@@ -3,6 +3,7 @@ package org.pwr.onlinecityticketsbackend.mapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.CreditCardDto;
 import org.pwr.onlinecityticketsbackend.model.CreditCardInfo;
 
 public class CreditCardInfoMapperTest {
@@ -27,9 +28,12 @@ public class CreditCardInfoMapperTest {
         // then
         Assertions.assertThat(result)
                 .isNotNull()
+                .isInstanceOf(CreditCardDto.class)
                 .hasFieldOrPropertyWithValue("id", model.getId())
                 .hasFieldOrPropertyWithValue("label", model.getLabel())
-                .hasFieldOrPropertyWithValue("lastFourDigits", "6660")
+                .hasFieldOrPropertyWithValue(
+                        "lastFourDigits",
+                        model.getCardNumber().substring(model.getCardNumber().length() - 4))
                 .hasFieldOrPropertyWithValue("expirationDate", model.getExpirationDate())
                 .hasFieldOrPropertyWithValue("holderName", model.getHolderName());
     }
