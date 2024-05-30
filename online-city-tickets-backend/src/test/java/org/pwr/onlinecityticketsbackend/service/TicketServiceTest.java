@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -138,5 +140,49 @@ public class TicketServiceTest {
         when(ticketRepository.findByCode(anyString())).thenReturn(Optional.empty());
 
         assertThrows(TicketNotFound.class, () -> ticketService.getTicket("1234567890"));
+    }
+
+    @Test
+    public void getActiveAndPastTickets_success()
+            throws AccountNotFound, AuthenticationInvalidRequest {
+        // Given
+        Ticket activeTicket = mock(Ticket.class);
+        when(activeTicket.getIsValid(any(Instant.class))).thenReturn(true);
+        Ticket notActiveTicket = mock(Ticket.class);
+        when(notActiveTicket.getIsValid(any(Instant.class))).thenReturn(false);
+        List<Ticket> tickets = List.of(activeTicket, notActiveTicket);
+        when(ticketRepository.findByPassengerId(passenger.getId())).thenReturn(tickets);
+        when(ticketMapper.toDto(any(Ticket.class))).thenReturn(new TicketDto());
+
+        // When
+        Map<String, List<TicketDto>> result = ticketService.getActiveAndPastTickets();
+
+        // Then
+        assertEquals(1, result.get("active").size());
+        assertEquals(1, result.get("notActive").size());
+    }
+
+    @Test
+    public void getActiveAndPastTickets_authenticationInvalidRequest() throws AccountNotFound {
+        // Given
+        when(RequestContext.getAccountFromRequest()).thenReturn(new Account());
+
+        // Then
+        assertThrows(
+                AuthenticationInvalidRequest.class, () -> ticketService.getActiveAndPastTickets());
+    }
+
+    @Test
+    public void getActiveAndPastTickets_noTickets()
+            throws AccountNotFound, AuthenticationInvalidRequest {
+        // Given
+        when(ticketRepository.findByPassengerId(passenger.getId())).thenReturn(new ArrayList<>());
+
+        // When
+        Map<String, List<TicketDto>> result = ticketService.getActiveAndPastTickets();
+
+        // Then
+        assertTrue(result.get("active").isEmpty());
+        assertTrue(result.get("notActive").isEmpty());
     }
 }
