@@ -22,7 +22,7 @@ public class Ticket {
 
     @Column(updatable = false, nullable = false, unique = true, length = 10)
     @Size(max = 10, message = "Code is too long")
-    @NotNull(message = "Side number is required")
+    @NotNull(message = "Code is required")
     private String code;
 
     @Column(updatable = false, nullable = false)

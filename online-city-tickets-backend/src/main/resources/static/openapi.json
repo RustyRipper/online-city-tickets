@@ -1376,7 +1376,7 @@
             },
             "ticketCode": {
                 "type": "string",
-                "pattern": "^[0-9A-Z]{8}$"
+                "pattern": "^[0-9A-Z]{10}$"
             },
             "vehicleSideNumber": {
                 "type": "string",
