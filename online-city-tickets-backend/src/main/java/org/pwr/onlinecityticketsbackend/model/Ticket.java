@@ -47,17 +47,14 @@ public class Ticket {
 
     public boolean getIsValid(Instant now, String sideNumber) {
 
-        if (offer instanceof SingleFareOffer) {
-            if (validation == null) {
-                return false;
-            }
-
-            boolean isValidInVehicle = validation.getVehicle().getSideNumber().equals(sideNumber);
-            if (!isValidInVehicle) {
-                return false;
-            }
-        }
-        return getIsValid(now);
+        return switch (offer) {
+            case SingleFareOffer ignored ->
+                    validation == null
+                                    || !validation.getVehicle().getSideNumber().equals(sideNumber)
+                            ? false
+                            : getIsValid(now);
+            default -> getIsValid(now);
+        };
     }
 
     public boolean getIsValid(Instant now) {
@@ -72,30 +69,23 @@ public class Ticket {
     }
 
     public Instant getValidFromTime() {
-        if (offer == null) {
-            throw new IllegalStateException("Offer cannot be null");
-        }
-
-        if (offer instanceof SingleFareOffer) {
-            return validation != null ? validation.getTime() : null;
-        }
-
-        return purchaseTime;
+        return switch (offer) {
+            case null -> throw new IllegalStateException("Offer cannot be null");
+            case SingleFareOffer ignored -> validation != null ? validation.getTime() : null;
+            default -> purchaseTime;
+        };
     }
 
     public Instant getValidUntilTime() {
-        if (offer == null) {
-            throw new IllegalStateException("Offer cannot be null");
-        }
-
-        if (offer instanceof SingleFareOffer) {
-            return validation != null ? validation.getTime().plus(Duration.ofHours(4)) : null;
-        } else if (offer instanceof TimeLimitedOffer) {
-            return purchaseTime.plus(((TimeLimitedOffer) offer).getDurationInMinutes());
-        } else if (offer instanceof LongTermOffer) {
-            return purchaseTime.plus(Duration.ofDays(((LongTermOffer) offer).getIntervalInDays()));
-        }
-
-        throw new IllegalStateException("Offer type not supported");
+        return switch (offer) {
+            case null -> throw new IllegalStateException("Offer cannot be null");
+            case SingleFareOffer ignored ->
+                    validation != null ? validation.getTime().plus(Duration.ofHours(4)) : null;
+            case TimeLimitedOffer timeLimitedOffer ->
+                    purchaseTime.plus(timeLimitedOffer.getDurationInMinutes());
+            case LongTermOffer longTermOffer ->
+                    purchaseTime.plus(Duration.ofDays(longTermOffer.getIntervalInDays()));
+            default -> throw new IllegalStateException("Offer type not supported");
+        };
     }
 }
