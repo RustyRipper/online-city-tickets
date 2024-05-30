@@ -3,6 +3,7 @@ import type { Routes } from "@angular/router";
 import { offerResolver } from "~/passenger/offers/resolvers/offer.resolver";
 import { balanceResolver } from "~/passenger/wallet/resolvers/balance.resolver";
 import { hasRole } from "~/shared/auth/guards/has-role.guard";
+import { accountResolver } from "~/shared/auth/resolvers/account.resolver";
 
 export const routes: Routes = [
   {
@@ -104,6 +105,7 @@ export const routes: Routes = [
           import(
             "~/shared/settings/components/account-settings-page/account-settings-page.component"
           ).then((m) => m.AccountSettingsPageComponent),
+        resolve: { account: accountResolver },
       },
     ],
   },

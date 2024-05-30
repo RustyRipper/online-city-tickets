@@ -63,9 +63,9 @@
     "en-US": "Edit",
     "pl-PL": "Edytuj"
   },
-  "settings-page.switch": {
-    "en-US": "Switch",
-    "pl-PL": "Zmień"
+  "settings-page.log-out": {
+    "en-US": "Log out",
+    "pl-PL": "Wyloguj się"
   },
   "settings-page.preferences": {
     "en-US": "Preferences",
@@ -98,6 +98,30 @@
   "account-settings-page.account-settings": {
     "en-US": "Account settings",
     "pl-PL": "Ustawienia konta"
+  },
+  "account-settings-page.name": {
+    "en-US": "Name",
+    "pl-PL": "Imię i nazwisko"
+  },
+  "account-settings-page.invalid-name": {
+    "en-US": "This is not a valid full name.",
+    "pl-PL": "To nie jest poprawne imię i nazwisko."
+  },
+  "account-settings-page.phone-number": {
+    "en-US": "Phone",
+    "pl-PL": "Telefon"
+  },
+  "account-settings-page.invalid-phone": {
+    "en-US": "This is not a valid phone number.",
+    "pl-PL": "To nie jest poprawny numer telefonu."
+  },
+  "account-settings-page.save": {
+    "en-US": "Save",
+    "pl-PL": "Zapisz"
+  },
+  "account-settings-page.saved-successfully": {
+    "en-US": "Saved successfully.",
+    "pl-PL": "Zapisano pomyślnie."
   },
   "inspector-page.inspector": {
     "en-US": "Inspector",
@@ -190,5 +214,13 @@
   "register-page.login": {
     "en-US": "Login",
     "pl-PL": "Logowanie"
+  },
+  "auth-interceptor.jwt-expired": {
+    "en-US": "Your session has expired. Please log in again.",
+    "pl-PL": "Twoja sesja wygasła. Zaloguj się ponownie."
+  },
+  "auth-interceptor.server-error": {
+    "en-US": "Server unreachable.",
+    "pl-PL": "Serwer nieosiągalny."
   }
 }

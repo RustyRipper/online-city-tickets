@@ -1,6 +1,6 @@
 <app-top-bar [title]="i18n.t('register-page.register')" />
 <main>
-  <form [formGroup]="form">
+  <form [formGroup]="form.group">
     <div class="field">
       <label for="fullName">{{ i18n.t("register-page.name") }}</label>
       <input
@@ -8,13 +8,11 @@
         id="fullName"
         pInputText
         type="text"
+        placeholder="John Smith"
         required
       />
     </div>
-    <small
-      *ngIf="form.get('fullName')!.touched && form.get('fullName')!.errors"
-      class="error"
-    >
+    <small *ngIf="form.showError('fullName')" class="error">
       {{ i18n.t("register-page.invalid-name") }}
     </small>
     <div class="field">
@@ -24,14 +22,11 @@
         id="email"
         pInputText
         type="email"
-        aria-describedby="email-help"
+        placeholder="john.smith@example.com"
         required
       />
     </div>
-    <small
-      *ngIf="form.get('email')!.touched && form.get('email')!.errors"
-      class="error"
-    >
+    <small *ngIf="form.showError('email')" class="error">
       {{ i18n.t("register-page.invalid-email") }}
     </small>
     <div class="field">
@@ -44,10 +39,7 @@
         required
       />
     </div>
-    <small
-      *ngIf="form.get('password')!.touched && form.get('password')!.errors"
-      class="error"
-    >
+    <small *ngIf="form.showError('password')" class="error">
       {{ i18n.t("register-page.password-short") }}
     </small>
     <div class="field">
@@ -60,16 +52,13 @@
         required
       />
     </div>
-    <small
-      *ngIf="form.get('repeat')!.touched && form.get('repeat')!.errors"
-      class="error"
-    >
+    <small *ngIf="form.showError('repeat')" class="error">
       {{ i18n.t("register-page.password-mismatch") }}
     </small>
     <div class="center">
       <p-button
-        [disabled]="!form.valid"
-        [loading]="isLoading"
+        [disabled]="form.isSubmitDisabled"
+        [loading]="form.isLoading"
         (onClick)="onSubmit()"
         [label]="i18n.t('register-page.submit')"
         type="submit"
@@ -77,7 +66,7 @@
         iconPos="right"
       />
     </div>
-    <small *ngIf="isError" class="error">{{
+    <small *ngIf="form.isError" class="error">{{
       i18n.t("register-page.email-taken")
     }}</small>
   </form>

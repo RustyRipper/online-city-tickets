@@ -14,6 +14,7 @@ import { PasswordModule } from "primeng/password";
 
 import { AuthService } from "~/shared/auth/services/auth.service";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { Form } from "~/shared/forms/form";
 import { I18nService } from "~/shared/i81n/i18n.service";
 
 const repeatValidator: (name: string) => ValidatorFn = (name) => (control) =>
@@ -36,8 +37,6 @@ const repeatValidator: (name: string) => ValidatorFn = (name) => (control) =>
   styleUrl: "../../auth-form.css",
 })
 export class RegisterPageComponent {
-  private status: "idle" | "loading" | "error" = "idle";
-
   public readonly form;
 
   public constructor(
@@ -46,28 +45,20 @@ export class RegisterPageComponent {
     protected readonly i18n: I18nService,
     formBuilder: FormBuilder,
   ) {
-    this.form = formBuilder.nonNullable.group({
-      fullName: ["", [Validators.required, Validators.minLength(1)]],
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required, Validators.minLength(8)]],
-      repeat: ["", [repeatValidator("password")]],
-    });
-  }
-
-  protected get isLoading() {
-    return this.status === "loading";
-  }
-
-  protected get isError() {
-    return this.status === "error";
+    this.form = new Form(
+      formBuilder.nonNullable.group({
+        fullName: ["", [Validators.required, Validators.minLength(1)]],
+        email: ["", [Validators.required, Validators.email]],
+        password: ["", [Validators.required, Validators.minLength(8)]],
+        repeat: ["", [repeatValidator("password")]],
+      }),
+    );
   }
 
   protected async onSubmit() {
-    this.status = "loading";
-    const account = await this.authService.register(this.form.getRawValue());
-    this.status = account ? "idle" : "error";
-    if (account) {
+    this.form.submit(async () => {
+      await this.authService.register(this.form.value);
       this.router.navigateByUrl("/passenger");
-    }
+    });
   }
 }

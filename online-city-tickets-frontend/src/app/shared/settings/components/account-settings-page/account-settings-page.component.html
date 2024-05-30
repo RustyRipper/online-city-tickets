@@ -1,3 +1,47 @@
 <app-top-bar [title]="i18n.t('account-settings-page.account-settings')">
   <app-back-button left />
 </app-top-bar>
+<main>
+  <form [formGroup]="form.group">
+    <div class="field">
+      <label for="fullName">{{ i18n.t("account-settings-page.name") }}</label>
+      <input
+        formControlName="fullName"
+        id="fullName"
+        pInputText
+        type="text"
+        placeholder="John Smith"
+        required
+      />
+    </div>
+    <small *ngIf="form.showError('fullName')" class="error">
+      {{ i18n.t("account-settings-page.invalid-name") }}
+    </small>
+    <div class="field" *ngIf="isPassenger">
+      <label for="phoneNumber">{{
+        i18n.t("account-settings-page.phone-number")
+      }}</label>
+      <p-inputMask
+        formControlName="phoneNumber"
+        id="phoneNumber"
+        mask="999 999 999"
+        autoClear="false"
+        placeholder="123 456 789"
+      />
+    </div>
+    <small *ngIf="form.showError('phoneNumber')" class="error">{{
+      i18n.t("account-settings-page.invalid-phone")
+    }}</small>
+    <div class="center">
+      <p-button
+        [disabled]="form.isSubmitDisabled"
+        [loading]="form.isLoading"
+        (onClick)="detailsOnSubmit()"
+        [label]="i18n.t('account-settings-page.save')"
+        type="submit"
+        icon="pi pi-save"
+        iconPos="right"
+      />
+    </div>
+  </form>
+</main>
