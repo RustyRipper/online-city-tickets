@@ -13,5 +13,5 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public final class LongTermTicketOfferDto extends BaseTicketOfferDto {
     private final String scope = "long-term";
-    private int intervalInDays;
+    private int validDays;
 }

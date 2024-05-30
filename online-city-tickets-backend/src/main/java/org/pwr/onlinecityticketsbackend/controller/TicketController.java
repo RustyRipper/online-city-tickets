@@ -1,7 +1,6 @@
 package org.pwr.onlinecityticketsbackend.controller;
 
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.dto.PurchaseTicketReqDto;
 import org.pwr.onlinecityticketsbackend.dto.TicketDto;
@@ -37,11 +36,5 @@ public class TicketController {
     public ResponseEntity<TicketDto> getTicket(@PathVariable String code)
             throws AccountNotFound, TicketNotFound, AuthenticationInvalidRequest {
         return ResponseEntity.ok(ticketService.getTicket(code));
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<Map<String, List<TicketDto>>> listTicketsStatus()
-            throws AccountNotFound, AuthenticationInvalidRequest {
-        return ResponseEntity.ok(ticketService.getActiveAndPastTickets());
     }
 }

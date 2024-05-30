@@ -45,19 +45,20 @@ public class Ticket {
     @OneToOne
     private Validation validation;
 
-    public boolean getIsValid(Instant now, String sideNumber) {
+    private static final Duration SINGLE_FARE_TICKET_DURATION = Duration.ofHours(4);
+
+    public boolean getIsActive(Instant now, String sideNumber) {
 
         return switch (offer) {
-            case SingleFareOffer ignored ->
-                    validation == null
-                                    || !validation.getVehicle().getSideNumber().equals(sideNumber)
-                            ? false
-                            : getIsValid(now);
-            default -> getIsValid(now);
+            case null -> throw new IllegalStateException("Offer cannot be null");
+            case SingleFareOffer ignored when validation == null
+                            || !validation.getVehicle().getSideNumber().equals(sideNumber) ->
+                    false;
+            default -> getIsActive(now);
         };
     }
 
-    public boolean getIsValid(Instant now) {
+    public boolean getIsActive(Instant now) {
         Instant validFromTime = getValidFromTime();
         Instant validUntilTime = getValidUntilTime();
 
@@ -71,7 +72,8 @@ public class Ticket {
     public Instant getValidFromTime() {
         return switch (offer) {
             case null -> throw new IllegalStateException("Offer cannot be null");
-            case SingleFareOffer ignored -> validation != null ? validation.getTime() : null;
+            case SingleFareOffer ignored when validation != null -> validation.getTime();
+            case SingleFareOffer ignored -> null;
             default -> purchaseTime;
         };
     }
@@ -79,12 +81,13 @@ public class Ticket {
     public Instant getValidUntilTime() {
         return switch (offer) {
             case null -> throw new IllegalStateException("Offer cannot be null");
-            case SingleFareOffer ignored ->
-                    validation != null ? validation.getTime().plus(Duration.ofHours(4)) : null;
+            case SingleFareOffer ignored when validation != null ->
+                    validation.getTime().plus(SINGLE_FARE_TICKET_DURATION);
+            case SingleFareOffer ignored -> null;
             case TimeLimitedOffer timeLimitedOffer ->
-                    purchaseTime.plus(timeLimitedOffer.getDurationInMinutes());
+                    purchaseTime.plus(timeLimitedOffer.getDuration());
             case LongTermOffer longTermOffer ->
-                    purchaseTime.plus(Duration.ofDays(longTermOffer.getIntervalInDays()));
+                    purchaseTime.plus(Duration.ofDays(longTermOffer.getValidDays()));
             default -> throw new IllegalStateException("Offer type not supported");
         };
     }

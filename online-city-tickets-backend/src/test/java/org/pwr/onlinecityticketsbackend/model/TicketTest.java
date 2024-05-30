@@ -12,13 +12,13 @@ class TicketTest {
         // Given
         Ticket ticket = new Ticket();
         TimeLimitedOffer offer = new TimeLimitedOffer();
-        offer.setDurationInMinutes(Duration.ofHours(2));
+        offer.setDuration(Duration.ofHours(2));
         ticket.setOffer(offer);
 
         ticket.setPurchaseTime(Instant.now().minus(Duration.ofHours(1)));
 
         // When
-        boolean isValid = ticket.getIsValid(Instant.now());
+        boolean isValid = ticket.getIsActive(Instant.now());
 
         // Then
         assertTrue(isValid);
@@ -29,12 +29,12 @@ class TicketTest {
         // Given
         Ticket ticket = new Ticket();
         TimeLimitedOffer offer = new TimeLimitedOffer();
-        offer.setDurationInMinutes(Duration.ofHours(2));
+        offer.setDuration(Duration.ofHours(2));
         ticket.setOffer(offer);
         ticket.setPurchaseTime(Instant.now().plus(Duration.ofHours(1)));
 
         // When
-        boolean isValid = ticket.getIsValid(Instant.now());
+        boolean isValid = ticket.getIsActive(Instant.now());
 
         // Then
         assertFalse(isValid);
@@ -51,7 +51,7 @@ class TicketTest {
         ticket.getValidation().setTime(Instant.now().plus(Duration.ofMinutes(1)));
 
         // When
-        boolean isValid = ticket.getIsValid(Instant.now().plus(Duration.ofMinutes(2)), "123");
+        boolean isValid = ticket.getIsActive(Instant.now().plus(Duration.ofMinutes(2)), "123");
 
         // Then
         assertTrue(isValid);
@@ -67,7 +67,7 @@ class TicketTest {
         ticket.getValidation().getVehicle().setSideNumber("123");
 
         // When
-        boolean isValid = ticket.getIsValid(Instant.now(), "456");
+        boolean isValid = ticket.getIsActive(Instant.now(), "456");
 
         // Then
         assertFalse(isValid);

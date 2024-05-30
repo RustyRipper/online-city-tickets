@@ -3,9 +3,7 @@ package org.pwr.onlinecityticketsbackend.service;
 import jakarta.transaction.Transactional;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
@@ -86,28 +84,5 @@ public class TicketService {
             throw new TicketNotFound();
         }
         return ticketMapper.toDto(ticket.get());
-    }
-
-    public Map<String, List<TicketDto>> getActiveAndPastTickets()
-            throws AccountNotFound, AuthenticationInvalidRequest {
-        Account account = RequestContext.getAccountFromRequest();
-        if (!(account instanceof Passenger passenger)) {
-            throw new AuthenticationInvalidRequest();
-        }
-
-        List<Ticket> tickets = ticketRepository.findByPassengerId(passenger.getId());
-        Instant now = Instant.now();
-
-        return Map.of(
-                "active",
-                        tickets.stream()
-                                .filter(t -> t.getIsValid(now))
-                                .map(ticketMapper::toDto)
-                                .collect(Collectors.toList()),
-                "notActive",
-                        tickets.stream()
-                                .filter(t -> !t.getIsValid(now))
-                                .map(ticketMapper::toDto)
-                                .collect(Collectors.toList()));
     }
 }
