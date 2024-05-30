@@ -26,7 +26,7 @@ public class TicketService {
     private final AccountRepository accountRepository;
     private final TicketOfferRepository ticketOfferRepository;
 
-    public List<TicketDto> listTickets() throws AccountNotFound, AuthenticationInvalidRequest {
+    public List<TicketDto> listTickets() throws UnauthorizedUser, AuthenticationInvalidRequest {
         Account account = RequestContext.getAccountFromRequest();
         if (!(account instanceof Passenger passenger)) {
             throw new AuthenticationInvalidRequest();
@@ -40,7 +40,7 @@ public class TicketService {
     @Transactional
     public TicketDto purchaseTicket(PurchaseTicketReqDto purchaseTicketReqDto)
             throws TicketInsufficientFunds,
-                    AccountNotFound,
+                    UnauthorizedUser,
                     TicketOfferNotFound,
                     AuthenticationInvalidRequest {
         Account account = RequestContext.getAccountFromRequest();
@@ -73,7 +73,7 @@ public class TicketService {
     }
 
     public TicketDto getTicket(String code)
-            throws AccountNotFound, TicketNotFound, AuthenticationInvalidRequest {
+            throws UnauthorizedUser, TicketNotFound, AuthenticationInvalidRequest {
         Account account = RequestContext.getAccountFromRequest();
         if (!(account instanceof Passenger passenger)) {
             throw new AuthenticationInvalidRequest();

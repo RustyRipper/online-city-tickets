@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.dto.authentication.AuthenticationRequestDto;
 import org.pwr.onlinecityticketsbackend.dto.authentication.RegisterRequestDto;
 import org.pwr.onlinecityticketsbackend.dto.authentication.RegisterRequestPassengerDto;
-import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationEmailInUse;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
+import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.service.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,8 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(
-            @RequestBody AuthenticationRequestDto authenticationRequestDto) throws AccountNotFound {
+            @RequestBody AuthenticationRequestDto authenticationRequestDto)
+            throws UnauthorizedUser {
         return ResponseEntity.ok(authenticationService.authenticate(authenticationRequestDto));
     }
 }

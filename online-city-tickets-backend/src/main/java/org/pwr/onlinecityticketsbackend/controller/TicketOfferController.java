@@ -18,12 +18,12 @@ public class TicketOfferController {
     private final TicketOfferService ticketOfferService;
 
     @GetMapping
-    public ResponseEntity<List<? extends BaseTicketOfferDto>> getOffers() {
+    public ResponseEntity<List<BaseTicketOfferDto>> getOffers() {
         return ResponseEntity.ok(ticketOfferService.getOffers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<? extends BaseTicketOfferDto> getOfferById(@PathVariable long id)
+    public ResponseEntity<BaseTicketOfferDto> getOfferById(@PathVariable long id)
             throws TicketOfferNotFound {
         return ResponseEntity.ok(ticketOfferService.getOfferById(id));
     }

@@ -3,7 +3,7 @@ package org.pwr.onlinecityticketsbackend.service;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
+import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
 import org.pwr.onlinecityticketsbackend.model.Role;
@@ -18,7 +18,7 @@ public class AccountServiceIntegrationTest {
     @Autowired private AccountSetup accountSetup;
 
     @Test
-    public void shouldReturnAccountWhenAccountExistsInDatabase() throws AccountNotFound {
+    public void shouldReturnAccountWhenAccountExistsInDatabase() throws UnauthorizedUser {
         // given
         Passenger passenger = accountSetup.setupPassenger();
 
@@ -44,11 +44,11 @@ public class AccountServiceIntegrationTest {
                         () -> accountService.getAccountByEmail("nonexistent@example.com"));
 
         // then
-        Assertions.assertThat(throwable).isInstanceOf(AccountNotFound.class);
+        Assertions.assertThat(throwable).isInstanceOf(UnauthorizedUser.class);
     }
 
     @Test
-    public void shouldCreateInspector() throws AccountNotFound {
+    public void shouldCreateInspector() throws UnauthorizedUser {
         // given
         Inspector inspector = accountSetup.setupInspector();
 

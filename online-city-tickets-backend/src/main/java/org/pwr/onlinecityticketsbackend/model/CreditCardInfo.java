@@ -37,6 +37,6 @@ public class CreditCardInfo {
 
     @ManyToOne
     @JoinColumn(updatable = false, nullable = false, name = "owner_id")
-    @NotNull(message = "Holder name is required")
+    @NotNull(message = "Passenger is required")
     private Passenger owner;
 }

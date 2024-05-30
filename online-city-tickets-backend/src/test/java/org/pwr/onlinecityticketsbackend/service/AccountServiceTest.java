@@ -21,8 +21,8 @@ import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.account.AccountDto;
 import org.pwr.onlinecityticketsbackend.dto.account.PassengerDto;
 import org.pwr.onlinecityticketsbackend.dto.account.UpdateAccountReqDto;
-import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
+import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
 import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
@@ -99,7 +99,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    void shouldGetAccountByEmail() throws AccountNotFound {
+    void shouldGetAccountByEmail() throws UnauthorizedUser {
         // given
         var account = new Account();
         account.setEmail("email");
@@ -120,7 +120,7 @@ public class AccountServiceTest {
         ThrowableAssert.ThrowingCallable resultCallable = () -> sut.getAccountByEmail("email");
 
         // then
-        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(AccountNotFound.class);
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(UnauthorizedUser.class);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    void shouldGetAccountById() throws AccountNotFound {
+    void shouldGetAccountById() throws UnauthorizedUser {
         // given
         var account = new Account();
         account.setId(1L);
@@ -155,11 +155,11 @@ public class AccountServiceTest {
         ThrowableAssert.ThrowingCallable resultCallable = () -> sut.getAccountById(1L);
 
         // then
-        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(AccountNotFound.class);
+        Assertions.assertThatThrownBy(resultCallable).isInstanceOf(UnauthorizedUser.class);
     }
 
     @Test
-    public void testGetCurrentAccountByEmail() throws AccountNotFound {
+    public void testGetCurrentAccountByEmail() throws UnauthorizedUser {
         Account account = new Account();
         account.setEmail("test@test.com");
         account.setRole(Role.PASSENGER);
@@ -183,7 +183,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testGetCurrentAccountByEmail_ThrowsAccountNotFound() throws AccountNotFound {
+    public void testGetCurrentAccountByEmail_ThrowsAccountNotFound() throws UnauthorizedUser {
         Account account = new Account();
         account.setEmail("admin@test.com");
         account.setRole(Role.ADMIN);
@@ -197,11 +197,11 @@ public class AccountServiceTest {
 
         when(RequestContext.getAccountFromRequest()).thenReturn(account);
 
-        assertThrows(AccountNotFound.class, () -> sut.getCurrentAccountByEmail());
+        assertThrows(UnauthorizedUser.class, () -> sut.getCurrentAccountByEmail());
     }
 
     @Test
-    void shouldUpdateAccount() throws AuthenticationInvalidRequest, AccountNotFound {
+    void shouldUpdateAccount() throws AuthenticationInvalidRequest, UnauthorizedUser {
         // given
         UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
         updateAccountReqDto.setFullName("newFullName");
@@ -223,7 +223,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    void shouldNotUpdateAccountWhenRoleIsAdmin() throws AccountNotFound {
+    void shouldNotUpdateAccountWhenRoleIsAdmin() throws UnauthorizedUser {
         // given
         UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
         Account account = new Account();
@@ -241,7 +241,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    void shouldNotUpdatePhoneNumberWhenRoleIsInspector() throws AccountNotFound {
+    void shouldNotUpdatePhoneNumberWhenRoleIsInspector() throws UnauthorizedUser {
         // given
         UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
         updateAccountReqDto.setPhoneNumber("123456789");

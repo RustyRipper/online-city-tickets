@@ -2,8 +2,8 @@ package org.pwr.onlinecityticketsbackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.dto.account.UpdateAccountReqDto;
-import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
+import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.service.AccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,14 +17,14 @@ public class AccountController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'INSPECTOR')")
     @GetMapping
-    public ResponseEntity<?> getAccount() throws AccountNotFound {
+    public ResponseEntity<?> getAccount() throws UnauthorizedUser {
         return ResponseEntity.ok(accountService.getCurrentAccountByEmail());
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'INSPECTOR')")
     @PatchMapping
     public ResponseEntity<?> updateAccount(@RequestBody UpdateAccountReqDto updateAccountReqDto)
-            throws AuthenticationInvalidRequest, AccountNotFound {
+            throws AuthenticationInvalidRequest, UnauthorizedUser {
         return ResponseEntity.ok(accountService.updateAccount(updateAccountReqDto));
     }
 }

@@ -8,9 +8,9 @@ import org.pwr.onlinecityticketsbackend.dto.authentication.AuthenticationRequest
 import org.pwr.onlinecityticketsbackend.dto.authentication.AuthenticationResponseDto;
 import org.pwr.onlinecityticketsbackend.dto.authentication.RegisterRequestDto;
 import org.pwr.onlinecityticketsbackend.dto.authentication.RegisterRequestPassengerDto;
-import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationEmailInUse;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
+import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.model.Account;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -59,7 +59,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponseDto authenticate(AuthenticationRequestDto authenticationRequestDto)
-            throws AccountNotFound {
+            throws UnauthorizedUser {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequestDto.getEmail(),
