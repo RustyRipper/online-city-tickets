@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { InputMaskModule } from "primeng/inputmask";
 import { InputTextModule } from "primeng/inputtext";
@@ -56,6 +57,7 @@ export class AccountSettingsPageComponent {
 
   public constructor(
     private readonly accountsApi: AccountsApi,
+    private readonly messageService: MessageService,
     protected readonly i18n: I18nService,
     activatedRoute: ActivatedRoute,
     formBuilder: FormBuilder,
@@ -86,6 +88,10 @@ export class AccountSettingsPageComponent {
       this.account = await firstValueFrom(
         this.accountsApi.updateAccount({ body: modelToDto(this.form.value) }),
       );
+      this.messageService.add({
+        severity: "success",
+        summary: this.i18n.t("account-settings-page.saved-successfully"),
+      });
     });
   }
 }

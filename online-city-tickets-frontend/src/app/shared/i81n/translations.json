@@ -63,9 +63,9 @@
     "en-US": "Edit",
     "pl-PL": "Edytuj"
   },
-  "settings-page.switch": {
-    "en-US": "Switch",
-    "pl-PL": "Zmień"
+  "settings-page.log-out": {
+    "en-US": "Log out",
+    "pl-PL": "Wyloguj się"
   },
   "settings-page.preferences": {
     "en-US": "Preferences",
@@ -118,6 +118,10 @@
   "account-settings-page.save": {
     "en-US": "Save",
     "pl-PL": "Zapisz"
+  },
+  "account-settings-page.saved-successfully": {
+    "en-US": "Saved successfully.",
+    "pl-PL": "Zapisano pomyślnie."
   },
   "inspector-page.inspector": {
     "en-US": "Inspector",
