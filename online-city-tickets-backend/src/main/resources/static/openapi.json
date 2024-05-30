@@ -676,6 +676,41 @@
                 }
             ]
         },
+        "/tickets/status": {
+            "get": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Get status of tickets.",
+                "operationId": "getTicketsStatus",
+                "responses": {
+                    "200": {
+                        "description": "Fetched tickets successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/TicketDto"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized or on a inspector account."
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/tickets/{code}/validate": {
             "post": {
                 "tags": [

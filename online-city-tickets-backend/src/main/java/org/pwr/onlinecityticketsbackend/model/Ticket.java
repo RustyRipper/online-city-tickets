@@ -3,6 +3,7 @@ package org.pwr.onlinecityticketsbackend.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.time.Duration;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,21 +45,57 @@ public class Ticket {
     @OneToOne
     private Validation validation;
 
-    @SuppressWarnings("unused")
-    private boolean getIsValid(Instant now, String sideNumber) {
-        // TODO: Implement and remove "unused" warning suppression
-        return false;
+    public boolean getIsValid(Instant now, String sideNumber) {
+
+        if (offer instanceof SingleFareOffer) {
+            if (validation == null) {
+                return false;
+            }
+
+            boolean isValidInVehicle = validation.getVehicle().getSideNumber().equals(sideNumber);
+            if (!isValidInVehicle) {
+                return false;
+            }
+        }
+        return getIsValid(now);
     }
 
-    @SuppressWarnings("unused")
-    private Instant getValidFromTime() {
-        // TODO: Implement and remove "unused" warning suppression
-        return null;
+    public boolean getIsValid(Instant now) {
+        Instant validFromTime = getValidFromTime();
+        Instant validUntilTime = getValidUntilTime();
+
+        if (validFromTime == null || validUntilTime == null) {
+            return false;
+        }
+
+        return now.isAfter(validFromTime) && now.isBefore(validUntilTime);
     }
 
-    @SuppressWarnings("unused")
-    private Instant getValidUntilTime() {
-        // TODO: Implement and remove "unused" warning suppression
-        return null;
+    public Instant getValidFromTime() {
+        if (offer == null) {
+            throw new IllegalStateException("Offer cannot be null");
+        }
+
+        if (offer instanceof SingleFareOffer) {
+            return validation != null ? validation.getTime() : null;
+        }
+
+        return purchaseTime;
+    }
+
+    public Instant getValidUntilTime() {
+        if (offer == null) {
+            throw new IllegalStateException("Offer cannot be null");
+        }
+
+        if (offer instanceof SingleFareOffer) {
+            return validation != null ? validation.getTime().plus(Duration.ofHours(4)) : null;
+        } else if (offer instanceof TimeLimitedOffer) {
+            return purchaseTime.plus(((TimeLimitedOffer) offer).getDurationInMinutes());
+        } else if (offer instanceof LongTermOffer) {
+            return purchaseTime.plus(Duration.ofDays(((LongTermOffer) offer).getIntervalInDays()));
+        }
+
+        throw new IllegalStateException("Offer type not supported");
     }
 }

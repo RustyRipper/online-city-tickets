@@ -7,7 +7,7 @@ import org.pwr.onlinecityticketsbackend.model.*;
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        uses = TicketOfferMapper.class)
+        uses = {TicketOfferMapper.class, ValidationMapper.class})
 public interface TicketMapper {
     TicketDto toDto(Ticket ticket);
 }
