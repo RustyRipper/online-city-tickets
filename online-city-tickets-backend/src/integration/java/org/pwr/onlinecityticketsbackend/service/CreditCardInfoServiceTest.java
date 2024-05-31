@@ -13,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.SaveCreditCardReqDto;
+import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.UpdateCreditCardReqDto;
 import org.pwr.onlinecityticketsbackend.exception.CardAlreadySaved;
 import org.pwr.onlinecityticketsbackend.exception.CardExpired;
 import org.pwr.onlinecityticketsbackend.exception.CardNotFound;
@@ -300,5 +301,169 @@ public class CreditCardInfoServiceTest {
                 .hasFieldOrPropertyWithValue("holderName", creditCardToAdd.getHolderName());
 
         Assertions.assertThat(creditCardInfoRepository.findById(result.getId())).isPresent();
+    }
+
+    @Test
+    void updateCreditCardByIdForUserShouldThrowNotPassengerWhenAccountIsNotPassenger() {
+        // given
+        var inspector = accountSetup.setupInspector();
+
+        // when
+        ThrowingCallable result =
+                () -> sut.updateCreditCardByIdForUser(1L, new UpdateCreditCardReqDto(), inspector);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(NotPassenger.class);
+    }
+
+    @ParameterizedTest
+    @MethodSource(
+            "updateCreditCardByIdForUserShouldThrowInvalidCardWhenCreditCardIsInvalidProvider")
+    void updateCreditCardByIdForUserShouldThrowInvalidCardWhenCreditCardIsInvalid(
+            UpdateCreditCardReqDto updateCreditCardReqDto) {
+        // given
+        var passenger = accountSetup.setupPassenger();
+
+        // when
+        ThrowingCallable result =
+                () -> sut.updateCreditCardByIdForUser(1L, updateCreditCardReqDto, passenger);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(InvalidCard.class);
+    }
+
+    static Stream<Arguments>
+            updateCreditCardByIdForUserShouldThrowInvalidCardWhenCreditCardIsInvalidProvider() {
+        return Stream.of(
+                Arguments.of(new UpdateCreditCardReqDto("Lorem ipsum", "00/99")),
+                Arguments.of(new UpdateCreditCardReqDto("Lorem ipsum", "1/99")),
+                Arguments.of(new UpdateCreditCardReqDto("Lorem ipsum", "12/9")));
+    }
+
+    @Test
+    void updateCreditCardByIdForUserShouldThrowCardExpiredWhenCreditCardIsExpired() {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var expiredCreditCard = new UpdateCreditCardReqDto("Lorem ipsum", "10/30");
+
+        // when
+        ThrowingCallable result =
+                () -> sut.updateCreditCardByIdForUser(1L, expiredCreditCard, passenger);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(CardExpired.class);
+    }
+
+    @Test
+    void updateCreditCardByIdForUserShouldThrowCardNotFoundWhenCreditCardInfoNotFound() {
+        // given
+        var passenger = accountSetup.setupPassenger();
+
+        // when
+        ThrowingCallable result =
+                () -> sut.updateCreditCardByIdForUser(1L, new UpdateCreditCardReqDto(), passenger);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(CardNotFound.class);
+    }
+
+    @Test
+    void
+            updateCreditCardByIdForUserShouldThrowCardNotFoundWhenTryingToUpdateCreditCardInfoOfAnotherPassenger() {
+        // given
+        var passenger1 = accountSetup.setupPassenger();
+        var passenger2 = accountSetup.setupPassenger();
+        var creditCardInfo = creditCardInfoSetup.setupCreditCardInfo(passenger1);
+
+        // when
+        ThrowingCallable result =
+                () ->
+                        sut.updateCreditCardByIdForUser(
+                                creditCardInfo.getId(), new UpdateCreditCardReqDto(), passenger2);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(CardNotFound.class);
+    }
+
+    @Test
+    void updateCreditCardByIdForUserShouldUpdateCreditCardInfoWhenCreditCardIsValidAndNotExpired()
+            throws NotPassenger, CardExpired, InvalidCard, CardNotFound {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var creditCardInfo = creditCardInfoSetup.setupCreditCardInfo(passenger);
+        var updateCreditCardReqDto = new UpdateCreditCardReqDto("Lorem ipsum", "12/35");
+
+        // when
+        var result =
+                sut.updateCreditCardByIdForUser(
+                        creditCardInfo.getId(), updateCreditCardReqDto, passenger);
+
+        // then
+        Assertions.assertThat(result)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("label", updateCreditCardReqDto.getLabel())
+                .hasFieldOrPropertyWithValue(
+                        "expirationDate", updateCreditCardReqDto.getExpirationDate());
+
+        Assertions.assertThat(creditCardInfoRepository.findById(result.getId()))
+                .isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("label", updateCreditCardReqDto.getLabel())
+                .hasFieldOrPropertyWithValue(
+                        "expirationDate", updateCreditCardReqDto.getExpirationDate());
+    }
+
+    @Test
+    void updateCreditCardByIdForUserShouldUpdateLabelWhenCreditCardIsValidAndNotExpired()
+            throws NotPassenger, CardExpired, InvalidCard, CardNotFound {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var creditCardInfo = creditCardInfoSetup.setupCreditCardInfo(passenger);
+        var updateCreditCardReqDto = new UpdateCreditCardReqDto("Lorem ipsum", null);
+
+        // when
+        var result =
+                sut.updateCreditCardByIdForUser(
+                        creditCardInfo.getId(), updateCreditCardReqDto, passenger);
+
+        // then
+        Assertions.assertThat(result)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("label", updateCreditCardReqDto.getLabel())
+                .hasFieldOrPropertyWithValue("expirationDate", creditCardInfo.getExpirationDate());
+
+        Assertions.assertThat(creditCardInfoRepository.findById(result.getId()))
+                .isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("label", updateCreditCardReqDto.getLabel())
+                .hasFieldOrPropertyWithValue("expirationDate", creditCardInfo.getExpirationDate());
+    }
+
+    @Test
+    void updateCreditCardByIdForUserShouldUpdateExpirationDateWhenCreditCardIsValidAndNotExpired()
+            throws NotPassenger, CardExpired, InvalidCard, CardNotFound {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var creditCardInfo = creditCardInfoSetup.setupCreditCardInfo(passenger);
+        var updateCreditCardReqDto = new UpdateCreditCardReqDto(null, "12/35");
+
+        // when
+        var result =
+                sut.updateCreditCardByIdForUser(
+                        creditCardInfo.getId(), updateCreditCardReqDto, passenger);
+
+        // then
+        Assertions.assertThat(result)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("label", creditCardInfo.getLabel())
+                .hasFieldOrPropertyWithValue(
+                        "expirationDate", updateCreditCardReqDto.getExpirationDate());
+
+        Assertions.assertThat(creditCardInfoRepository.findById(result.getId()))
+                .isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("label", creditCardInfo.getLabel())
+                .hasFieldOrPropertyWithValue(
+                        "expirationDate", updateCreditCardReqDto.getExpirationDate());
     }
 }

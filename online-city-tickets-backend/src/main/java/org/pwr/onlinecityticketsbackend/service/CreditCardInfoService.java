@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.CreditCardDto;
 import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.SaveCreditCardReqDto;
+import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.UpdateCreditCardReqDto;
 import org.pwr.onlinecityticketsbackend.exception.CardAlreadySaved;
 import org.pwr.onlinecityticketsbackend.exception.CardExpired;
 import org.pwr.onlinecityticketsbackend.exception.CardNotFound;
@@ -72,13 +73,36 @@ public class CreditCardInfoService {
     }
 
     public CreditCardDto updateCreditCardByIdForUser(
-            Long id, SaveCreditCardReqDto saveCreditCardReqDto, Account account)
+            Long id, UpdateCreditCardReqDto updateCreditCardReqDto, Account account)
             throws NotPassenger, CardExpired, InvalidCard, CardNotFound {
         if (!account.isPassenger()) {
             throw new NotPassenger();
         }
 
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!isCreditCardUpdateValid(updateCreditCardReqDto)) {
+            throw new InvalidCard();
+        }
+
+        if (updateCreditCardReqDto.getExpirationDate() != null
+                && isCreditCardExpired(updateCreditCardReqDto.getExpirationDate())) {
+            throw new CardExpired();
+        }
+
+        var creditCardInfo =
+                creditCardInfoRepository
+                        .findById(id)
+                        .filter(c -> c.getOwner().equals(account))
+                        .orElseThrow(CardNotFound::new);
+
+        if (updateCreditCardReqDto.getLabel() != null) {
+            creditCardInfo.setLabel(updateCreditCardReqDto.getLabel());
+        }
+
+        if (updateCreditCardReqDto.getExpirationDate() != null) {
+            creditCardInfo.setExpirationDate(updateCreditCardReqDto.getExpirationDate());
+        }
+
+        return creditCardInfoMapper.toDto(creditCardInfoRepository.save(creditCardInfo));
     }
 
     public void deleteCreditCardByIdForUser(Long id, Account account)
@@ -119,6 +143,14 @@ public class CreditCardInfoService {
                 && (number != null && isNumberValid(number))
                 && (name != null && isHolderNameValid(name))
                 && (expiration != null && isExpirationDateValid(expiration));
+    }
+
+    private boolean isCreditCardUpdateValid(UpdateCreditCardReqDto updateCreditCardReqDto) {
+        var label = updateCreditCardReqDto.getLabel();
+        var expiration = updateCreditCardReqDto.getExpirationDate();
+
+        return (label == null || isLabelValid(label))
+                && (expiration == null || isExpirationDateValid(expiration));
     }
 
     private boolean isLabelValid(String label) {

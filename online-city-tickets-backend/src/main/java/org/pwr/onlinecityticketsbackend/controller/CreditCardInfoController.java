@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.CreditCardDto;
 import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.SaveCreditCardReqDto;
+import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.UpdateCreditCardReqDto;
 import org.pwr.onlinecityticketsbackend.exception.CardAlreadySaved;
 import org.pwr.onlinecityticketsbackend.exception.CardExpired;
 import org.pwr.onlinecityticketsbackend.exception.CardNotFound;
@@ -54,12 +55,12 @@ public class CreditCardInfoController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<CreditCardDto> updateCreditCardById(
-            @PathVariable Long id, @RequestBody SaveCreditCardReqDto saveCreditCardReqDto)
+            @PathVariable Long id, @RequestBody UpdateCreditCardReqDto updateCreditCardReqDto)
             throws UnauthorizedUser, NotPassenger, CardExpired, InvalidCard, CardNotFound {
         Account account = RequestContext.getAccountFromRequest();
         return ResponseEntity.ok(
                 creditCardInfoService.updateCreditCardByIdForUser(
-                        id, saveCreditCardReqDto, account));
+                        id, updateCreditCardReqDto, account));
     }
 
     @DeleteMapping("/{id}")
