@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CreditCardInfoRepository extends JpaRepository<CreditCardInfo, Long> {
     List<CreditCardInfo> findAllByOwnerId(Long id);
+
+    boolean existsByCardNumber(String cardNumber);
 }

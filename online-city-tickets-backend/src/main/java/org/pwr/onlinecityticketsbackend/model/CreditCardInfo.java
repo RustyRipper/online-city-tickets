@@ -30,8 +30,9 @@ public class CreditCardInfo {
     @NotNull(message = "Expiration date is required")
     private String expirationDate;
 
-    @Column(updatable = false, nullable = false, length = 25)
-    @Size(max = 25, message = "Holder name is too long")
+    @Column(updatable = false, nullable = false, length = 70)
+    @Size(max = 70, message = "Holder name is too long")
+    @Size(min = 1, message = "Holder name is too short")
     @NotNull(message = "Holder name is required")
     private String holderName;
 

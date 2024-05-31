@@ -11,9 +11,16 @@ import org.springframework.stereotype.Component;
 public class CreditCardInfoSetup {
     @Autowired private CreditCardInfoRepository creditCardInfoRepository;
 
-    public CreditCardInfo setupCreditCardInfo(Passenger owner) {
+    public CreditCardInfo setupCreditCardInfo(Passenger owner, String expirationDate) {
         var creditCardInfo = CreditCardInfoGenerator.generateCreditCardInfo();
         creditCardInfo.setOwner(owner);
+        if (expirationDate != null) {
+            creditCardInfo.setExpirationDate(expirationDate);
+        }
         return creditCardInfoRepository.saveAndFlush(creditCardInfo);
+    }
+
+    public CreditCardInfo setupCreditCardInfo(Passenger owner) {
+        return setupCreditCardInfo(owner, null);
     }
 }

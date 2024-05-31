@@ -1,11 +1,22 @@
 package org.pwr.onlinecityticketsbackend.service;
 
 import jakarta.transaction.Transactional;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ListAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.SaveCreditCardReqDto;
+import org.pwr.onlinecityticketsbackend.exception.CardAlreadySaved;
+import org.pwr.onlinecityticketsbackend.exception.CardExpired;
 import org.pwr.onlinecityticketsbackend.exception.CardNotFound;
+import org.pwr.onlinecityticketsbackend.exception.InvalidCard;
 import org.pwr.onlinecityticketsbackend.exception.NotPassenger;
 import org.pwr.onlinecityticketsbackend.mapper.CreditCardInfoMapper;
 import org.pwr.onlinecityticketsbackend.repository.CreditCardInfoRepository;
@@ -13,6 +24,8 @@ import org.pwr.onlinecityticketsbackend.utils.repository.setup.AccountSetup;
 import org.pwr.onlinecityticketsbackend.utils.repository.setup.CreditCardInfoSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootTest
 @Transactional
@@ -22,6 +35,14 @@ public class CreditCardInfoServiceTest {
     @Autowired private CreditCardInfoMapper creditCardInfoMapper;
     @Autowired private CreditCardInfoRepository creditCardInfoRepository;
     @Autowired private CreditCardInfoService sut;
+
+    @TestConfiguration
+    public static class TestConfig {
+        @Bean
+        Clock clock() {
+            return Clock.fixed(Instant.parse("2030-11-01T12:00:00Z"), ZoneId.systemDefault());
+        }
+    }
 
     @Test
     public void getAllCreditCardsForUserShouldThrowNotPassengerWhenAccountIsNotPassenger() {
@@ -175,5 +196,109 @@ public class CreditCardInfoServiceTest {
 
         // then
         Assertions.assertThat(creditCardInfoRepository.findById(creditCardInfo.getId())).isEmpty();
+    }
+
+    @Test
+    void addCreditCardForUserShouldThrowNotPassengerWhenAccountIsNotPassenger() {
+        // given
+        var inspector = accountSetup.setupInspector();
+
+        // when
+        ThrowingCallable result =
+                () -> sut.addCreditCardForUser(new SaveCreditCardReqDto(), inspector);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(NotPassenger.class);
+    }
+
+    @ParameterizedTest
+    @MethodSource("addCreditCardForUserShouldThrowInvalidCardWhenCreditCardIsInvalidProvider")
+    void addCreditCardForUserShouldThrowInvalidCardWhenCreditCardIsInvalid() {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var invalidCreditCard = new SaveCreditCardReqDto();
+
+        // when
+        ThrowingCallable result = () -> sut.addCreditCardForUser(invalidCreditCard, passenger);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(InvalidCard.class);
+    }
+
+    static Stream<Arguments>
+            addCreditCardForUserShouldThrowInvalidCardWhenCreditCardIsInvalidProvider() {
+        return Stream.of(
+                Arguments.of(new SaveCreditCardReqDto("label", null, "Jan Kowalski", "12/99")),
+                Arguments.of(new SaveCreditCardReqDto("label", "2137420697776660", null, "12/99")),
+                Arguments.of(
+                        new SaveCreditCardReqDto(
+                                "label", "2137420697776660", "Jan Kowalski", null)),
+                Arguments.of(
+                        new SaveCreditCardReqDto(
+                                "label", "2137420697776660", "Jan Kowalski", "00/99")),
+                Arguments.of(
+                        new SaveCreditCardReqDto(
+                                "label", "2137420697776660", "Jan Kowalski", "1/99")),
+                Arguments.of(
+                        new SaveCreditCardReqDto(
+                                "label", "2137420697776660", "Jan Kowalski", "12/9")),
+                Arguments.of(
+                        new SaveCreditCardReqDto(
+                                "label", "213742069777XXXX", "Jan Kowalski", "12/99")));
+    }
+
+    @Test
+    void addCreditCardForUserShouldThrowCardExpiredWhenCreditCardIsExpired() {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var expiredCreditCard =
+                new SaveCreditCardReqDto("label", "2137420697776660", "Jan Kowalski", "10/30");
+
+        // when
+        ThrowingCallable result = () -> sut.addCreditCardForUser(expiredCreditCard, passenger);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(CardExpired.class);
+    }
+
+    @Test
+    void addCreditCardForUserShouldThrowCardAlreadySavedWhenCreditCardAlreadySaved() {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var creditCardInfo = creditCardInfoSetup.setupCreditCardInfo(passenger, "12/30");
+        var creditCardAlreadySaved =
+                new SaveCreditCardReqDto(
+                        null,
+                        creditCardInfo.getCardNumber(),
+                        creditCardInfo.getHolderName(),
+                        creditCardInfo.getExpirationDate());
+
+        // when
+        ThrowingCallable result = () -> sut.addCreditCardForUser(creditCardAlreadySaved, passenger);
+
+        // then
+        Assertions.assertThatThrownBy(result).isInstanceOf(CardAlreadySaved.class);
+    }
+
+    @Test
+    void addCreditCardForUserShouldAddCreditCardInfoWhenCreditCardIsValidAndNotExpiredAndNotSaved()
+            throws NotPassenger, CardExpired, InvalidCard, CardAlreadySaved {
+        // given
+        var passenger = accountSetup.setupPassenger();
+        var creditCardToAdd =
+                new SaveCreditCardReqDto("label", "2137420697776660", "Jan Kowalski", "12/35");
+
+        // when
+        var result = sut.addCreditCardForUser(creditCardToAdd, passenger);
+
+        // then
+        Assertions.assertThat(result)
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("label", creditCardToAdd.getLabel())
+                .hasFieldOrPropertyWithValue("lastFourDigits", "6660")
+                .hasFieldOrPropertyWithValue("expirationDate", creditCardToAdd.getExpirationDate())
+                .hasFieldOrPropertyWithValue("holderName", creditCardToAdd.getHolderName());
+
+        Assertions.assertThat(creditCardInfoRepository.findById(result.getId())).isPresent();
     }
 }

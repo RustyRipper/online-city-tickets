@@ -1,5 +1,6 @@
 package org.pwr.onlinecityticketsbackend.service;
 
+import java.time.Clock;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.dto.creditCardInfo.CreditCardDto;
@@ -11,6 +12,7 @@ import org.pwr.onlinecityticketsbackend.exception.InvalidCard;
 import org.pwr.onlinecityticketsbackend.exception.NotPassenger;
 import org.pwr.onlinecityticketsbackend.mapper.CreditCardInfoMapper;
 import org.pwr.onlinecityticketsbackend.model.Account;
+import org.pwr.onlinecityticketsbackend.model.Passenger;
 import org.pwr.onlinecityticketsbackend.repository.CreditCardInfoRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class CreditCardInfoService {
     private final CreditCardInfoRepository creditCardInfoRepository;
     private final CreditCardInfoMapper creditCardInfoMapper;
+    private final Clock clock;
 
     public List<CreditCardDto> getAllCreditCardsForUser(Account account) throws NotPassenger {
         if (!account.isPassenger()) {
@@ -37,7 +40,22 @@ public class CreditCardInfoService {
             throw new NotPassenger();
         }
 
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!isCreditCardValid(saveCreditCardReqDto)) {
+            throw new InvalidCard();
+        }
+
+        if (isCreditCardExpired(saveCreditCardReqDto.getExpirationDate())) {
+            throw new CardExpired();
+        }
+
+        if (creditCardInfoRepository.existsByCardNumber(saveCreditCardReqDto.getNumber())) {
+            throw new CardAlreadySaved();
+        }
+
+        var creditCardInfo = creditCardInfoMapper.toEntity(saveCreditCardReqDto);
+        creditCardInfo.setOwner((Passenger) account);
+
+        return creditCardInfoMapper.toDto(creditCardInfoRepository.save(creditCardInfo));
     }
 
     public CreditCardDto getCreditCardByIdForUser(Long id, Account account)
@@ -76,5 +94,46 @@ public class CreditCardInfoService {
                         .orElseThrow(CardNotFound::new);
 
         creditCardInfoRepository.delete(creditCardInfo);
+    }
+
+    private boolean isCreditCardExpired(String expirationDate) {
+        var expirationYear = Integer.parseInt(expirationDate.substring(3));
+        var expirationMonth = Integer.parseInt(expirationDate.substring(0, 2));
+
+        var now = clock.instant().atZone(clock.getZone());
+
+        var currentYear = now.getYear() % 100;
+        var currentMonth = now.getMonthValue();
+
+        return expirationYear < currentYear
+                || (expirationYear == currentYear && expirationMonth < currentMonth);
+    }
+
+    private boolean isCreditCardValid(SaveCreditCardReqDto saveCreditCardReqDto) {
+        var label = saveCreditCardReqDto.getLabel();
+        var number = saveCreditCardReqDto.getNumber();
+        var name = saveCreditCardReqDto.getHolderName();
+        var expiration = saveCreditCardReqDto.getExpirationDate();
+
+        return (label == null || isLabelValid(label))
+                && (number != null && isNumberValid(number))
+                && (name != null && isHolderNameValid(name))
+                && (expiration != null && isExpirationDateValid(expiration));
+    }
+
+    private boolean isLabelValid(String label) {
+        return label.length() <= 50;
+    }
+
+    private boolean isNumberValid(String number) {
+        return number.length() == 16 && number.chars().allMatch(Character::isDigit);
+    }
+
+    private boolean isHolderNameValid(String holderName) {
+        return holderName.length() >= 1 && holderName.length() <= 70;
+    }
+
+    private boolean isExpirationDateValid(String expirationDate) {
+        return expirationDate.length() == 5 && expirationDate.matches("^(0[1-9]|1[0-2])/[0-9]{2}$");
     }
 }

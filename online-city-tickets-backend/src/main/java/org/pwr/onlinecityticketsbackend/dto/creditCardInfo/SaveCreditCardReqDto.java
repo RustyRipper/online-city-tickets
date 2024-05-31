@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SaveCreditCardReqDto {
     String label;
-    String lastFourDigits;
+    String number;
     String holderName;
     String expirationDate;
 }
