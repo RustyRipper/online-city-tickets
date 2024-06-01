@@ -1,23 +1,14 @@
 import { By } from "@angular/platform-browser";
 
-import { Offer } from "~/passenger/offers/types";
 import { mount } from "~/shared/testing";
+import { MOCK_OFFER } from "~/shared/testing/api-mocks";
 
 import { OfferCardComponent } from "./offer-card.component";
-
-const offer = {
-  id: 1,
-  scope: "single-fare",
-  kind: "standard",
-  displayNameEn: "Single fare",
-  displayNamePl: "Jednorazowy",
-  priceGrosze: 100,
-} satisfies Offer;
 
 describe(OfferCardComponent.name, () => {
   it("should mount", async () => {
     const { sut } = await mount(OfferCardComponent, {
-      inputs: { offer },
+      inputs: { offer: MOCK_OFFER },
     });
 
     expect(sut).toBeTruthy();
@@ -25,7 +16,7 @@ describe(OfferCardComponent.name, () => {
 
   it("should format offer parts using getters", async () => {
     const { sut, element } = await mount(OfferCardComponent, {
-      inputs: { offer },
+      inputs: { offer: MOCK_OFFER },
     });
 
     expect(sut.offerKind).toBe("Standard");
@@ -38,7 +29,7 @@ describe(OfferCardComponent.name, () => {
 
   it("should link if linked is true", async () => {
     const { sut, debug } = await mount(OfferCardComponent, {
-      inputs: { offer, linked: true },
+      inputs: { offer: MOCK_OFFER, linked: true },
     });
 
     expect(sut.routerLink).toBe("/passenger/offers/1");
@@ -47,7 +38,7 @@ describe(OfferCardComponent.name, () => {
 
   it("should not link if linked is false", async () => {
     const { sut, debug } = await mount(OfferCardComponent, {
-      inputs: { offer, linked: false },
+      inputs: { offer: MOCK_OFFER, linked: false },
     });
 
     expect(sut.routerLink).toBeNull();

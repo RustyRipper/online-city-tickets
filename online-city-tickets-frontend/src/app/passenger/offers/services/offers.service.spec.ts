@@ -1,18 +1,9 @@
 import { firstValueFrom } from "rxjs";
 
-import type { Offer } from "~/passenger/offers/types";
 import { provide } from "~/shared/testing";
+import { MOCK_OFFER } from "~/shared/testing/api-mocks";
 
 import { OffersService } from "./offers.service";
-
-const offer = {
-  id: 1,
-  scope: "single-fare",
-  kind: "standard",
-  displayNameEn: "Single fare",
-  displayNamePl: "Jednorazowy",
-  priceGrosze: 100,
-} satisfies Offer;
 
 describe(OffersService.name, () => {
   it("should read preferred ticket offer kind from storage", () => {
@@ -35,8 +26,8 @@ describe(OffersService.name, () => {
     const { sut, mockHttp } = provide(OffersService);
 
     sut.revalidateOffers();
-    mockHttp("/offers", [offer]);
+    mockHttp("/offers", [MOCK_OFFER]);
 
-    expect(await firstValueFrom(sut.offers$)).toEqual([offer]);
+    expect(await firstValueFrom(sut.offers$)).toEqual([MOCK_OFFER]);
   });
 });

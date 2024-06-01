@@ -1382,7 +1382,7 @@
             },
             "vehicleSideNumber": {
                 "type": "string",
-                "pattern": "^[0-9A-Z]{10}$"
+                "pattern": "^[A-Z]{3} [0-9]{5}$"
             },
             "HealthDto": {
                 "required": [
