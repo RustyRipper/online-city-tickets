@@ -37,18 +37,9 @@ public class Account implements UserDetails {
     @NotNull(message = "FullName is required")
     private String fullName;
 
-    @Column(updatable = false, nullable = false, length = 10)
-    @NotNull(message = "Role is required")
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    public boolean isPassenger() {
-        return role == Role.PASSENGER;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_ACCOUNT"));
     }
 
     @Override

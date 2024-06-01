@@ -15,9 +15,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Entity
 @SuperBuilder
 @NoArgsConstructor
-public class Inspector extends Account {
+public class Admin extends Account {
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_INSPECTOR"));
+        return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 }

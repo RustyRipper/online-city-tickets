@@ -2,9 +2,8 @@ package org.pwr.onlinecityticketsbackend.seeder;
 
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
-import org.pwr.onlinecityticketsbackend.model.Account;
+import org.pwr.onlinecityticketsbackend.model.Admin;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
-import org.pwr.onlinecityticketsbackend.model.Role;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
 import org.pwr.onlinecityticketsbackend.service.AccountService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,9 +17,8 @@ public class AccountSeeder {
 
     public void seedAccounts() {
         accountRepository.save(
-                Account.builder()
+                Admin.builder()
                         .email("admin@tickets.pl")
-                        .role(Role.ADMIN)
                         .password(new BCryptPasswordEncoder().encode("12345678"))
                         .fullName("Mr Admin")
                         .build());
@@ -30,7 +28,6 @@ public class AccountSeeder {
         accountRepository.save(
                 Passenger.builder()
                         .email("richGuy@tickets.pl")
-                        .role(Role.PASSENGER)
                         .password(new BCryptPasswordEncoder().encode("12345678"))
                         .walletBalancePln(BigDecimal.valueOf(10.0))
                         .fullName("Rich Guy")

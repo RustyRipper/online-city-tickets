@@ -50,5 +50,4 @@ public class TicketController {
             throws AuthenticationInvalidRequest, VehicleNotFound, TicketNotFound, UnauthorizedUser {
         return ResponseEntity.ok(ticketService.inspectTicket(code, request));
     }
-
 }

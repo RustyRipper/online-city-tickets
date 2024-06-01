@@ -24,7 +24,6 @@ public class AccountMapperTest {
                         .phoneNumber("123456789")
                         .walletBalancePln(new BigDecimal("100.00"))
                         .password(new BCryptPasswordEncoder().encode("password"))
-                        .role(Role.PASSENGER)
                         .build();
 
         // when
@@ -35,7 +34,6 @@ public class AccountMapperTest {
         Assertions.assertThat(result.getEmail()).isEqualTo(model.getEmail());
         Assertions.assertThat(result.getFullName()).isEqualTo(model.getFullName());
         Assertions.assertThat(result.getPhoneNumber()).isEqualTo(model.getPhoneNumber());
-        Assertions.assertThat(result.getType()).isEqualTo(model.getRole().toString().toLowerCase());
         Assertions.assertThat(result.getWalletBalanceGrosze())
                 .isEqualTo(
                         model.getWalletBalancePln().multiply(BigDecimal.valueOf(100)).intValue());
@@ -50,7 +48,6 @@ public class AccountMapperTest {
                         .email("inspector@example.com")
                         .fullName("Inspector Name")
                         .password(new BCryptPasswordEncoder().encode("password"))
-                        .role(Role.INSPECTOR)
                         .build();
 
         // when
@@ -60,6 +57,5 @@ public class AccountMapperTest {
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result.getEmail()).isEqualTo(model.getEmail());
         Assertions.assertThat(result.getFullName()).isEqualTo(model.getFullName());
-        Assertions.assertThat(result.getType()).isEqualTo(model.getRole().toString().toLowerCase());
     }
 }

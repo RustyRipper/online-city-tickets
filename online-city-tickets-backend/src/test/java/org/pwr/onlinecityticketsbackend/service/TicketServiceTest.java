@@ -48,7 +48,6 @@ public class TicketServiceTest {
         passenger = new Passenger();
         passenger.setId(1L);
         passenger.setWalletBalancePln(BigDecimal.valueOf(100));
-        passenger.setRole(Role.PASSENGER);
         passenger.setEmail("123@wp.pl");
 
         ticketOffer = new SingleFareOffer();

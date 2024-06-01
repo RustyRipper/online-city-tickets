@@ -141,8 +141,7 @@ public class TicketService {
             response.setValid(false);
             if (!ticket.get().getIsActive(Instant.now())) {
                 response.setMessage("ticket-expired");
-            }
-            else if (ticket.get().getOffer() instanceof SingleFareOffer) {
+            } else if (ticket.get().getOffer() instanceof SingleFareOffer) {
                 if (ticket.get().getValidation() == null) {
                     response.setMessage("ticket-not-validated");
                 } else if (!ticket.get()

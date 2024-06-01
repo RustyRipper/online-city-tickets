@@ -35,7 +35,6 @@ public class AccountService {
         passenger.setEmail(email);
         passenger.setPhoneNumber(phoneNumber);
         passenger.setPassword(passwordEncoder.encode(password));
-        passenger.setRole(Role.PASSENGER);
         return passengerRepository.save(passenger);
     }
 
@@ -44,13 +43,12 @@ public class AccountService {
         inspector.setEmail(email);
         inspector.setFullName(fullname);
         inspector.setPassword(passwordEncoder.encode(password));
-        inspector.setRole(Role.INSPECTOR);
         return inspectorRepository.save(inspector);
     }
 
     public AccountDto getCurrentAccountByEmail() throws UnauthorizedUser {
         Account account = RequestContext.getAccountFromRequest();
-        if (account.getRole().equals(Role.ADMIN)) {
+        if (account instanceof Admin) {
             throw new UnauthorizedUser();
         }
         return accountMapper.toDto(getAccountByEmail(account.getEmail()));
@@ -71,11 +69,10 @@ public class AccountService {
     public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto)
             throws AuthenticationInvalidRequest, UnauthorizedUser {
         Account account = RequestContext.getAccountFromRequest();
-        if (account.getRole().equals(Role.ADMIN)) {
+        if (account instanceof Admin) {
             throw new AuthenticationInvalidRequest();
         }
-        if (account.getRole().equals(Role.INSPECTOR)
-                && updateAccountReqDto.getPhoneNumber() != null) {
+        if (account instanceof Inspector && updateAccountReqDto.getPhoneNumber() != null) {
             throw new AuthenticationInvalidRequest();
         }
         account.setFullName(
