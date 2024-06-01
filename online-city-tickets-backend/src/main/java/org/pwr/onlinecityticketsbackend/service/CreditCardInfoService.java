@@ -45,6 +45,10 @@ public class CreditCardInfoService {
             throw new InvalidCard();
         }
 
+        if (!isValidLuhn(saveCreditCardReqDto.getNumber())) {
+            throw new InvalidCard();
+        }
+
         if (isCreditCardExpired(saveCreditCardReqDto.getExpirationDate())) {
             throw new CardExpired();
         }
@@ -133,7 +137,26 @@ public class CreditCardInfoService {
                 || (expirationYear == currentYear && expirationMonth < currentMonth);
     }
 
-    private boolean isCreditCardValid(SaveCreditCardReqDto saveCreditCardReqDto) {
+    private static boolean isValidLuhn(String number) {
+        int n = number.length();
+        int total = 0;
+        boolean even = true;
+        for (int i = n - 2; i >= 0; i--) {
+            int digit = number.charAt(i) - '0';
+            if (digit < 0 || digit > 9) {
+                return false;
+            }
+            if (even) {
+                digit <<= 1;
+            }
+            even = !even;
+            total += digit > 9 ? digit - 9 : digit;
+        }
+        int checksum = number.charAt(n - 1) - '0';
+        return (total + checksum) % 10 == 0;
+    }
+
+    private static boolean isCreditCardValid(SaveCreditCardReqDto saveCreditCardReqDto) {
         var label = saveCreditCardReqDto.getLabel();
         var number = saveCreditCardReqDto.getNumber();
         var name = saveCreditCardReqDto.getHolderName();
@@ -145,7 +168,7 @@ public class CreditCardInfoService {
                 && (expiration != null && isExpirationDateValid(expiration));
     }
 
-    private boolean isCreditCardUpdateValid(UpdateCreditCardReqDto updateCreditCardReqDto) {
+    private static boolean isCreditCardUpdateValid(UpdateCreditCardReqDto updateCreditCardReqDto) {
         var label = updateCreditCardReqDto.getLabel();
         var expiration = updateCreditCardReqDto.getExpirationDate();
 
@@ -153,19 +176,19 @@ public class CreditCardInfoService {
                 && (expiration == null || isExpirationDateValid(expiration));
     }
 
-    private boolean isLabelValid(String label) {
+    private static boolean isLabelValid(String label) {
         return label.length() <= 50;
     }
 
-    private boolean isNumberValid(String number) {
+    private static boolean isNumberValid(String number) {
         return number.length() == 16 && number.chars().allMatch(Character::isDigit);
     }
 
-    private boolean isHolderNameValid(String holderName) {
+    private static boolean isHolderNameValid(String holderName) {
         return holderName.length() >= 1 && holderName.length() <= 70;
     }
 
-    private boolean isExpirationDateValid(String expirationDate) {
+    private static boolean isExpirationDateValid(String expirationDate) {
         return expirationDate.length() == 5 && expirationDate.matches("^(0[1-9]|1[0-2])/[0-9]{2}$");
     }
 }

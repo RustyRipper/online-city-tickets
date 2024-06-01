@@ -230,22 +230,22 @@ public class CreditCardInfoServiceTest {
             addCreditCardForUserShouldThrowInvalidCardWhenCreditCardIsInvalidProvider() {
         return Stream.of(
                 Arguments.of(new SaveCreditCardReqDto("label", null, "Jan Kowalski", "12/99")),
-                Arguments.of(new SaveCreditCardReqDto("label", "2137420697776660", null, "12/99")),
+                Arguments.of(new SaveCreditCardReqDto("label", "2137420697776666", null, "12/99")),
                 Arguments.of(
                         new SaveCreditCardReqDto(
-                                "label", "2137420697776660", "Jan Kowalski", null)),
+                                "label", "2137420697776666", "Jan Kowalski", null)),
                 Arguments.of(
                         new SaveCreditCardReqDto(
-                                "label", "2137420697776660", "Jan Kowalski", "00/99")),
+                                "label", "2137420697776666", "Jan Kowalski", "00/99")),
                 Arguments.of(
                         new SaveCreditCardReqDto(
-                                "label", "2137420697776660", "Jan Kowalski", "1/99")),
+                                "label", "2137420697776666", "Jan Kowalski", "1/99")),
                 Arguments.of(
                         new SaveCreditCardReqDto(
-                                "label", "2137420697776660", "Jan Kowalski", "12/9")),
+                                "label", "2137420697776666", "Jan Kowalski", "12/9")),
                 Arguments.of(
                         new SaveCreditCardReqDto(
-                                "label", "213742069777XXXX", "Jan Kowalski", "12/99")));
+                                "label", "2137420697776660", "Jan Kowalski", "12/99")));
     }
 
     @Test
@@ -253,7 +253,7 @@ public class CreditCardInfoServiceTest {
         // given
         var passenger = accountSetup.setupPassenger();
         var expiredCreditCard =
-                new SaveCreditCardReqDto("label", "2137420697776660", "Jan Kowalski", "10/30");
+                new SaveCreditCardReqDto("label", "2137420697776666", "Jan Kowalski", "10/30");
 
         // when
         ThrowingCallable result = () -> sut.addCreditCardForUser(expiredCreditCard, passenger);
@@ -266,7 +266,8 @@ public class CreditCardInfoServiceTest {
     void addCreditCardForUserShouldThrowCardAlreadySavedWhenCreditCardAlreadySaved() {
         // given
         var passenger = accountSetup.setupPassenger();
-        var creditCardInfo = creditCardInfoSetup.setupCreditCardInfo(passenger, "12/30");
+        var creditCardInfo =
+                creditCardInfoSetup.setupCreditCardInfo(passenger, "12/30", "2137420697776666");
         var creditCardAlreadySaved =
                 new SaveCreditCardReqDto(
                         null,
@@ -287,7 +288,7 @@ public class CreditCardInfoServiceTest {
         // given
         var passenger = accountSetup.setupPassenger();
         var creditCardToAdd =
-                new SaveCreditCardReqDto("label", "2137420697776660", "Jan Kowalski", "12/35");
+                new SaveCreditCardReqDto("label", "2137420697776666", "Jan Kowalski", "12/35");
 
         // when
         var result = sut.addCreditCardForUser(creditCardToAdd, passenger);
@@ -296,7 +297,7 @@ public class CreditCardInfoServiceTest {
         Assertions.assertThat(result)
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("label", creditCardToAdd.getLabel())
-                .hasFieldOrPropertyWithValue("lastFourDigits", "6660")
+                .hasFieldOrPropertyWithValue("lastFourDigits", "6666")
                 .hasFieldOrPropertyWithValue("expirationDate", creditCardToAdd.getExpirationDate())
                 .hasFieldOrPropertyWithValue("holderName", creditCardToAdd.getHolderName());
 
