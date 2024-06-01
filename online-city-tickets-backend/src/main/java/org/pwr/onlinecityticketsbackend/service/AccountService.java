@@ -3,10 +3,10 @@ package org.pwr.onlinecityticketsbackend.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
-import org.pwr.onlinecityticketsbackend.dto.AccountDto;
-import org.pwr.onlinecityticketsbackend.dto.UpdateAccountReqDto;
-import org.pwr.onlinecityticketsbackend.exception.AccountNotFound;
+import org.pwr.onlinecityticketsbackend.dto.account.AccountDto;
+import org.pwr.onlinecityticketsbackend.dto.account.UpdateAccountReqDto;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
+import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
 import org.pwr.onlinecityticketsbackend.model.*;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
@@ -48,28 +48,28 @@ public class AccountService {
         return inspectorRepository.save(inspector);
     }
 
-    public AccountDto getCurrentAccountByEmail() throws AccountNotFound {
+    public AccountDto getCurrentAccountByEmail() throws UnauthorizedUser {
         Account account = RequestContext.getAccountFromRequest();
         if (account.getRole().equals(Role.ADMIN)) {
-            throw new AccountNotFound();
+            throw new UnauthorizedUser();
         }
         return accountMapper.toDto(getAccountByEmail(account.getEmail()));
     }
 
-    public Account getAccountByEmail(String email) throws AccountNotFound {
-        return accountRepository.findByEmail(email).orElseThrow(AccountNotFound::new);
+    public Account getAccountByEmail(String email) throws UnauthorizedUser {
+        return accountRepository.findByEmail(email).orElseThrow(UnauthorizedUser::new);
     }
 
     public boolean isEmailInUse(String email) {
         return accountRepository.findByEmail(email).isPresent();
     }
 
-    public Account getAccountById(Long id) throws AccountNotFound {
-        return accountRepository.findById(id).orElseThrow(AccountNotFound::new);
+    public Account getAccountById(Long id) throws UnauthorizedUser {
+        return accountRepository.findById(id).orElseThrow(UnauthorizedUser::new);
     }
 
     public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto)
-            throws AuthenticationInvalidRequest, AccountNotFound {
+            throws AuthenticationInvalidRequest, UnauthorizedUser {
         Account account = RequestContext.getAccountFromRequest();
         if (account.getRole().equals(Role.ADMIN)) {
             throw new AuthenticationInvalidRequest();

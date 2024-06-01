@@ -9,7 +9,7 @@ import org.pwr.onlinecityticketsbackend.model.TicketKind;
 import org.pwr.onlinecityticketsbackend.model.TimeLimitedOffer;
 
 public final class TicketOfferGenerator {
-    private static Faker faker = new Faker();
+    private static final Faker faker = new Faker();
 
     public static SingleFareOffer generateSingleFareOffer() {
         return SingleFareOffer.builder()

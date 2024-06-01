@@ -2,7 +2,9 @@ package org.pwr.onlinecityticketsbackend.mapper;
 
 import java.math.BigDecimal;
 import org.mapstruct.*;
-import org.pwr.onlinecityticketsbackend.dto.*;
+import org.pwr.onlinecityticketsbackend.dto.account.AccountDto;
+import org.pwr.onlinecityticketsbackend.dto.account.InspectorDto;
+import org.pwr.onlinecityticketsbackend.dto.account.PassengerDto;
 import org.pwr.onlinecityticketsbackend.model.*;
 
 @Mapper(

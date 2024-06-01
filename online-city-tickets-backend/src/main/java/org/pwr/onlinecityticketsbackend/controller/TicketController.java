@@ -2,8 +2,8 @@ package org.pwr.onlinecityticketsbackend.controller;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.pwr.onlinecityticketsbackend.dto.PurchaseTicketReqDto;
-import org.pwr.onlinecityticketsbackend.dto.TicketDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.PurchaseTicketReqDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.TicketDto;
 import org.pwr.onlinecityticketsbackend.exception.*;
 import org.pwr.onlinecityticketsbackend.service.TicketService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class TicketController {
 
     @GetMapping
     public ResponseEntity<List<TicketDto>> listTickets()
-            throws AccountNotFound, AuthenticationInvalidRequest {
+            throws UnauthorizedUser, AuthenticationInvalidRequest {
         return ResponseEntity.ok(ticketService.listTickets());
     }
 
@@ -26,7 +26,7 @@ public class TicketController {
     public ResponseEntity<TicketDto> purchaseTicket(
             @RequestBody PurchaseTicketReqDto purchaseTicketReq)
             throws TicketInsufficientFunds,
-                    AccountNotFound,
+                    UnauthorizedUser,
                     TicketOfferNotFound,
                     AuthenticationInvalidRequest {
         return ResponseEntity.status(201).body(ticketService.purchaseTicket(purchaseTicketReq));
@@ -34,7 +34,7 @@ public class TicketController {
 
     @GetMapping("/{code}")
     public ResponseEntity<TicketDto> getTicket(@PathVariable String code)
-            throws AccountNotFound, TicketNotFound, AuthenticationInvalidRequest {
+            throws UnauthorizedUser, TicketNotFound, AuthenticationInvalidRequest {
         return ResponseEntity.ok(ticketService.getTicket(code));
     }
 }

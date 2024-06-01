@@ -1,7 +1,8 @@
-package org.pwr.onlinecityticketsbackend.dto;
+package org.pwr.onlinecityticketsbackend.dto.ticket;
 
 import java.time.Instant;
 import lombok.Data;
+import org.pwr.onlinecityticketsbackend.dto.ticketOffer.BaseTicketOfferDto;
 
 @Data
 public class TicketDto {

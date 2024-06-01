@@ -2,8 +2,8 @@ package org.pwr.onlinecityticketsbackend.mapper;
 
 import java.time.Instant;
 import org.mapstruct.*;
-import org.pwr.onlinecityticketsbackend.dto.TicketDto;
-import org.pwr.onlinecityticketsbackend.dto.TicketStatus;
+import org.pwr.onlinecityticketsbackend.dto.ticket.TicketDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.TicketStatus;
 import org.pwr.onlinecityticketsbackend.model.*;
 
 @Mapper(

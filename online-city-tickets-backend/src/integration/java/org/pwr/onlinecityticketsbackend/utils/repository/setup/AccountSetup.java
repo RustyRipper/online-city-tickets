@@ -11,15 +11,13 @@ import org.springframework.stereotype.Component;
 public class AccountSetup {
     @Autowired private AccountRepository accountRepository;
 
-    @Autowired private AccountGenerator accountGenerator;
-
     public Passenger setupPassenger() {
-        var passenger = accountGenerator.generatePassenger();
+        var passenger = AccountGenerator.generatePassenger();
         return accountRepository.saveAndFlush(passenger);
     }
 
     public Inspector setupInspector() {
-        var inspector = accountGenerator.generateInspector();
+        var inspector = AccountGenerator.generateInspector();
         return accountRepository.saveAndFlush(inspector);
     }
 }

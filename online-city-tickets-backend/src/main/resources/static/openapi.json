@@ -990,7 +990,8 @@
                 "properties": {
                     "label": {
                         "type": "string",
-                        "example": "My favourite card"
+                        "example": "My favourite card",
+                        "maxLength": 50
                     },
                     "number": {
                         "$ref": "#/components/schemas/creditCardNumber"
@@ -1350,7 +1351,8 @@
             "fullName": {
                 "type": "string",
                 "example": "John Smith",
-                "minLength": 1
+                "minLength": 1,
+                "maxLength": 70
             },
             "password": {
                 "type": "string",

@@ -14,8 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
-import org.pwr.onlinecityticketsbackend.dto.PurchaseTicketReqDto;
-import org.pwr.onlinecityticketsbackend.dto.TicketDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.PurchaseTicketReqDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.TicketDto;
 import org.pwr.onlinecityticketsbackend.exception.*;
 import org.pwr.onlinecityticketsbackend.mapper.TicketMapper;
 import org.pwr.onlinecityticketsbackend.model.*;
@@ -44,7 +44,7 @@ public class TicketServiceTest {
     private PurchaseTicketReqDto purchaseTicketReqDto;
 
     @BeforeEach
-    public void setup() throws AccountNotFound {
+    public void setup() throws UnauthorizedUser {
         passenger = new Passenger();
         passenger.setId(1L);
         passenger.setWalletBalancePln(BigDecimal.valueOf(100));
@@ -69,12 +69,12 @@ public class TicketServiceTest {
     public void purchaseTicket_success()
             throws TicketInsufficientFunds,
                     AuthenticationInvalidRequest,
-                    AccountNotFound,
+                    UnauthorizedUser,
                     TicketOfferNotFound {
 
         when(ticketOfferRepository.findById(anyLong())).thenReturn(Optional.of(ticketOffer));
 
-        TicketDto ticketDto = ticketService.purchaseTicket(purchaseTicketReqDto);
+        ticketService.purchaseTicket(purchaseTicketReqDto);
 
         verify(accountRepository, times(1)).save(passenger);
         verify(ticketRepository, times(1)).save(any(Ticket.class));
@@ -101,7 +101,7 @@ public class TicketServiceTest {
     }
 
     @Test
-    public void listTickets_success() throws AccountNotFound, AuthenticationInvalidRequest {
+    public void listTickets_success() throws UnauthorizedUser, AuthenticationInvalidRequest {
         List<Ticket> tickets = new ArrayList<>();
         tickets.add(new Ticket());
         tickets.add(new Ticket());
@@ -118,7 +118,7 @@ public class TicketServiceTest {
 
     @Test
     public void getTicket_success()
-            throws AccountNotFound, TicketNotFound, AuthenticationInvalidRequest {
+            throws UnauthorizedUser, TicketNotFound, AuthenticationInvalidRequest {
         Ticket ticket = new Ticket();
         ticket.setCode("1234567890");
         ticket.setPassenger(passenger);

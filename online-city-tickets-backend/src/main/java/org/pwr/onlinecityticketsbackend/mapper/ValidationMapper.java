@@ -1,7 +1,7 @@
 package org.pwr.onlinecityticketsbackend.mapper;
 
 import org.mapstruct.*;
-import org.pwr.onlinecityticketsbackend.dto.ValidationDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.ValidationDto;
 import org.pwr.onlinecityticketsbackend.model.Validation;
 import org.pwr.onlinecityticketsbackend.model.Vehicle;
 

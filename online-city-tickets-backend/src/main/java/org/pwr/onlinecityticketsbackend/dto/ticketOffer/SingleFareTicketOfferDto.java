@@ -1,4 +1,4 @@
-package org.pwr.onlinecityticketsbackend.dto;
+package org.pwr.onlinecityticketsbackend.dto.ticketOffer;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,4 +9,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public final class InspectorDto extends AccountDto {}
+public final class SingleFareTicketOfferDto extends BaseTicketOfferDto {
+    private final String scope = "single-fare";
+}

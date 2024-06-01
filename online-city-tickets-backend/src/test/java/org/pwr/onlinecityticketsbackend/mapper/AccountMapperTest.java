@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import org.pwr.onlinecityticketsbackend.dto.InspectorDto;
-import org.pwr.onlinecityticketsbackend.dto.PassengerDto;
+import org.pwr.onlinecityticketsbackend.dto.account.InspectorDto;
+import org.pwr.onlinecityticketsbackend.dto.account.PassengerDto;
 import org.pwr.onlinecityticketsbackend.model.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

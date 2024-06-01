@@ -1,4 +1,4 @@
-package org.pwr.onlinecityticketsbackend.dto;
+package org.pwr.onlinecityticketsbackend.dto.ticket;
 
 public enum TicketStatus {
     ACTIVE,
