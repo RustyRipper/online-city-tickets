@@ -3,7 +3,7 @@ import { BehaviorSubject, EMPTY, catchError } from "rxjs";
 
 import { TicketsApi } from "~/generated/api/services";
 
-import type { Ticket } from "../types";
+import { Ticket } from "../model";
 
 @Injectable({
   providedIn: "root",
@@ -18,6 +18,6 @@ export class TicketsService {
     this.ticketsApi
       .listTickets()
       .pipe(catchError(() => EMPTY))
-      .subscribe((v) => this.ticketsSubject.next(v));
+      .subscribe((v) => this.ticketsSubject.next(v.map(Ticket.deserialize)));
   }
 }

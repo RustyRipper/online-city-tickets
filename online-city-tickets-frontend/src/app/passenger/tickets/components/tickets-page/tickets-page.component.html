@@ -1,10 +1,27 @@
 <main>
-  <p>{{ i18n.t("tickets-page.no-tickets") }}</p>
-  <a routerLink="/passenger/offers">
-    <p-button
-      [label]="i18n.t('tickets-page.view-offers')"
-      icon="pi pi-shopping-cart"
-      iconPos="right"
-    />
-  </a>
+  <div
+    class="not-found"
+    *ngIf="activeTickets.length === 0 && inactiveTickets.length === 0"
+  >
+    <p>{{ i18n.t("tickets-page.no-tickets") }}</p>
+    <a routerLink="/passenger/offers">
+      <p-button
+        [label]="i18n.t('tickets-page.view-offers')"
+        icon="pi pi-shopping-cart"
+        iconPos="right"
+      />
+    </a>
+  </div>
+  <section *ngIf="activeTickets.length > 0">
+    <h2>{{ i18n.t("tickets-page.active") }}</h2>
+    <div *ngFor="let ticket of activeTickets">
+      {{ stringify(ticket) }}
+    </div>
+  </section>
+  <section *ngIf="inactiveTickets.length > 0">
+    <h2>{{ i18n.t("tickets-page.archived") }}</h2>
+    <div *ngFor="let ticket of activeTickets">
+      {{ stringify(ticket) }}
+    </div>
+  </section>
 </main>

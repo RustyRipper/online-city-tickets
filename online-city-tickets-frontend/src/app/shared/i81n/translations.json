@@ -19,6 +19,14 @@
     "en-US": "View offers",
     "pl-PL": "Zobacz oferty"
   },
+  "tickets-page.active": {
+    "en-US": "Active",
+    "pl-PL": "Aktywne"
+  },
+  "tickets-page.archived": {
+    "en-US": "Archived",
+    "pl-PL": "Archiwalne"
+  },
   "offer-list-page.standard": {
     "en-US": "Standard",
     "pl-PL": "Normalne"
