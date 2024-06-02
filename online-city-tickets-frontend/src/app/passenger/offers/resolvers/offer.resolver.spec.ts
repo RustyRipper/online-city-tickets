@@ -10,7 +10,7 @@ describe(offerResolver.name, () => {
     });
     mockHttp("/offers/123", MOCK_OFFER);
 
-    expect(await result).toBe(MOCK_OFFER);
+    expect(await result).toEqual(MOCK_OFFER);
   });
 
   it("should return an empty observable if the offer does not exist", async () => {

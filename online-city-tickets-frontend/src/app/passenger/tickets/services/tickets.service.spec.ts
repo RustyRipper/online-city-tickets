@@ -1,9 +1,9 @@
 import { firstValueFrom } from "rxjs";
 
+import { Ticket } from "~/passenger/tickets/model";
 import { provide } from "~/shared/testing";
 import { MOCK_TICKET } from "~/shared/testing/api-mocks";
 
-import { Ticket } from "../model";
 import { TicketsService } from "./tickets.service";
 
 describe(TicketsService.name, () => {

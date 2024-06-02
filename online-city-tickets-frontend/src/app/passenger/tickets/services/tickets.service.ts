@@ -2,8 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, catchError } from "rxjs";
 
 import { TicketsApi } from "~/generated/api/services";
-
-import { Ticket } from "../model";
+import { Ticket } from "~/passenger/tickets/model";
 
 @Injectable({
   providedIn: "root",

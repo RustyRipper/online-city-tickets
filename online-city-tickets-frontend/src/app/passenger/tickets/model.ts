@@ -1,6 +1,5 @@
 import type { TicketDto, ValidationDto } from "~/generated/api/models";
-
-import type { Offer } from "../offers/types";
+import type { Offer } from "~/passenger/offers/types";
 
 export type TicketStatus = "unvalidated" | "active" | "archived";
 
@@ -41,6 +40,10 @@ export class Ticket {
     })();
 
     return new Date(start.getTime() + duration);
+  }
+
+  public get vehicleSideNumber(): string | null {
+    return this.validation ? this.validation.vehicleSideNumber : null;
   }
 
   public get status(): TicketStatus {

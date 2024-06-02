@@ -1,6 +1,7 @@
 import type { Routes } from "@angular/router";
 
 import { offerResolver } from "~/passenger/offers/resolvers/offer.resolver";
+import { ticketResolver } from "~/passenger/tickets/resolvers/ticket.resolver";
 import { balanceResolver } from "~/passenger/wallet/resolvers/balance.resolver";
 import { hasRole } from "~/shared/auth/guards/has-role.guard";
 import { accountResolver } from "~/shared/auth/resolvers/account.resolver";
@@ -65,6 +66,14 @@ export const routes: Routes = [
             "~/passenger/offers/components/offer-details-page/offer-details-page.component"
           ).then((m) => m.OfferDetailsPageComponent),
         resolve: { offer: offerResolver, balance: balanceResolver },
+      },
+      {
+        path: "tickets/:code",
+        loadComponent: () =>
+          import(
+            "~/passenger/tickets/components/ticket-details-page/ticket-details-page.component"
+          ).then((m) => m.TicketDetailsPageComponent),
+        resolve: { ticket: ticketResolver, account: accountResolver },
       },
       {
         path: "wallet",

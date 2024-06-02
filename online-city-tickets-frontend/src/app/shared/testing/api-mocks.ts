@@ -1,4 +1,16 @@
-import type { TicketDto, TicketOfferDto } from "~/generated/api/models";
+import type {
+  AccountDto,
+  TicketDto,
+  TicketOfferDto,
+} from "~/generated/api/models";
+
+export const MOCK_PASSENGER = {
+  email: "passenger@tickets.pl",
+  fullName: "John Doe",
+  type: "passenger",
+  walletBalanceGrosze: 100,
+  phoneNumber: "123456789",
+} satisfies AccountDto;
 
 export const MOCK_OFFER = {
   id: 1,

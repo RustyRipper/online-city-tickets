@@ -1,7 +1,7 @@
+import { Ticket } from "~/passenger/tickets/model";
 import { mount } from "~/shared/testing";
 import { MOCK_TICKET } from "~/shared/testing/api-mocks";
 
-import { Ticket } from "../../model";
 import { TicketCardComponent } from "./ticket-card.component";
 
 describe(TicketCardComponent.name, () => {

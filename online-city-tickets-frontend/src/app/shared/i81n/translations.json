@@ -55,6 +55,54 @@
     "en-US": "Buy again",
     "pl-PL": "Kup ponownie"
   },
+  "ticket-details-page.standard": {
+    "en-US": "standard",
+    "pl-PL": "normalny"
+  },
+  "ticket-details-page.reduced": {
+    "en-US": "reduced",
+    "pl-PL": "ulgowy"
+  },
+  "ticket-details-page.unvalidated": {
+    "en-US": "unvalidated",
+    "pl-PL": "nieskasowany"
+  },
+  "ticket-details-page.archived": {
+    "en-US": "archived",
+    "pl-PL": "archiwalny"
+  },
+  "ticket-details-page.valid-from": {
+    "en-US": "Valid from",
+    "pl-PL": "Ważny od"
+  },
+  "ticket-details-page.valid-until": {
+    "en-US": "Valid until",
+    "pl-PL": "Ważny do"
+  },
+  "ticket-details-page.purchased-at": {
+    "en-US": "Purchased at",
+    "pl-PL": "Zakupiono"
+  },
+  "ticket-details-page.vehicle-side-number": {
+    "en-US": "Vehicle side number",
+    "pl-PL": "Numer boczny pojazdu"
+  },
+  "ticket-details-page.full-name": {
+    "en-US": "Full name",
+    "pl-PL": "Imię i nazwisko"
+  },
+  "ticket-details-page.phone-number": {
+    "en-US": "Phone number",
+    "pl-PL": "Numer telefonu"
+  },
+  "ticket-details-page.price": {
+    "en-US": "Price",
+    "pl-PL": "Cena"
+  },
+  "ticket-details-page.ticket-code": {
+    "en-US": "Ticket code",
+    "pl-PL": "Kod biletu"
+  },
   "offer-list-page.standard": {
     "en-US": "Standard",
     "pl-PL": "Normalne"

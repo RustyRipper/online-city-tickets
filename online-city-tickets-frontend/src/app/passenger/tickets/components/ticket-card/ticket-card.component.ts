@@ -2,10 +2,9 @@ import { Component, Input } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 
+import { Ticket } from "~/passenger/tickets/model";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
 import { I18nService } from "~/shared/i81n/i18n.service";
-
-import { Ticket } from "../../model";
 
 @Component({
   selector: "app-ticket-card",
@@ -36,7 +35,7 @@ export class TicketCardComponent {
     return translated.replaceAll(" ", "\n");
   }
 
-  public get ticketPrice(): string {
+  protected get ticketPrice(): string {
     return `${(this.ticket.offer.priceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
   }
 }

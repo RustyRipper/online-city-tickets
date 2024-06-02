@@ -2,11 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 
+import { TicketCardComponent } from "~/passenger/tickets/components/ticket-card/ticket-card.component";
+import { Ticket, TicketStatus } from "~/passenger/tickets/model";
+import { TicketsService } from "~/passenger/tickets/services/tickets.service";
 import { I18nService } from "~/shared/i81n/i18n.service";
-
-import { Ticket, TicketStatus } from "../../model";
-import { TicketsService } from "../../services/tickets.service";
-import { TicketCardComponent } from "../ticket-card/ticket-card.component";
 
 type StatusList = { [status in TicketStatus]: Ticket[] };
 
