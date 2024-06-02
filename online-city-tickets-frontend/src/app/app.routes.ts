@@ -46,8 +46,8 @@ export const routes: Routes = [
             path: "tickets",
             loadComponent: () =>
               import(
-                "~/passenger/tickets/components/tickets-page/tickets-page.component"
-              ).then((m) => m.TicketsPageComponent),
+                "~/passenger/tickets/components/ticket-list-page/ticket-list-page.component"
+              ).then((m) => m.TicketListPageComponent),
           },
           {
             path: "offers",

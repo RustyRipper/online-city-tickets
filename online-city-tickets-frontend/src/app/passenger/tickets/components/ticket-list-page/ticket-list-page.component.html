@@ -1,10 +1,10 @@
 <main>
   @if (isEmpty) {
     <div class="not-found">
-      <p>{{ i18n.t("tickets-page.no-tickets") }}</p>
+      <p>{{ i18n.t("ticket-list-page.no-tickets") }}</p>
       <a routerLink="/passenger/offers">
         <p-button
-          [label]="i18n.t('tickets-page.view-offers')"
+          [label]="i18n.t('ticket-list-page.view-offers')"
           icon="pi pi-shopping-cart"
           iconPos="right"
         />

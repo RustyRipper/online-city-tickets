@@ -11,23 +11,23 @@
     "en-US": "Shop",
     "pl-PL": "Sklep"
   },
-  "tickets-page.no-tickets": {
+  "ticket-list-page.no-tickets": {
     "en-US": "You don't have any tickets!",
     "pl-PL": "Nie masz żadnych biletów!"
   },
-  "tickets-page.view-offers": {
+  "ticket-list-page.view-offers": {
     "en-US": "View offers",
     "pl-PL": "Zobacz oferty"
   },
-  "tickets-page.unvalidated": {
+  "ticket-list-page.unvalidated": {
     "en-US": "Unvalidated",
     "pl-PL": "Nieskasowane"
   },
-  "tickets-page.active": {
+  "ticket-list-page.active": {
     "en-US": "Active",
     "pl-PL": "Aktywne"
   },
-  "tickets-page.archived": {
+  "ticket-list-page.archived": {
     "en-US": "Archived",
     "pl-PL": "Archiwalne"
   },

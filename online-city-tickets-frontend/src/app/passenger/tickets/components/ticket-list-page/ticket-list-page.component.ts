@@ -11,13 +11,13 @@ import { TicketCardComponent } from "../ticket-card/ticket-card.component";
 type StatusList = { [status in TicketStatus]: Ticket[] };
 
 @Component({
-  selector: "app-tickets-page",
+  selector: "app-ticket-list-page",
   standalone: true,
   imports: [RouterModule, ButtonModule, TicketCardComponent],
-  templateUrl: "./tickets-page.component.html",
-  styleUrl: "./tickets-page.component.css",
+  templateUrl: "./ticket-list-page.component.html",
+  styleUrl: "./ticket-list-page.component.css",
 })
-export class TicketsPageComponent implements OnInit {
+export class TicketListPageComponent implements OnInit {
   protected readonly statuses = ["unvalidated", "active", "archived"] as const;
   protected tickets: StatusList = { unvalidated: [], active: [], archived: [] };
 
@@ -31,7 +31,7 @@ export class TicketsPageComponent implements OnInit {
   }
 
   protected groupLabel(status: TicketStatus): string {
-    return this.i18n.t(`tickets-page.${status}`);
+    return this.i18n.t(`ticket-list-page.${status}`);
   }
 
   public ngOnInit(): void {
