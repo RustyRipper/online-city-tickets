@@ -13,6 +13,7 @@ export const MOCK_TICKET = {
   code: "ABC1234567",
   offer: MOCK_OFFER,
   purchaseTime: "2021-09-01T15:00:00Z",
+  ticketStatus: "ACTIVE",
   validation: {
     time: "2021-09-01T15:10:00Z",
     vehicleSideNumber: "WAW 12345",

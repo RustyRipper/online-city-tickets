@@ -3,6 +3,7 @@ import { firstValueFrom } from "rxjs";
 import { provide } from "~/shared/testing";
 import { MOCK_TICKET } from "~/shared/testing/api-mocks";
 
+import { Ticket } from "../model";
 import { TicketsService } from "./tickets.service";
 
 describe(TicketsService.name, () => {
@@ -18,6 +19,8 @@ describe(TicketsService.name, () => {
     sut.revalidateTickets();
     mockHttp("/tickets", [MOCK_TICKET]);
 
-    expect(await firstValueFrom(sut.tickets$)).toEqual([MOCK_TICKET]);
+    expect(await firstValueFrom(sut.tickets$)).toEqual([
+      Ticket.deserialize(MOCK_TICKET),
+    ]);
   });
 });
