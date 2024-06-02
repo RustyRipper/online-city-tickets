@@ -1,0 +1,48 @@
+<article [attr.data-status]="ticket.status">
+  <div class="left">
+    <a [routerLink]="['/passenger/tickets', ticket.code]" class="ticket">
+      <div class="ticket-kind" [attr.data-kind]="ticket.offer.kind">
+        {{ ticketKind }}
+      </div>
+      <div class="ticket-name">
+        {{ ticketName }}
+      </div>
+      <div class="ticket-inspection">
+        {{ i18n.t("ticket-card.inspection") }}
+      </div>
+    </a>
+  </div>
+  <div class="right">
+    @if (ticket.validUntil) {
+      <p>
+        <i class="pi pi-calendar-clock"></i>
+        <span
+          >{{ i18n.t("ticket-card.valid-until") }} <br />
+          {{ ticket.validUntil.toLocaleDateString() }}, <br />
+          {{ ticket.validUntil.toLocaleTimeString() }}</span
+        >
+      </p>
+    } @else if (ticket.validFrom) {
+      <p>
+        <i class="pi pi-calendar-clock"></i>
+        <span
+          >{{ i18n.t("ticket-card.valid-from") }} <br />
+          {{ ticket.validFrom.toLocaleDateString() }}, <br />
+          {{ ticket.validFrom.toLocaleTimeString() }}</span
+        >
+      </p>
+    }
+    <p>
+      <i class="pi pi-tag"></i>
+      <span>{{ ticketPrice }}</span>
+    </p>
+    <a [routerLink]="['/passenger/offers', ticket.offer.id]">
+      <p-button
+        [label]="i18n.t('ticket-card.buy-again')"
+        icon="pi pi-shopping-cart"
+        iconPos="right"
+        size="small"
+        severity="secondary"
+    /></a>
+  </div>
+</article>

@@ -1089,13 +1089,13 @@
             "$ref": "#/components/schemas/BaseTicketOfferDto"
           },
           {
-            "required": ["scope", "intervalInDays"],
+            "required": ["scope", "validDays"],
             "properties": {
               "scope": {
                 "type": "string",
                 "enum": ["long-term"]
               },
-              "intervalInDays": {
+              "validDays": {
                 "type": "integer",
                 "minimum": 1
               }
