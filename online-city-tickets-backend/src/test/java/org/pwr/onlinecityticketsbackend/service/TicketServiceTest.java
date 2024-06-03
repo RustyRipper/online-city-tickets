@@ -13,20 +13,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
-import org.pwr.onlinecityticketsbackend.dto.ticket.PurchaseTicketReqDto;
-import org.pwr.onlinecityticketsbackend.dto.ticket.TicketDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.*;
 import org.pwr.onlinecityticketsbackend.exception.*;
 import org.pwr.onlinecityticketsbackend.mapper.TicketMapper;
 import org.pwr.onlinecityticketsbackend.model.*;
-import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
-import org.pwr.onlinecityticketsbackend.repository.TicketOfferRepository;
-import org.pwr.onlinecityticketsbackend.repository.TicketRepository;
+import org.pwr.onlinecityticketsbackend.repository.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class TicketServiceTest {
 
     @Mock private TicketMapper ticketMapper;
@@ -36,6 +36,10 @@ public class TicketServiceTest {
     @Mock private AccountRepository accountRepository;
 
     @Mock private TicketOfferRepository ticketOfferRepository;
+
+    @Mock private VehicleRepository vehicleRepository;
+
+    @Mock private ValidationRepository validationRepository;
 
     @InjectMocks private TicketService ticketService;
 
@@ -137,5 +141,121 @@ public class TicketServiceTest {
         when(ticketRepository.findByCode(anyString())).thenReturn(Optional.empty());
 
         assertThrows(TicketNotFound.class, () -> ticketService.getTicket("1234567890"));
+    }
+
+    @Test
+    public void validateTicket_ticketNotFound() {
+        when(ticketRepository.findByCode(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(
+                TicketNotFound.class,
+                () -> ticketService.validateTicket("1234567890", new ValidateTicketReq()));
+    }
+
+    @Test
+    public void validateTicket_ticketAlreadyValidated() {
+        Ticket ticket = new Ticket();
+        ticket.setOffer(new SingleFareOffer());
+        ticket.setValidation(new Validation());
+
+        when(ticketRepository.findByCode(anyString())).thenReturn(Optional.of(ticket));
+
+        assertThrows(
+                TicketAlreadyValidated.class,
+                () -> ticketService.validateTicket("1234567890", new ValidateTicketReq()));
+    }
+
+    @Test
+    public void validateTicket_vehicleNotFound() {
+        Ticket ticket = new Ticket();
+        ticket.setOffer(new SingleFareOffer());
+
+        when(ticketRepository.findByCode(anyString())).thenReturn(Optional.of(ticket));
+        when(vehicleRepository.findBySideNumber(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(
+                VehicleNotFound.class,
+                () -> ticketService.validateTicket("1234567890", new ValidateTicketReq()));
+    }
+
+    @Test
+    public void validateTicket_success()
+            throws TicketNotFound, TicketAlreadyValidated, VehicleNotFound {
+        Ticket ticket = new Ticket();
+        ticket.setOffer(new SingleFareOffer());
+
+        Vehicle vehicle = new Vehicle();
+        vehicle.setSideNumber("123");
+        Validation validation = new Validation();
+        validation.setVehicle(vehicle);
+
+        when(ticketRepository.findByCode(anyString())).thenReturn(Optional.of(ticket));
+        when(vehicleRepository.findBySideNumber(anyString())).thenReturn(Optional.of(vehicle));
+        when(validationRepository.save(any(Validation.class))).thenReturn(validation);
+        when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
+        when(ticketMapper.toDto(any(Ticket.class))).thenReturn(new TicketDto());
+
+        ValidateTicketReq validateTicketReq = new ValidateTicketReq();
+        validateTicketReq.setVehicleSideNumber("123");
+        TicketDto result = ticketService.validateTicket("1234567890", validateTicketReq);
+
+        assertNotNull(result);
+        verify(validationRepository, times(1)).save(any(Validation.class));
+        verify(ticketRepository, times(1)).save(any(Ticket.class));
+    }
+
+    @Test
+    public void inspectTicket_unauthorizedUser() throws UnauthorizedUser {
+        Account account = new Passenger();
+        when(RequestContext.getAccountFromRequest()).thenReturn(account);
+
+        assertThrows(
+                AuthenticationInvalidRequest.class,
+                () -> ticketService.inspectTicket("1234567890", new InspectTicketReq()));
+    }
+
+    @Test
+    public void inspectTicket_ticketNotFound() throws UnauthorizedUser {
+        Account account = new Inspector();
+        when(RequestContext.getAccountFromRequest()).thenReturn(account);
+        when(ticketRepository.findByCode(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(
+                TicketNotFound.class,
+                () -> ticketService.inspectTicket("1234567890", new InspectTicketReq()));
+    }
+
+    @Test
+    public void inspectTicket_vehicleNotFound() throws UnauthorizedUser {
+        Account account = new Inspector();
+        Ticket ticket = new Ticket();
+        ticket.setOffer(new SingleFareOffer());
+
+        when(RequestContext.getAccountFromRequest()).thenReturn(account);
+        when(ticketRepository.findByCode(anyString())).thenReturn(Optional.of(ticket));
+        when(vehicleRepository.findBySideNumber(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(
+                VehicleNotFound.class,
+                () -> ticketService.inspectTicket("1234567890", new InspectTicketReq()));
+    }
+
+    @Test
+    public void inspectTicket_success()
+            throws TicketNotFound, VehicleNotFound, UnauthorizedUser, AuthenticationInvalidRequest {
+        Account account = new Inspector();
+        Ticket ticket = new Ticket();
+        ticket.setOffer(new SingleFareOffer());
+        Vehicle vehicle = new Vehicle();
+
+        when(RequestContext.getAccountFromRequest()).thenReturn(account);
+        when(ticketRepository.findByCode(anyString())).thenReturn(Optional.of(ticket));
+        when(vehicleRepository.findBySideNumber(anyString())).thenReturn(Optional.of(vehicle));
+
+        InspectTicketReq request = new InspectTicketReq();
+        request.setVehicleSideNumber("123");
+        InspectTicketRes result = ticketService.inspectTicket("1234567890", request);
+
+        assertNotNull(result);
     }
 }
