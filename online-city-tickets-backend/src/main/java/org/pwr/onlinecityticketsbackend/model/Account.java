@@ -32,8 +32,8 @@ public class Account implements UserDetails {
     @NotNull(message = "Password is required")
     private String password;
 
-    @Column(nullable = false, length = 50)
-    @Size(max = 50, message = "FullName is too long")
+    @Column(nullable = false, length = 70)
+    @Size(max = 70, message = "FullName is too long")
     @NotNull(message = "FullName is required")
     private String fullName;
 

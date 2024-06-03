@@ -1,25 +1,16 @@
-import type { Offer } from "~/passenger/offers/types";
 import { execute } from "~/shared/testing";
+import { MOCK_OFFER } from "~/shared/testing/api-mocks";
 
 import { offerResolver } from "./offer.resolver";
-
-const offer = {
-  id: 1,
-  scope: "single-fare",
-  kind: "standard",
-  displayNameEn: "Single fare",
-  displayNamePl: "Jednorazowy",
-  priceGrosze: 100,
-} satisfies Offer;
 
 describe(offerResolver.name, () => {
   it("should return the offer if it exists", async () => {
     const { result, mockHttp } = execute(offerResolver, {
       params: { id: "123" },
     });
-    mockHttp("/offers/123", offer);
+    mockHttp("/offers/123", MOCK_OFFER);
 
-    expect(await result).toBe(offer);
+    expect(await result).toEqual(MOCK_OFFER);
   });
 
   it("should return an empty observable if the offer does not exist", async () => {

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.ticket.*;
+import org.pwr.onlinecityticketsbackend.dto.ticket.PurchaseTicketReqDto;
+import org.pwr.onlinecityticketsbackend.dto.ticket.TicketDto;
 import org.pwr.onlinecityticketsbackend.exception.*;
 import org.pwr.onlinecityticketsbackend.mapper.TicketMapper;
 import org.pwr.onlinecityticketsbackend.model.*;

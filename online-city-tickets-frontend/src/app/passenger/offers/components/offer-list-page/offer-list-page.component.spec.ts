@@ -3,18 +3,12 @@ import { By } from "@angular/platform-browser";
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
 import { Offer } from "~/passenger/offers/types";
 import { mount } from "~/shared/testing";
+import { MOCK_OFFER } from "~/shared/testing/api-mocks";
 
 import { OfferListPageComponent } from "./offer-list-page.component";
 
 const offers = [
-  {
-    id: 1,
-    kind: "standard",
-    scope: "single-fare",
-    displayNameEn: "Single fare",
-    displayNamePl: "Jednorazowy",
-    priceGrosze: 100,
-  },
+  MOCK_OFFER,
   {
     id: 2,
     kind: "standard",

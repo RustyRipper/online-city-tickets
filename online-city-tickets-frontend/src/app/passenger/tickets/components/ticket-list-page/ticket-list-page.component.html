@@ -1,0 +1,25 @@
+<main>
+  @if (isEmpty) {
+    <div class="not-found">
+      <p>{{ i18n.t("ticket-list-page.no-tickets") }}</p>
+      <a routerLink="/passenger/offers">
+        <p-button
+          [label]="i18n.t('ticket-list-page.view-offers')"
+          icon="pi pi-shopping-cart"
+          iconPos="right"
+        />
+      </a>
+    </div>
+  } @else {
+    @for (status of statuses; track status) {
+      @if (tickets[status].length > 0) {
+        <section>
+          <h2>{{ groupLabel(status) }}</h2>
+          @for (ticket of tickets[status]; track ticket.code) {
+            <app-ticket-card [ticket]="ticket" />
+          }
+        </section>
+      }
+    }
+  }
+</main>
