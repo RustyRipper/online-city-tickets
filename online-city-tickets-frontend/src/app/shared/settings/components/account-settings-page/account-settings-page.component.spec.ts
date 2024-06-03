@@ -1,20 +1,12 @@
-import type { AccountDto } from "~/generated/api/models";
 import { mount } from "~/shared/testing";
+import { MOCK_PASSENGER } from "~/shared/testing/api-mocks";
 
 import { AccountSettingsPageComponent } from "./account-settings-page.component";
-
-const account = {
-  email: "passenger@tickets.pl",
-  fullName: "John Doe",
-  type: "passenger",
-  walletBalanceGrosze: 100,
-  phoneNumber: "123456789",
-} satisfies AccountDto;
 
 describe(AccountSettingsPageComponent.name, () => {
   it("should mount", async () => {
     const { sut } = await mount(AccountSettingsPageComponent, {
-      resolvedData: { account },
+      resolvedData: { account: MOCK_PASSENGER },
     });
 
     expect(sut).toBeTruthy();

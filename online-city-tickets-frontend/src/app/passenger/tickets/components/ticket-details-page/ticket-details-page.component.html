@@ -1,0 +1,53 @@
+<app-top-bar [title]="title">
+  <app-back-button left />
+</app-top-bar>
+<main>
+  <section class="code">
+    <img [src]="codeDataUrl" />
+  </section>
+  @if (warning) {
+    <p-tag [value]="warning" severity="danger" />
+  }
+  <section class="details">
+    @if (ticket.validFrom) {
+      <div class="card">
+        <h3>{{ i18n.t("ticket-details-page.valid-from") }}</h3>
+        {{ ticket.validFrom.toLocaleString() }}
+      </div>
+    }
+    @if (ticket.validUntil) {
+      <div class="card">
+        <h3>{{ i18n.t("ticket-details-page.valid-until") }}</h3>
+        {{ ticket.validUntil.toLocaleString() }}
+      </div>
+    }
+    <div class="card">
+      <h3>{{ i18n.t("ticket-details-page.purchased-at") }}</h3>
+      {{ ticket.purchaseTime.toLocaleString() }}
+    </div>
+    @if (ticket.vehicleSideNumber) {
+      <div class="card">
+        <h3>{{ i18n.t("ticket-details-page.vehicle-side-number") }}</h3>
+        <span class="mono">{{ ticket.vehicleSideNumber }}</span>
+      </div>
+    }
+    <div class="card">
+      <h3>{{ i18n.t("ticket-details-page.full-name") }}</h3>
+      {{ account.fullName }}
+    </div>
+    @if (account.phoneNumber) {
+      <div class="card">
+        <h3>{{ i18n.t("ticket-details-page.phone-number") }}</h3>
+        {{ account.phoneNumber }}
+      </div>
+    }
+    <div class="card">
+      <h3>{{ i18n.t("ticket-details-page.price") }}</h3>
+      {{ ticketPrice }}
+    </div>
+    <div class="card">
+      <h3>{{ i18n.t("ticket-details-page.ticket-code") }}</h3>
+      <span class="mono">{{ ticket.code }}</span>
+    </div>
+  </section>
+</main>

@@ -7,5 +7,6 @@ export interface TicketDto {
   code: TicketCode;
   offer: TicketOfferDto;
   purchaseTime: string;
+  ticketStatus: 'ACTIVE' | 'NOT_ACTIVE';
   validation?: ValidationDto;
 }

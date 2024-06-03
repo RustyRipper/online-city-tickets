@@ -1,6 +1,6 @@
+import { WalletService } from "~/passenger/wallet/services/wallet.service";
 import { execute } from "~/shared/testing";
 
-import { WalletService } from "../services/wallet.service";
 import { balanceResolver } from "./balance.resolver";
 
 describe(balanceResolver.name, () => {

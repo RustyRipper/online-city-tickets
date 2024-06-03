@@ -23,12 +23,7 @@ export class OfferCardComponent {
   }
 
   public get offerKind(): string {
-    switch (this.offer.kind) {
-      case "standard":
-        return this.i18n.t("offer-card.standard");
-      case "reduced":
-        return this.i18n.t("offer-card.reduced");
-    }
+    return this.i18n.t(`offer-card.${this.offer.kind}`);
   }
 
   public get offerName(): string {
