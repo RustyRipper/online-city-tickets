@@ -25,7 +25,7 @@ public class CreditCardInfoService {
     private final Clock clock;
 
     public List<CreditCardDto> getAllCreditCardsForUser(Account account) throws NotPassenger {
-        if (!account.isPassenger()) {
+        if (!(account instanceof Passenger)) {
             throw new NotPassenger();
         }
 
@@ -37,7 +37,7 @@ public class CreditCardInfoService {
     public CreditCardDto addCreditCardForUser(
             SaveCreditCardReqDto saveCreditCardReqDto, Account account)
             throws NotPassenger, CardExpired, InvalidCard, CardAlreadySaved {
-        if (!account.isPassenger()) {
+        if (!(account instanceof Passenger)) {
             throw new NotPassenger();
         }
 
@@ -65,7 +65,7 @@ public class CreditCardInfoService {
 
     public CreditCardDto getCreditCardByIdForUser(Long id, Account account)
             throws NotPassenger, CardNotFound {
-        if (!account.isPassenger()) {
+        if (!(account instanceof Passenger)) {
             throw new NotPassenger();
         }
 
@@ -79,7 +79,7 @@ public class CreditCardInfoService {
     public CreditCardDto updateCreditCardByIdForUser(
             Long id, UpdateCreditCardReqDto updateCreditCardReqDto, Account account)
             throws NotPassenger, CardExpired, InvalidCard, CardNotFound {
-        if (!account.isPassenger()) {
+        if (!(account instanceof Passenger)) {
             throw new NotPassenger();
         }
 
@@ -111,7 +111,7 @@ public class CreditCardInfoService {
 
     public void deleteCreditCardByIdForUser(Long id, Account account)
             throws NotPassenger, CardNotFound {
-        if (!account.isPassenger()) {
+        if (!(account instanceof Passenger)) {
             throw new NotPassenger();
         }
 

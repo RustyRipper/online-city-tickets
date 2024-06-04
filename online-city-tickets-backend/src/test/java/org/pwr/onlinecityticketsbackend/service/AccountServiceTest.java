@@ -24,10 +24,9 @@ import org.pwr.onlinecityticketsbackend.dto.account.UpdateAccountReqDto;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
 import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
-import org.pwr.onlinecityticketsbackend.model.Account;
+import org.pwr.onlinecityticketsbackend.model.Admin;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
-import org.pwr.onlinecityticketsbackend.model.Role;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
 import org.pwr.onlinecityticketsbackend.repository.InspectorRepository;
 import org.pwr.onlinecityticketsbackend.repository.PassengerRepository;
@@ -49,8 +48,8 @@ public class AccountServiceTest {
     @Test
     void shouldGetAllAccounts() {
         // given
-        var account1 = new Account();
-        var account2 = new Account();
+        var account1 = new Passenger();
+        var account2 = new Inspector();
 
         // when
         when(accountRepository.findAll()).thenReturn(List.of(account1, account2));
@@ -101,7 +100,7 @@ public class AccountServiceTest {
     @Test
     void shouldGetAccountByEmail() throws UnauthorizedUser {
         // given
-        var account = new Account();
+        var account = new Passenger();
         account.setEmail("email");
 
         // when
@@ -126,7 +125,7 @@ public class AccountServiceTest {
     @Test
     void shouldCheckEmailInUse() {
         // when
-        when(accountRepository.findByEmail(anyString())).thenReturn(Optional.of(new Account()));
+        when(accountRepository.findByEmail(anyString())).thenReturn(Optional.of(new Passenger()));
         var result = sut.isEmailInUse("email");
 
         // then
@@ -136,7 +135,7 @@ public class AccountServiceTest {
     @Test
     void shouldGetAccountById() throws UnauthorizedUser {
         // given
-        var account = new Account();
+        var account = new Passenger();
         account.setId(1L);
 
         // when
@@ -160,9 +159,8 @@ public class AccountServiceTest {
 
     @Test
     public void testGetCurrentAccountByEmail() throws UnauthorizedUser {
-        Account account = new Account();
-        account.setEmail("test@test.com");
-        account.setRole(Role.PASSENGER);
+        Passenger passenger = new Passenger();
+        passenger.setEmail("test@test.com");
 
         AccountDto accountDto = new PassengerDto();
         accountDto.setEmail("test@test.com");
@@ -172,10 +170,11 @@ public class AccountServiceTest {
         SecurityContextHolder.setContext(securityContext);
 
         when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(authentication.getPrincipal()).thenReturn(account);
+        when(authentication.getPrincipal()).thenReturn(passenger);
 
-        when(accountRepository.findByEmail(account.getEmail())).thenReturn(Optional.of(account));
-        when(accountMapper.toDto(account)).thenReturn(accountDto);
+        when(accountRepository.findByEmail(passenger.getEmail()))
+                .thenReturn(Optional.of(passenger));
+        when(accountMapper.toDto(passenger)).thenReturn(accountDto);
 
         PassengerDto result = (PassengerDto) sut.getCurrentAccountByEmail();
 
@@ -184,18 +183,17 @@ public class AccountServiceTest {
 
     @Test
     public void testGetCurrentAccountByEmail_ThrowsAccountNotFound() throws UnauthorizedUser {
-        Account account = new Account();
-        account.setEmail("admin@test.com");
-        account.setRole(Role.ADMIN);
+        Admin admin = new Admin();
+        admin.setEmail("admin@test.com");
 
         Authentication authentication = mock(Authentication.class);
         SecurityContext securityContext = mock(SecurityContext.class);
         SecurityContextHolder.setContext(securityContext);
 
         when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(authentication.getPrincipal()).thenReturn(account);
+        when(authentication.getPrincipal()).thenReturn(admin);
 
-        when(RequestContext.getAccountFromRequest()).thenReturn(account);
+        when(RequestContext.getAccountFromRequest()).thenReturn(admin);
 
         assertThrows(UnauthorizedUser.class, () -> sut.getCurrentAccountByEmail());
     }
@@ -210,7 +208,6 @@ public class AccountServiceTest {
         Passenger passenger = new Passenger();
         passenger.setFullName("oldFullName");
         passenger.setPhoneNumber("876567987");
-        passenger.setRole(Role.PASSENGER);
 
         when(RequestContext.getAccountFromRequest()).thenReturn(passenger);
 
@@ -226,10 +223,9 @@ public class AccountServiceTest {
     void shouldNotUpdateAccountWhenRoleIsAdmin() throws UnauthorizedUser {
         // given
         UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
-        Account account = new Account();
-        account.setRole(Role.ADMIN);
+        Admin admin = new Admin();
 
-        when(RequestContext.getAccountFromRequest()).thenReturn(account);
+        when(RequestContext.getAccountFromRequest()).thenReturn(admin);
 
         // when
         ThrowableAssert.ThrowingCallable resultCallable =
@@ -247,7 +243,6 @@ public class AccountServiceTest {
         updateAccountReqDto.setPhoneNumber("123456789");
 
         Inspector inspector = new Inspector();
-        inspector.setRole(Role.INSPECTOR);
 
         when(RequestContext.getAccountFromRequest()).thenReturn(inspector);
 

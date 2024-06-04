@@ -214,10 +214,10 @@ public class CreditCardInfoServiceTest {
 
     @ParameterizedTest
     @MethodSource("addCreditCardForUserShouldThrowInvalidCardWhenCreditCardIsInvalidProvider")
-    void addCreditCardForUserShouldThrowInvalidCardWhenCreditCardIsInvalid() {
+    void addCreditCardForUserShouldThrowInvalidCardWhenCreditCardIsInvalid(
+            SaveCreditCardReqDto invalidCreditCard) {
         // given
         var passenger = accountSetup.setupPassenger();
-        var invalidCreditCard = new SaveCreditCardReqDto();
 
         // when
         ThrowingCallable result = () -> sut.addCreditCardForUser(invalidCreditCard, passenger);

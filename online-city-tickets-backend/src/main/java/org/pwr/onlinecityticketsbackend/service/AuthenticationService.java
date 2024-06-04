@@ -71,7 +71,7 @@ public class AuthenticationService {
     private AuthenticationResponseDto buildAuthenticationResponse(Account account) {
         Claims claims = Jwts.claims().setSubject(account.getUsername());
         claims.put("userId", account.getId().toString());
-        claims.put("role", account.getRole());
+        claims.put("role", account.getAuthorities().stream().toList().get(0).getAuthority());
         return AuthenticationResponseDto.builder()
                 .jwt(jwtService.generateToken(claims, account))
                 .build();

@@ -5,8 +5,12 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -24,4 +28,9 @@ public class Passenger extends Account {
     @Min(value = 0, message = "Wallet balance must be greater than or equal to 0")
     @Builder.Default
     private BigDecimal walletBalancePln = BigDecimal.ZERO;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_PASSENGER"));
+    }
 }

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import net.datafaker.Faker;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
-import org.pwr.onlinecityticketsbackend.model.Role;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public final class AccountGenerator {
@@ -17,7 +16,6 @@ public final class AccountGenerator {
                 .phoneNumber(faker.numerify("89#######"))
                 .password(new BCryptPasswordEncoder().encode(faker.lorem().word()))
                 .walletBalancePln(BigDecimal.valueOf(faker.number().randomDouble(2, 0, 1000)))
-                .role(Role.PASSENGER)
                 .build();
     }
 
@@ -26,7 +24,6 @@ public final class AccountGenerator {
                 .email(faker.internet().emailAddress())
                 .fullName(faker.lorem().word())
                 .password(new BCryptPasswordEncoder().encode(faker.lorem().word()))
-                .role(Role.INSPECTOR)
                 .build();
     }
 }

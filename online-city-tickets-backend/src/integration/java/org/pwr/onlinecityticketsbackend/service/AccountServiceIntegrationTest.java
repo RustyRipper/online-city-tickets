@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
-import org.pwr.onlinecityticketsbackend.model.Role;
 import org.pwr.onlinecityticketsbackend.utils.repository.setup.AccountSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +30,6 @@ public class AccountServiceIntegrationTest {
         Assertions.assertThat(result.getFullName()).isEqualTo(passenger.getFullName());
         Assertions.assertThat(result.getPhoneNumber()).isEqualTo(passenger.getPhoneNumber());
         Assertions.assertThat(result.getEmail()).isEqualTo(passenger.getEmail());
-        Assertions.assertThat(result.getRole()).isEqualTo(Role.PASSENGER);
         Assertions.assertThat(result.getWalletBalancePln())
                 .isEqualTo(passenger.getWalletBalancePln());
     }
@@ -59,6 +57,5 @@ public class AccountServiceIntegrationTest {
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result.getEmail()).isEqualTo(inspector.getEmail());
         Assertions.assertThat(result.getFullName()).isEqualTo(inspector.getFullName());
-        Assertions.assertThat(result.getRole()).isEqualTo(Role.INSPECTOR);
     }
 }
