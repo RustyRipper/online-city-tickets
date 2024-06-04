@@ -34,7 +34,8 @@ public interface AccountMapper {
 
     @Named("roleToType")
     default String roleToType(Collection<? extends GrantedAuthority> authorities) {
-        return authorities.stream().toList().get(0).getAuthority().toLowerCase();
+        String role = authorities.stream().toList().get(0).getAuthority().toLowerCase();
+        return role.substring(role.indexOf('_') + 1);
     }
 
     @Named("pricePlnToGrosze")

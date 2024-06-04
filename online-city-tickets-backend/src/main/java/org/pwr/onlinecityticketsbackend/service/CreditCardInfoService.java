@@ -45,6 +45,10 @@ public class CreditCardInfoService {
             throw new InvalidCard();
         }
 
+        if (!isValidLuhn(saveCreditCardReqDto.getNumber())) {
+            throw new InvalidCard();
+        }
+
         if (isCreditCardExpired(saveCreditCardReqDto.getExpirationDate())) {
             throw new CardExpired();
         }
@@ -164,7 +168,7 @@ public class CreditCardInfoService {
                 && (expiration != null && isExpirationDateValid(expiration));
     }
 
-    private boolean isCreditCardUpdateValid(UpdateCreditCardReqDto updateCreditCardReqDto) {
+    private static boolean isCreditCardUpdateValid(UpdateCreditCardReqDto updateCreditCardReqDto) {
         var label = updateCreditCardReqDto.getLabel();
         var expiration = updateCreditCardReqDto.getExpirationDate();
 

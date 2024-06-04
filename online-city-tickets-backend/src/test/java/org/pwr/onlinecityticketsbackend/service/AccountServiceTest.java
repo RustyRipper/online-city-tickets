@@ -24,7 +24,6 @@ import org.pwr.onlinecityticketsbackend.dto.account.UpdateAccountReqDto;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
 import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
 import org.pwr.onlinecityticketsbackend.mapper.AccountMapper;
-import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.model.Admin;
 import org.pwr.onlinecityticketsbackend.model.Inspector;
 import org.pwr.onlinecityticketsbackend.model.Passenger;
@@ -49,8 +48,8 @@ public class AccountServiceTest {
     @Test
     void shouldGetAllAccounts() {
         // given
-        var account1 = new Account();
-        var account2 = new Account();
+        var account1 = new Passenger();
+        var account2 = new Inspector();
 
         // when
         when(accountRepository.findAll()).thenReturn(List.of(account1, account2));
@@ -101,7 +100,7 @@ public class AccountServiceTest {
     @Test
     void shouldGetAccountByEmail() throws UnauthorizedUser {
         // given
-        var account = new Account();
+        var account = new Passenger();
         account.setEmail("email");
 
         // when
@@ -126,7 +125,7 @@ public class AccountServiceTest {
     @Test
     void shouldCheckEmailInUse() {
         // when
-        when(accountRepository.findByEmail(anyString())).thenReturn(Optional.of(new Account()));
+        when(accountRepository.findByEmail(anyString())).thenReturn(Optional.of(new Passenger()));
         var result = sut.isEmailInUse("email");
 
         // then
@@ -136,7 +135,7 @@ public class AccountServiceTest {
     @Test
     void shouldGetAccountById() throws UnauthorizedUser {
         // given
-        var account = new Account();
+        var account = new Passenger();
         account.setId(1L);
 
         // when

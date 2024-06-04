@@ -1203,7 +1203,7 @@
               "ticket-not-found",
               "ticket-not-validated",
               "ticket-expired",
-              "vehicle-mismatch"
+              "ticket-not-valid-for-vehicle"
             ]
           }
         }

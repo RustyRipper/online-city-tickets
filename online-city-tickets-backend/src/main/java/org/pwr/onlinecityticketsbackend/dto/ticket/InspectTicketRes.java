@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class InspectTicketRes {
-    private boolean isValid;
-    private String message;
+    private String status;
+    private String reason;
 }

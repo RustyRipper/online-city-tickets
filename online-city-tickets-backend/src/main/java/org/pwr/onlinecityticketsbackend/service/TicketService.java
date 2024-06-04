@@ -123,10 +123,13 @@ public class TicketService {
         if (!(account instanceof Inspector)) {
             throw new AuthenticationInvalidRequest();
         }
+        InspectTicketRes response = new InspectTicketRes();
 
         Optional<Ticket> ticket = ticketRepository.findByCode(code);
         if (ticket.isEmpty()) {
-            throw new TicketNotFound();
+            response.setStatus("invalid");
+            response.setReason("ticket-not-found");
+            return response;
         }
 
         Optional<Vehicle> vehicle =
@@ -135,23 +138,22 @@ public class TicketService {
             throw new VehicleNotFound();
         }
 
-        InspectTicketRes response = new InspectTicketRes();
         if (ticket.get().getIsActive(Instant.now(), request.getVehicleSideNumber())) {
-            response.setValid(true);
-            response.setMessage("valid");
+            response.setStatus("valid");
+            response.setReason("");
         } else {
-            response.setValid(false);
+            response.setStatus("invalid");
             if (!ticket.get().getIsActive(Instant.now())) {
-                response.setMessage("ticket-expired");
+                response.setReason("ticket-expired");
             } else if (ticket.get().getOffer() instanceof SingleFareOffer) {
                 if (ticket.get().getValidation() == null) {
-                    response.setMessage("ticket-not-validated");
+                    response.setReason("ticket-not-validated");
                 } else if (!ticket.get()
                         .getValidation()
                         .getVehicle()
                         .getSideNumber()
                         .equals(request.getVehicleSideNumber())) {
-                    response.setMessage("ticket-not-valid-for-vehicle");
+                    response.setReason("ticket-not-valid-for-vehicle");
                 }
             }
         }

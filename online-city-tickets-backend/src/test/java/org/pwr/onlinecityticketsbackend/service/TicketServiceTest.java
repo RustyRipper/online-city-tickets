@@ -215,14 +215,18 @@ public class TicketServiceTest {
     }
 
     @Test
-    public void inspectTicket_ticketNotFound() throws UnauthorizedUser {
+    public void inspectTicket_ticketNotFound()
+            throws UnauthorizedUser, VehicleNotFound, TicketNotFound, AuthenticationInvalidRequest {
         Account account = new Inspector();
         when(RequestContext.getAccountFromRequest()).thenReturn(account);
         when(ticketRepository.findByCode(anyString())).thenReturn(Optional.empty());
 
-        assertThrows(
-                TicketNotFound.class,
-                () -> ticketService.inspectTicket("1234567890", new InspectTicketReq()));
+        InspectTicketReq request = new InspectTicketReq();
+        request.setVehicleSideNumber("123");
+        InspectTicketRes result = ticketService.inspectTicket("1234567890", request);
+
+        assertEquals("invalid", result.getStatus());
+        assertEquals("ticket-not-found", result.getReason());
     }
 
     @Test
