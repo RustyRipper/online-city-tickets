@@ -159,10 +159,6 @@
     "en-US": "Wallet ({balance})",
     "pl-PL": "Portfel ({balance})"
   },
-  "payment-sheet.card": {
-    "en-US": "Card ({digits})",
-    "pl-PL": "Karta ({digits})"
-  },
   "payment-sheet.new-card": {
     "en-US": "New card",
     "pl-PL": "Nowa karta"

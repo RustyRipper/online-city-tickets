@@ -3,6 +3,8 @@ import { FormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
+import { CreditCardService } from "~/passenger/credit-cards/services/credit-card.service";
+import type { CreditCard } from "~/passenger/credit-cards/types";
 import type { PaymentId } from "~/passenger/payment/types";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
 import { I18nService } from "~/shared/i81n/i18n.service";
@@ -18,8 +20,9 @@ type PaymentMethod = { id: PaymentId; name: string; icon: string };
 })
 export class PaymentSheetComponent implements OnInit {
   private walletBalanceGrosze = 0;
+  private creditCards: CreditCard[] = [];
 
-  protected paymentId: PaymentId = "new-card";
+  protected paymentId: PaymentId = "blik";
 
   @Input({ required: true }) public actionName!: string;
   @Input({ required: true }) public costGrosze!: number;
@@ -27,19 +30,23 @@ export class PaymentSheetComponent implements OnInit {
 
   public constructor(
     private readonly walletService: WalletService,
+    private readonly creditCardService: CreditCardService,
     protected readonly i18n: I18nService,
   ) {}
 
   public ngOnInit(): void {
-    this.walletService.balanceGrosze$.subscribe((balanceGrosze) => {
-      this.walletBalanceGrosze = balanceGrosze;
-    });
+    this.walletService.balanceGrosze$.subscribe(
+      (v) => (this.walletBalanceGrosze = v),
+    );
     this.walletService.revalidateBalanceGrosze();
+
+    this.creditCardService.cards$.subscribe((v) => (this.creditCards = v));
+    this.creditCardService.revalidateCards();
 
     this.paymentId =
       this.walletEnabled && this.walletBalanceGrosze >= this.costGrosze
         ? "wallet"
-        : "new-card";
+        : "blik";
   }
 
   protected get buttonLabel(): string {
@@ -55,8 +62,9 @@ export class PaymentSheetComponent implements OnInit {
   protected get allowedPaymentIds(): PaymentId[] {
     return [
       ...(this.walletEnabled ? ["wallet" as const] : []),
-      "new-card",
       "blik",
+      ...this.creditCards.map((c) => `card#${c.id}` as const),
+      "new-card",
     ];
   }
 
@@ -84,10 +92,11 @@ export class PaymentSheetComponent implements OnInit {
         };
     }
 
-    const digits = parseInt(id.slice("card#".length), 10);
+    const cardId = parseInt(id.slice("card#".length), 10);
+    const card = this.creditCards.find((c) => c.id === cardId)!;
     return {
       id,
-      name: this.i18n.t("payment-sheet.card", { digits }),
+      name: `${card.label ? card.label : card.holderName.split(" ")[0]} (${card.lastFourDigits})`,
       icon: "pi-credit-card",
     };
   }
