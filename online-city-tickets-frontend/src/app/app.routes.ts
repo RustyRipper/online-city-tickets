@@ -65,7 +65,7 @@ export const routes: Routes = [
           import(
             "~/passenger/offers/components/offer-details-page/offer-details-page.component"
           ).then((m) => m.OfferDetailsPageComponent),
-        resolve: { offer: offerResolver, balance: balanceResolver },
+        resolve: { offer: offerResolver },
       },
       {
         path: "tickets/:code",
@@ -81,6 +81,7 @@ export const routes: Routes = [
           import(
             "~/passenger/wallet/components/wallet-page/wallet-page.component"
           ).then((m) => m.WalletPageComponent),
+        resolve: { balance: balanceResolver },
       },
     ],
   },

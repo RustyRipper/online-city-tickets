@@ -1,0 +1,23 @@
+<aside class="sheet">
+  <div class="payment">
+    <p-button
+      label="Purchase"
+      icon="pi pi-dollar"
+      iconPos="right"
+      severity="success"
+    />
+    <div class="select">
+      <label>Payment method:</label>
+      <p-dropdown [options]="allowedPaymentIds" [(ngModel)]="paymentId">
+        <ng-template pTemplate="selectedItem">
+          <i [class]="['pi', method(paymentId).icon]"></i>
+          {{ method(paymentId).name }}
+        </ng-template>
+        <ng-template let-id pTemplate="item">
+          <i [class]="['pi', method(id).icon]"></i>
+          {{ method(id).name }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+</aside>

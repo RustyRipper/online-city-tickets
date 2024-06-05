@@ -1,3 +1,7 @@
 <app-top-bar [title]="i18n.t('wallet-page.wallet')">
   <app-back-button left />
 </app-top-bar>
+<main>
+  {{ balance }}
+  <app-payment-sheet />
+</main>

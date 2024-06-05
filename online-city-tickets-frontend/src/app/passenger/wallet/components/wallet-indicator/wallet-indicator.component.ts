@@ -24,6 +24,6 @@ export class WalletIndicatorComponent implements OnInit {
     this.walletService.balanceGrosze$.subscribe(
       (v) => (this.balanceGrosze = v),
     );
-    this.walletService.revalidate();
+    this.walletService.revalidateBalanceGrosze();
   }
 }

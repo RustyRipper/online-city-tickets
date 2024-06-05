@@ -6,7 +6,7 @@ import { OfferDetailsPageComponent } from "./offer-details-page.component";
 describe(OfferDetailsPageComponent.name, () => {
   it("should mount", async () => {
     const { sut } = await mount(OfferDetailsPageComponent, {
-      resolvedData: { offer: MOCK_OFFER, balance: 0 },
+      resolvedData: { offer: MOCK_OFFER },
     });
 
     expect(sut).toBeTruthy();
