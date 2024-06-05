@@ -1,19 +1,19 @@
+import { Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { InputMaskModule } from "primeng/inputmask";
 import { InputTextModule } from "primeng/inputtext";
-import { firstValueFrom } from "rxjs";
 
-import { CardsApi } from "~/generated/api/services";
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 import { Form } from "~/shared/forms/form";
 import { I18nService } from "~/shared/i81n/i18n.service";
 
 import { CreditCard } from "../../model";
+import { CreditCardService } from "../../services/credit-card.service";
 
 @Component({
   selector: "app-card-details-page",
@@ -35,9 +35,9 @@ export class CardDetailsPageComponent {
   protected readonly form;
 
   public constructor(
-    private readonly cardsApi: CardsApi,
+    private readonly creditCardService: CreditCardService,
     private readonly messageService: MessageService,
-    private readonly router: Router,
+    private readonly location: Location,
     protected readonly i18n: I18nService,
     activatedRoute: ActivatedRoute,
     formBuilder: FormBuilder,
@@ -60,12 +60,7 @@ export class CardDetailsPageComponent {
 
   protected onSubmit(): void {
     this.form.submit(async () => {
-      await firstValueFrom(
-        this.cardsApi.updateCreditCard({
-          id: String(this.card.id),
-          body: this.form.value,
-        }),
-      );
+      await this.creditCardService.editCard(this.card.id, this.form.value);
       this.messageService.add({
         severity: "success",
         summary: this.i18n.t("card-details-page.saved-successfully"),
@@ -74,7 +69,7 @@ export class CardDetailsPageComponent {
   }
 
   protected onDelete(): void {
-    this.cardsApi.deleteCreditCard({ id: String(this.card.id) }).subscribe();
-    this.router.navigateByUrl("/passenger/credit-cards");
+    this.creditCardService.deleteCard(this.card.id);
+    this.location.back();
   }
 }
