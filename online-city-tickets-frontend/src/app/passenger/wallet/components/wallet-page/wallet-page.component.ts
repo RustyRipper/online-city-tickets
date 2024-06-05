@@ -9,8 +9,6 @@ import { BackButtonComponent } from "~/shared/components/back-button/back-button
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 import { I18nService } from "~/shared/i81n/i18n.service";
 
-import { WalletService } from "../../services/wallet.service";
-
 @Component({
   selector: "app-wallet-page",
   standalone: true,
@@ -27,7 +25,7 @@ import { WalletService } from "../../services/wallet.service";
   styleUrl: "./wallet-page.component.css",
 })
 export class WalletPageComponent {
-  protected readonly balance;
+  protected readonly balanceGrosze: number;
 
   protected rechargeAmountPln = 10;
 
@@ -35,7 +33,6 @@ export class WalletPageComponent {
     protected readonly i18n: I18nService,
     activatedRoute: ActivatedRoute,
   ) {
-    const balanceGrosze = activatedRoute.snapshot.data["balance"];
-    this.balance = `${(balanceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
+    this.balanceGrosze = activatedRoute.snapshot.data["balance"];
   }
 }

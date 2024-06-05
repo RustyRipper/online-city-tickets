@@ -43,7 +43,7 @@ export class PaymentSheetComponent implements OnInit {
   }
 
   protected get buttonLabel(): string {
-    return `${this.actionName} (${(this.costGrosze / 100).toFixed(2)} ${WalletService.currency})`;
+    return `${this.actionName} (${this.i18n.currency(this.costGrosze)})`;
   }
 
   protected get buttonDisabled(): boolean {
@@ -66,7 +66,7 @@ export class PaymentSheetComponent implements OnInit {
         return {
           id: "wallet",
           name: this.i18n.t("payment-sheet.wallet", {
-            balance: `${(this.walletBalanceGrosze / 100).toFixed(2)} ${WalletService.currency}`,
+            balance: this.i18n.currency(this.walletBalanceGrosze),
           }),
           icon: "pi-wallet",
         };

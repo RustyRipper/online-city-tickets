@@ -43,7 +43,7 @@
     }
     <div class="card">
       <h3>{{ i18n.t("ticket-details-page.price") }}</h3>
-      {{ ticketPrice }}
+      {{ i18n.currency(ticket.offer.priceGrosze) }}
     </div>
     <div class="card">
       <h3>{{ i18n.t("ticket-details-page.ticket-code") }}</h3>

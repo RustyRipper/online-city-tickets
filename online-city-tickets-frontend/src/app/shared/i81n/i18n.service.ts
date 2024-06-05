@@ -35,4 +35,12 @@ export class I18nService {
       translations[key][this.language],
     );
   }
+
+  public currency(amountGrosze: number): string {
+    return Intl.NumberFormat(this.language, {
+      style: "currency",
+      currency: "PLN",
+      useGrouping: false,
+    }).format(amountGrosze / 100);
+  }
 }

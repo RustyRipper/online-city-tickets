@@ -5,7 +5,7 @@
   </a>
 </app-top-bar>
 <main>
-  <div class="balance">{{ balance }}</div>
+  <div class="balance">{{ i18n.currency(balanceGrosze) }}</div>
   <div class="recharging">
     <label>{{ i18n.t("wallet-page.recharge-amount") }}:</label> <br />
     <p-inputNumber
@@ -13,6 +13,7 @@
       mode="currency"
       currency="PLN"
       [locale]="i18n.language"
+      useGrouping="false"
       min="1"
       showButtons="true"
       buttonLayout="horizontal"

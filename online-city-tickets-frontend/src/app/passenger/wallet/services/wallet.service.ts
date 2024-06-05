@@ -14,8 +14,6 @@ import { AccountsApi } from "~/generated/api/services";
   providedIn: "root",
 })
 export class WalletService {
-  public static readonly currency = "zł";
-
   private readonly balanceGroszeSubject = new BehaviorSubject<number>(0);
   public readonly balanceGrosze$ = this.balanceGroszeSubject
     .asObservable()
