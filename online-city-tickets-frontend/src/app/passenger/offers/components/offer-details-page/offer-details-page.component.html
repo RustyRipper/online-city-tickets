@@ -1,9 +1,9 @@
-<app-top-bar title="Offer">
+<app-top-bar [title]="i18n.t('offer-details-page.offer')">
   <app-back-button left />
 </app-top-bar>
 <main>
   <div class="showcase">
     <app-offer-card [offer]="offer" />
   </div>
-  <app-payment-sheet />
+  <app-payment-sheet [actionName]="i18n.t('offer-details-page.purchase')" />
 </main>

@@ -6,6 +6,7 @@ import type { Offer } from "~/passenger/offers/types";
 import { PaymentSheetComponent } from "~/passenger/payment/components/payment-sheet/payment-sheet.component";
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
+import { I18nService } from "~/shared/i81n/i18n.service";
 
 @Component({
   selector: "app-offer-details-page",
@@ -22,7 +23,10 @@ import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 export class OfferDetailsPageComponent {
   protected readonly offer: Offer;
 
-  public constructor(activatedRoute: ActivatedRoute) {
+  public constructor(
+    protected readonly i18n: I18nService,
+    activatedRoute: ActivatedRoute,
+  ) {
     this.offer = activatedRoute.snapshot.data["offer"];
   }
 }

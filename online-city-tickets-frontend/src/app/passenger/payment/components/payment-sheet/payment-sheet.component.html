@@ -1,13 +1,13 @@
 <aside class="sheet">
   <div class="payment">
     <p-button
-      label="Purchase"
+      [label]="actionName"
       icon="pi pi-dollar"
       iconPos="right"
       severity="success"
     />
     <div class="select">
-      <label>Payment method:</label>
+      <label>{{ i18n.t("payment-sheet.method") }}:</label>
       <p-dropdown [options]="allowedPaymentIds" [(ngModel)]="paymentId">
         <ng-template pTemplate="selectedItem">
           <i [class]="['pi', method(paymentId).icon]"></i>

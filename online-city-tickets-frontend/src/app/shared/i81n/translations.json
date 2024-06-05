@@ -131,9 +131,41 @@
     "en-US": "Reduced",
     "pl-PL": "Ulgowy"
   },
+  "offer-details-page.offer": {
+    "en-US": "Offer",
+    "pl-PL": "Oferta"
+  },
+  "offer-details-page.purchase": {
+    "en-US": "Purchase",
+    "pl-PL": "Zakup"
+  },
   "wallet-page.wallet": {
     "en-US": "Wallet",
     "pl-PL": "Portfel"
+  },
+  "wallet-page.recharge": {
+    "en-US": "Recharge",
+    "pl-PL": "Doładuj"
+  },
+  "payment-sheet.method": {
+    "en-US": "Method",
+    "pl-PL": "Metoda"
+  },
+  "payment-sheet.wallet": {
+    "en-US": "Wallet ({balance})",
+    "pl-PL": "Portfel ({balance})"
+  },
+  "payment-sheet.card": {
+    "en-US": "Card ({digits})",
+    "pl-PL": "Karta ({digits})"
+  },
+  "payment-sheet.new-card": {
+    "en-US": "New card",
+    "pl-PL": "Nowa karta"
+  },
+  "payment-sheet.blik": {
+    "en-US": "BLIK",
+    "pl-PL": "BLIK"
   },
   "settings-page.settings": {
     "en-US": "Settings",

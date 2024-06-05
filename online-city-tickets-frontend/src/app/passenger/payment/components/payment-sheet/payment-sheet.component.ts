@@ -1,11 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
+import type { PaymentId } from "~/passenger/payment/types";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
+import { I18nService } from "~/shared/i81n/i18n.service";
 
-type PaymentId = "wallet" | "blik" | "new-credit-card" | `credit-card${number}`;
 type PaymentMethod = { id: PaymentId; name: string; icon: string };
 
 @Component({
@@ -18,14 +19,14 @@ type PaymentMethod = { id: PaymentId; name: string; icon: string };
 export class PaymentSheetComponent implements OnInit {
   private walletBalance = "N/A";
 
-  protected allowedPaymentIds: PaymentId[] = [
-    "wallet",
-    "new-credit-card",
-    "blik",
-  ];
   protected paymentId: PaymentId = this.allowedPaymentIds[0];
 
-  public constructor(private readonly walletService: WalletService) {}
+  @Input({ required: true }) public actionName!: string;
+
+  public constructor(
+    private readonly walletService: WalletService,
+    protected readonly i18n: I18nService,
+  ) {}
 
   public ngOnInit(): void {
     this.walletService.balanceGrosze$.subscribe((balanceGrosze) => {
@@ -34,28 +35,39 @@ export class PaymentSheetComponent implements OnInit {
     this.walletService.revalidateBalanceGrosze();
   }
 
+  protected get allowedPaymentIds(): PaymentId[] {
+    return ["wallet", "new-card", "blik"];
+  }
+
   protected method(id: PaymentId): PaymentMethod {
     switch (id) {
       case "wallet":
         return {
           id: "wallet",
-          name: `Wallet (${this.walletBalance})`,
+          name: this.i18n.t("payment-sheet.wallet", {
+            balance: this.walletBalance,
+          }),
           icon: "pi-wallet",
         };
       case "blik":
         return {
           id: "blik",
-          name: "BLIK",
+          name: this.i18n.t("payment-sheet.blik"),
           icon: "pi-mobile",
         };
-      case "new-credit-card":
+      case "new-card":
         return {
-          id: "new-credit-card",
-          name: "New credit card",
+          id: "new-card",
+          name: this.i18n.t("payment-sheet.new-card"),
           icon: "pi-credit-card",
         };
     }
 
-    throw new Error("unimplemented");
+    const digits = parseInt(id.slice("card#".length), 10);
+    return {
+      id,
+      name: this.i18n.t("payment-sheet.card", { digits }),
+      icon: "pi-credit-card",
+    };
   }
 }
