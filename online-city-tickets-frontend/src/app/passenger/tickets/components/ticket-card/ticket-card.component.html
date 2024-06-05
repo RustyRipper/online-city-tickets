@@ -18,8 +18,8 @@
         <i class="pi pi-calendar-clock"></i>
         <span
           >{{ i18n.t("ticket-card.valid-until") }} <br />
-          {{ ticket.validUntil.toLocaleDateString() }}, <br />
-          {{ ticket.validUntil.toLocaleTimeString() }}</span
+          {{ i18n.date(ticket.validUntil) }}, <br />
+          {{ i18n.time(ticket.validUntil) }}</span
         >
       </p>
     } @else if (ticket.validFrom) {
@@ -27,8 +27,8 @@
         <i class="pi pi-calendar-clock"></i>
         <span
           >{{ i18n.t("ticket-card.valid-from") }} <br />
-          {{ ticket.validFrom.toLocaleDateString() }}, <br />
-          {{ ticket.validFrom.toLocaleTimeString() }}</span
+          {{ i18n.date(ticket.validFrom) }}, <br />
+          {{ i18n.time(ticket.validFrom) }}</span
         >
       </p>
     }

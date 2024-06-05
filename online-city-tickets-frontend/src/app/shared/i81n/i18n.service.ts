@@ -43,4 +43,16 @@ export class I18nService {
       useGrouping: false,
     }).format(amountGrosze / 100);
   }
+
+  public date(date: Date): string {
+    return date.toLocaleDateString(this.language);
+  }
+
+  public time(date: Date): string {
+    return date.toLocaleTimeString(this.language);
+  }
+
+  public dateTime(date: Date): string {
+    return date.toLocaleString(this.language);
+  }
 }
