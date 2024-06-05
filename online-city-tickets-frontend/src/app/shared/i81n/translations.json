@@ -342,5 +342,13 @@
   "auth-interceptor.server-error": {
     "en-US": "Server unreachable.",
     "pl-PL": "Serwer nieosiągalny."
+  },
+  "card-list-page.credit-cards": {
+    "en-US": "Credit cards",
+    "pl-PL": "Karty kredytowe"
+  },
+  "card-list-page.add-new": {
+    "en-US": "Add new",
+    "pl-PL": "Dodaj nową"
   }
 }

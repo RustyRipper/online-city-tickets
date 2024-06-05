@@ -1,3 +1,26 @@
-<app-top-bar title="TODO">
+<app-top-bar [title]="i18n.t('card-list-page.credit-cards')">
   <app-back-button left />
 </app-top-bar>
+<main>
+  @for (card of cards; track card.id) {
+    <a class="card" [routerLink]="['/passenger/credit-cards', card.id]">
+      <p-card>
+        <i class="pi pi-credit-card"></i>
+        <div>
+          <h2>{{ cardHeader(card) }}</h2>
+          <p>
+            <span>{{ cardNumber(card) }}</span>
+            <span>{{ card.expirationDate }}</span>
+          </p>
+        </div>
+      </p-card>
+    </a>
+  }
+  <a [routerLink]="'/passenger/credit-cards/new'">
+    <p-button
+      [label]="i18n.t('card-list-page.add-new')"
+      icon="pi pi-plus"
+      iconPos="right"
+    />
+  </a>
+</main>
