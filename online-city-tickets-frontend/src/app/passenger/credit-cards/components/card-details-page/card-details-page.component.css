@@ -1,0 +1,39 @@
+main {
+  width: 35rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.field label {
+  flex: 33%;
+}
+
+.field :not(label) {
+  flex: 66%;
+}
+
+.field ::ng-deep input,
+.field ::ng-deep .p-inputmask {
+  width: 100%;
+}
+
+.error {
+  color: var(--red-500);
+  display: block;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+.buttons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}

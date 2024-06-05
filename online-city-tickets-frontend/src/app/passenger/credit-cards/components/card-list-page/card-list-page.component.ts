@@ -7,8 +7,8 @@ import { BackButtonComponent } from "~/shared/components/back-button/back-button
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 import { I18nService } from "~/shared/i81n/i18n.service";
 
+import type { CreditCard } from "../../model";
 import { CreditCardService } from "../../services/credit-card.service";
-import type { CreditCard } from "../../types";
 
 @Component({
   selector: "app-card-list-page",
@@ -34,13 +34,5 @@ export class CardListPageComponent implements OnInit {
   public ngOnInit(): void {
     this.creditCardService.cards$.subscribe((v) => (this.cards = v));
     this.creditCardService.revalidateCards();
-  }
-
-  protected cardHeader(card: CreditCard): string {
-    return card.label ? card.label : card.holderName.split(" ")[0];
-  }
-
-  protected cardNumber(card: CreditCard): string {
-    return `∗∗∗∗ ∗∗∗∗ ∗∗∗∗ ${card.lastFourDigits}`;
   }
 }

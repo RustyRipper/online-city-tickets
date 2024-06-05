@@ -3,8 +3,8 @@ import { FormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { DropdownModule } from "primeng/dropdown";
 
+import type { CreditCard } from "~/passenger/credit-cards/model";
 import { CreditCardService } from "~/passenger/credit-cards/services/credit-card.service";
-import type { CreditCard } from "~/passenger/credit-cards/types";
 import type { PaymentId } from "~/passenger/payment/types";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
 import { I18nService } from "~/shared/i81n/i18n.service";
@@ -93,10 +93,10 @@ export class PaymentSheetComponent implements OnInit {
     }
 
     const cardId = parseInt(id.slice("card#".length), 10);
-    const card = this.creditCards.find((c) => c.id === cardId)!;
+    const card = this.creditCards.find((c) => c.id === cardId);
     return {
       id,
-      name: `${card.label ? card.label : card.holderName.split(" ")[0]} (${card.lastFourDigits})`,
+      name: card?.labelWithDigits ?? "",
       icon: "pi-credit-card",
     };
   }

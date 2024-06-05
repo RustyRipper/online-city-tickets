@@ -33,6 +33,7 @@ export class Form<T extends { [K in keyof T]: AbstractControl<any, any> }> {
     this.status = "loading";
     action()
       .then(() => {
+        this.group.markAsPristine();
         this.status = "idle";
       })
       .catch(() => {

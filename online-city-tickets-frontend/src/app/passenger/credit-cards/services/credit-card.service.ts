@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, catchError } from "rxjs";
 
 import { CardsApi } from "~/generated/api/services";
-import type { CreditCard } from "~/passenger/credit-cards/types";
+import { CreditCard } from "~/passenger/credit-cards/model";
 
 @Injectable({
   providedIn: "root",
@@ -17,6 +17,10 @@ export class CreditCardService {
     this.cardsApi
       .listCreditCards()
       .pipe(catchError(() => EMPTY))
-      .subscribe((v) => this.cardsSubject.next(v.sort((a, b) => a.id - b.id)));
+      .subscribe((v) =>
+        this.cardsSubject.next(
+          v.map(CreditCard.deserialize).sort((a, b) => a.id - b.id),
+        ),
+      );
   }
 }

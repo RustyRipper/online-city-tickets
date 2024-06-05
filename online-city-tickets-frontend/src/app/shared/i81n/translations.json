@@ -346,5 +346,29 @@
   "card-list-page.add-new": {
     "en-US": "Add new",
     "pl-PL": "Dodaj nową"
+  },
+  "card-details-page.label": {
+    "en-US": "Label",
+    "pl-PL": "Etykieta"
+  },
+  "card-details-page.expiration": {
+    "en-US": "Expiration",
+    "pl-PL": "Ważność"
+  },
+  "card-details-page.invalid-expiration": {
+    "en-US": "This is not a valid expiration.",
+    "pl-PL": "To nie jest poprawna ważność."
+  },
+  "card-details-page.save": {
+    "en-US": "Save",
+    "pl-PL": "Zapisz"
+  },
+  "card-details-page.saved-successfully": {
+    "en-US": "Saved successfully.",
+    "pl-PL": "Zapisano pomyślnie."
+  },
+  "card-details-page.delete": {
+    "en-US": "Delete",
+    "pl-PL": "Usuń"
   }
 }

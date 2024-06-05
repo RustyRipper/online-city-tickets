@@ -7,9 +7,9 @@
       <p-card>
         <i class="pi pi-credit-card"></i>
         <div>
-          <h2>{{ cardHeader(card) }}</h2>
+          <h2>{{ card.label }}</h2>
           <p>
-            <span>{{ cardNumber(card) }}</span>
+            <span>{{ card.fullNumber }}</span>
             <span>{{ card.expirationDate }}</span>
           </p>
         </div>
