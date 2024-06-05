@@ -1,7 +1,28 @@
 <app-top-bar [title]="i18n.t('wallet-page.wallet')">
   <app-back-button left />
+  <a right [routerLink]="'/passenger/credit-cards'">
+    <p-button icon="pi pi-credit-card" rounded="true" severity="secondary" />
+  </a>
 </app-top-bar>
 <main>
-  {{ balance }}
-  <app-payment-sheet [actionName]="i18n.t('wallet-page.recharge')" />
+  <div class="balance">{{ balance }}</div>
+  <div class="recharging">
+    <label>{{ i18n.t("wallet-page.recharge-amount") }}:</label> <br />
+    <p-inputNumber
+      [(ngModel)]="rechargeAmountPln"
+      mode="currency"
+      currency="PLN"
+      [locale]="i18n.language"
+      min="1"
+      showButtons="true"
+      buttonLayout="horizontal"
+      incrementButtonIcon="pi pi-plus"
+      decrementButtonIcon="pi pi-minus"
+    />
+  </div>
+  <app-payment-sheet
+    [actionName]="i18n.t('wallet-page.recharge')"
+    [costGrosze]="rechargeAmountPln * 100"
+    [walletEnabled]="false"
+  />
 </main>

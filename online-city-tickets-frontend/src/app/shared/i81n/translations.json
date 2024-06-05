@@ -143,13 +143,17 @@
     "en-US": "Wallet",
     "pl-PL": "Portfel"
   },
+  "wallet-page.recharge-amount": {
+    "en-US": "Recharge amount",
+    "pl-PL": "Kwota doładowania"
+  },
   "wallet-page.recharge": {
     "en-US": "Recharge",
     "pl-PL": "Doładuj"
   },
-  "payment-sheet.method": {
-    "en-US": "Method",
-    "pl-PL": "Metoda"
+  "payment-sheet.payment-method": {
+    "en-US": "Payment method",
+    "pl-PL": "Metoda płatności"
   },
   "payment-sheet.wallet": {
     "en-US": "Wallet ({balance})",

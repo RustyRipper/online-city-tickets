@@ -5,5 +5,8 @@
   <div class="showcase">
     <app-offer-card [offer]="offer" />
   </div>
-  <app-payment-sheet [actionName]="i18n.t('offer-details-page.purchase')" />
+  <app-payment-sheet
+    [actionName]="i18n.t('offer-details-page.purchase')"
+    [costGrosze]="offer.priceGrosze"
+  />
 </main>

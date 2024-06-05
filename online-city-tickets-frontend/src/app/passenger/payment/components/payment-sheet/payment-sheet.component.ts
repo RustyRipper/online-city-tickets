@@ -17,11 +17,13 @@ type PaymentMethod = { id: PaymentId; name: string; icon: string };
   styleUrl: "./payment-sheet.component.css",
 })
 export class PaymentSheetComponent implements OnInit {
-  private walletBalance = "N/A";
+  private walletBalanceGrosze = 0;
 
-  protected paymentId: PaymentId = this.allowedPaymentIds[0];
+  protected paymentId: PaymentId = "new-card";
 
   @Input({ required: true }) public actionName!: string;
+  @Input({ required: true }) public costGrosze!: number;
+  @Input() public walletEnabled = true;
 
   public constructor(
     private readonly walletService: WalletService,
@@ -30,13 +32,32 @@ export class PaymentSheetComponent implements OnInit {
 
   public ngOnInit(): void {
     this.walletService.balanceGrosze$.subscribe((balanceGrosze) => {
-      this.walletBalance = `${(balanceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
+      this.walletBalanceGrosze = balanceGrosze;
     });
     this.walletService.revalidateBalanceGrosze();
+
+    this.paymentId =
+      this.walletEnabled && this.walletBalanceGrosze >= this.costGrosze
+        ? "wallet"
+        : "new-card";
+  }
+
+  protected get buttonLabel(): string {
+    return `${this.actionName} (${(this.costGrosze / 100).toFixed(2)} ${WalletService.currency})`;
+  }
+
+  protected get buttonDisabled(): boolean {
+    return (
+      this.paymentId === "wallet" && this.walletBalanceGrosze < this.costGrosze
+    );
   }
 
   protected get allowedPaymentIds(): PaymentId[] {
-    return ["wallet", "new-card", "blik"];
+    return [
+      ...(this.walletEnabled ? ["wallet" as const] : []),
+      "new-card",
+      "blik",
+    ];
   }
 
   protected method(id: PaymentId): PaymentMethod {
@@ -45,7 +66,7 @@ export class PaymentSheetComponent implements OnInit {
         return {
           id: "wallet",
           name: this.i18n.t("payment-sheet.wallet", {
-            balance: this.walletBalance,
+            balance: `${(this.walletBalanceGrosze / 100).toFixed(2)} ${WalletService.currency}`,
           }),
           icon: "pi-wallet",
         };

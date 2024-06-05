@@ -83,6 +83,13 @@ export const routes: Routes = [
           ).then((m) => m.WalletPageComponent),
         resolve: { balance: balanceResolver },
       },
+      {
+        path: "credit-cards",
+        loadComponent: () =>
+          import(
+            "~/passenger/credit-cards/components/card-list-page/card-list-page.component"
+          ).then((m) => m.CardListPageComponent),
+      },
     ],
   },
   {

@@ -1,5 +1,8 @@
 import { Component } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { ActivatedRoute, RouterModule } from "@angular/router";
+import { ButtonModule } from "primeng/button";
+import { InputNumberModule } from "primeng/inputnumber";
 
 import { PaymentSheetComponent } from "~/passenger/payment/components/payment-sheet/payment-sheet.component";
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
@@ -11,12 +14,22 @@ import { WalletService } from "../../services/wallet.service";
 @Component({
   selector: "app-wallet-page",
   standalone: true,
-  imports: [TopBarComponent, BackButtonComponent, PaymentSheetComponent],
+  imports: [
+    RouterModule,
+    FormsModule,
+    ButtonModule,
+    InputNumberModule,
+    TopBarComponent,
+    BackButtonComponent,
+    PaymentSheetComponent,
+  ],
   templateUrl: "./wallet-page.component.html",
   styleUrl: "./wallet-page.component.css",
 })
 export class WalletPageComponent {
   protected readonly balance;
+
+  protected rechargeAmountPln = 10;
 
   public constructor(
     protected readonly i18n: I18nService,
