@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RechargeWithBlikReqDto {
-    Long amountGrosze;
+    long amountGrosze;
     String blikCode;
 }

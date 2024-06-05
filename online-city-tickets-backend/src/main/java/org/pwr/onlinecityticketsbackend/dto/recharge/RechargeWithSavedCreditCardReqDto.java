@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RechargeWithSavedCreditCardReqDto {
-    Long amountGrosze;
-    Long creditCardId;
+    long amountGrosze;
+    long creditCardId;
     String cvc;
 }

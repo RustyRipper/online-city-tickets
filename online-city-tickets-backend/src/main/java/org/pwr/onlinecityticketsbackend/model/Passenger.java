@@ -33,4 +33,9 @@ public class Passenger extends Account {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_PASSENGER"));
     }
+
+    public long addGroszeToWalletBalance(long grosze) {
+        walletBalancePln = walletBalancePln.add(BigDecimal.valueOf(grosze, 2));
+        return walletBalancePln.multiply(BigDecimal.valueOf(100)).longValue();
+    }
 }

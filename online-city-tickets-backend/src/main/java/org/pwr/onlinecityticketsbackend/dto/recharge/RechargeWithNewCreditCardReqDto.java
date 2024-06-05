@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RechargeWithNewCreditCardReqDto {
-    Long amountGrosze;
+    long amountGrosze;
     String number;
     String holderName;
     String expirationDate;

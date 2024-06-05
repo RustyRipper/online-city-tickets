@@ -63,6 +63,10 @@ public class CreditCardValidators {
                 && (expiration == null || isExpirationDateValid(expiration));
     }
 
+    public static boolean isCvcValid(String cvc) {
+        return cvc.length() == 3 && cvc.chars().allMatch(Character::isDigit);
+    }
+
     private static boolean isLabelValid(String label) {
         return label.length() <= 50;
     }
