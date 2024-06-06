@@ -945,7 +945,7 @@
           "number",
           "holderName",
           "expirationDate",
-          "csc"
+          "cvc"
         ],
         "type": "object",
         "properties": {
@@ -963,13 +963,13 @@
           "expirationDate": {
             "$ref": "#/components/schemas/expirationDate"
           },
-          "csc": {
-            "$ref": "#/components/schemas/csc"
+          "cvc": {
+            "$ref": "#/components/schemas/cvc"
           }
         }
       },
       "RechargeWithSavedCreditCardReq": {
-        "required": ["amountGrosze", "creditCardId", "csc"],
+        "required": ["amountGrosze", "creditCardId", "cvc"],
         "type": "object",
         "properties": {
           "amountGrosze": {
@@ -980,8 +980,8 @@
           "creditCardId": {
             "$ref": "#/components/schemas/id"
           },
-          "csc": {
-            "$ref": "#/components/schemas/csc"
+          "cvc": {
+            "$ref": "#/components/schemas/cvc"
           }
         }
       },
@@ -1251,7 +1251,7 @@
         "type": "string",
         "pattern": "^(0[1-9]|1[0-2])/[0-9]{2}$"
       },
-      "csc": {
+      "cvc": {
         "type": "string",
         "pattern": "^[0-9]{3}$"
       },

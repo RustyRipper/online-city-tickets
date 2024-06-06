@@ -9,7 +9,7 @@ public class UnauthorizedUserTest {
     private UnauthorizedUser sut = new UnauthorizedUser();
 
     @Test
-    public void shouldUnauthorizedUserBeCorrect() {
+    public void exceptionDataShouldBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
         Assertions.assertThat(sut.getDescription()).isEqualTo("UNAUTHORIZED");

@@ -12,7 +12,6 @@ import org.pwr.onlinecityticketsbackend.exception.CardNotFound;
 import org.pwr.onlinecityticketsbackend.exception.InvalidCard;
 import org.pwr.onlinecityticketsbackend.exception.NotPassenger;
 import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
-import org.pwr.onlinecityticketsbackend.model.Account;
 import org.pwr.onlinecityticketsbackend.service.CreditCardInfoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +32,7 @@ public class CreditCardInfoController {
     @GetMapping
     public ResponseEntity<List<CreditCardDto>> getAllCreditCards()
             throws UnauthorizedUser, NotPassenger {
-        Account account = RequestContext.getAccountFromRequest();
+        var account = RequestContext.getAccountFromRequest();
         return ResponseEntity.ok(creditCardInfoService.getAllCreditCardsForUser(account));
     }
 
@@ -41,7 +40,7 @@ public class CreditCardInfoController {
     public ResponseEntity<CreditCardDto> addCreditCard(
             @RequestBody SaveCreditCardReqDto saveCreditCardReqDto)
             throws UnauthorizedUser, NotPassenger, CardExpired, InvalidCard, CardAlreadySaved {
-        Account account = RequestContext.getAccountFromRequest();
+        var account = RequestContext.getAccountFromRequest();
         return ResponseEntity.status(201)
                 .body(creditCardInfoService.addCreditCardForUser(saveCreditCardReqDto, account));
     }
@@ -49,7 +48,7 @@ public class CreditCardInfoController {
     @GetMapping("/{id}")
     public ResponseEntity<CreditCardDto> getCreditCardById(@PathVariable Long id)
             throws UnauthorizedUser, NotPassenger, CardNotFound {
-        Account account = RequestContext.getAccountFromRequest();
+        var account = RequestContext.getAccountFromRequest();
         return ResponseEntity.ok(creditCardInfoService.getCreditCardByIdForUser(id, account));
     }
 
@@ -57,7 +56,7 @@ public class CreditCardInfoController {
     public ResponseEntity<CreditCardDto> updateCreditCardById(
             @PathVariable Long id, @RequestBody UpdateCreditCardReqDto updateCreditCardReqDto)
             throws UnauthorizedUser, NotPassenger, CardExpired, InvalidCard, CardNotFound {
-        Account account = RequestContext.getAccountFromRequest();
+        var account = RequestContext.getAccountFromRequest();
         return ResponseEntity.ok(
                 creditCardInfoService.updateCreditCardByIdForUser(
                         id, updateCreditCardReqDto, account));
@@ -66,7 +65,7 @@ public class CreditCardInfoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCreditCardById(@PathVariable Long id)
             throws UnauthorizedUser, NotPassenger, CardNotFound {
-        Account account = RequestContext.getAccountFromRequest();
+        var account = RequestContext.getAccountFromRequest();
         creditCardInfoService.deleteCreditCardByIdForUser(id, account);
         return ResponseEntity.noContent().build();
     }

@@ -10,7 +10,7 @@ public class AuthenticationEmailInUseTest {
     private AuthenticationEmailInUse sut = new AuthenticationEmailInUse();
 
     @Test
-    public void shouldAuthenticationEmailInUseBeCorrect() {
+    public void exceptionDataShouldBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.CONFLICT);
         Assertions.assertThat(sut.getDescription()).isEqualTo("EMAIL_IN_USE");
