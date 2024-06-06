@@ -1,0 +1,46 @@
+<app-top-bar [title]="card.labelWithDigits">
+  <app-back-button left />
+</app-top-bar>
+<main>
+  <form [formGroup]="form.group">
+    <div class="field">
+      <label for="label">{{ i18n.t("card-details-page.label") }}</label>
+      <input formControlName="label" id="label" pInputText />
+    </div>
+    <div class="field">
+      <label for="expirationDate">{{
+        i18n.t("card-details-page.expiration")
+      }}</label>
+      <p-inputMask
+        formControlName="expirationDate"
+        id="expirationDate"
+        mask="99/99"
+        autoClear="false"
+        required
+      />
+    </div>
+    @if (form.showError("expirationDate")) {
+      <small class="error">{{
+        i18n.t("card-details-page.invalid-expiration")
+      }}</small>
+    }
+    <div class="buttons">
+      <p-button
+        [disabled]="form.isSubmitDisabled"
+        [loading]="form.isLoading"
+        (onClick)="onSubmit()"
+        [label]="i18n.t('card-details-page.save')"
+        icon="pi pi-save"
+        iconPos="right"
+        severity="primary"
+      />
+      <p-button
+        [label]="i18n.t('card-details-page.delete')"
+        icon="pi pi-trash"
+        iconPos="right"
+        severity="danger"
+        (onClick)="onDelete()"
+      />
+    </div>
+  </form>
+</main>

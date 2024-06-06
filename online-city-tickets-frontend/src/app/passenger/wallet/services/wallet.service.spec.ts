@@ -14,7 +14,7 @@ describe(WalletService.name, () => {
   it("should fetch new balance on revalidation", async () => {
     const { sut, mockHttp } = provide(WalletService);
 
-    sut.revalidate();
+    sut.revalidateBalanceGrosze();
     mockHttp("/account", { type: "passenger", walletBalanceGrosze: 100 });
 
     expect(await firstValueFrom(sut.balanceGrosze$)).toBe(100);
@@ -22,10 +22,10 @@ describe(WalletService.name, () => {
 
   it("should ignore balance updates from inspector", async () => {
     const { sut, mockHttp } = provide(WalletService);
-    sut.revalidate();
+    sut.revalidateBalanceGrosze();
     mockHttp("/account", { type: "passenger", walletBalanceGrosze: 200 });
 
-    sut.revalidate();
+    sut.revalidateBalanceGrosze();
     mockHttp("/account", { type: "inspector" });
 
     expect(await firstValueFrom(sut.balanceGrosze$)).toBe(200);
@@ -36,7 +36,7 @@ describe(WalletService.name, () => {
     const balances: number[] = [];
     sut.balanceGrosze$.subscribe((b) => balances.push(b));
 
-    sut.revalidate(123);
+    sut.revalidateBalanceGrosze(123);
     mockHttp("/account", { type: "passenger", walletBalanceGrosze: 456 });
 
     expect(balances).toEqual([0, 123, 456]);
@@ -47,7 +47,7 @@ describe(WalletService.name, () => {
     const balances: number[] = [];
     sut.balanceGrosze$.subscribe((b) => balances.push(b));
 
-    sut.revalidate(0);
+    sut.revalidateBalanceGrosze(0);
     mockHttp("/account", { type: "passenger", walletBalanceGrosze: 0 });
 
     expect(balances).toEqual([0]);

@@ -10,13 +10,9 @@ main {
   flex-direction: column;
 }
 
-.showcase,
-.payment {
+.showcase {
   max-width: 35rem;
   margin: 0 auto;
-}
-
-.showcase {
   padding: 1rem;
   flex: 1;
   display: grid;
@@ -26,29 +22,4 @@ main {
 .showcase ::ng-deep .offer {
   transform: scale(1.25);
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
-}
-
-.sheet {
-  border: 1px solid var(--main-border);
-  border-bottom: none;
-  border-radius: 2rem 2rem 0 0;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
-  padding: 2rem;
-}
-
-.payment ::ng-deep .p-button {
-  width: 100%;
-}
-
-.select {
-  display: flex;
-  padding: 1rem;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.select ::ng-deep .p-dropdown {
-  border: none;
-  margin: -1rem 0;
 }

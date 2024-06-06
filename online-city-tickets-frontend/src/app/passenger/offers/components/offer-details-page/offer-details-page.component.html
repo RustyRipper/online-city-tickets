@@ -1,27 +1,12 @@
-<app-top-bar title="Offer">
+<app-top-bar [title]="i18n.t('offer-details-page.offer')">
   <app-back-button left />
 </app-top-bar>
 <main>
   <div class="showcase">
     <app-offer-card [offer]="offer" />
   </div>
-  <div class="sheet">
-    <div class="payment">
-      <p-button
-        label="Purchase"
-        icon="pi pi-shopping-cart"
-        iconPos="right"
-        severity="success"
-      />
-      <div class="select">
-        <label>Payment method:</label>
-        <p-dropdown
-          [options]="paymentMethodOptions"
-          [(ngModel)]="paymentMethod"
-          optionLabel="label"
-          optionValue="value"
-        />
-      </div>
-    </div>
-  </div>
+  <app-payment-sheet
+    [actionName]="i18n.t('offer-details-page.purchase')"
+    [costGrosze]="offer.priceGrosze"
+  />
 </main>

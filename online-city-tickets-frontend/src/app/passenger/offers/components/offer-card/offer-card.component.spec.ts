@@ -23,8 +23,7 @@ describe(OfferCardComponent.name, () => {
     expect(element.textContent).toContain("Standard");
     expect(sut.offerName).toBe("Single\nfare");
     expect(element.textContent).toContain("Single\nfare");
-    expect(sut.offerPrice).toBe("1.00 zł");
-    expect(element.textContent).toContain("1.00 zł");
+    expect(element.textContent).toContain("1.00");
   });
 
   it("should link if linked is true", async () => {

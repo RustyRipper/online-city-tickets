@@ -1,0 +1,47 @@
+:host {
+  width: 100%;
+}
+
+.sheet {
+  border: 1px solid var(--main-border);
+  border-bottom: none;
+  border-radius: 2rem 2rem 0 0;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+}
+
+.payment {
+  max-width: 35rem;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.payment ::ng-deep .p-button {
+  width: 100%;
+}
+
+.select {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.select > * {
+  flex: 1;
+}
+
+.select label {
+  text-align: right;
+}
+
+.select ::ng-deep .p-dropdown {
+  border: none;
+  margin: -1rem 0;
+}
+
+.select ::ng-deep .p-dropdown .pi {
+  width: 1rem;
+  margin-right: 0.5rem;
+}

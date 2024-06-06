@@ -1,5 +1,6 @@
 import type {
   AccountDto,
+  CreditCardDto,
   TicketDto,
   TicketOfferDto,
 } from "~/generated/api/models";
@@ -31,3 +32,10 @@ export const MOCK_TICKET = {
     vehicleSideNumber: "WAW 12345",
   },
 } as const satisfies TicketDto;
+
+export const MOCK_CREDIT_CARD = {
+  id: 1,
+  lastFourDigits: "1234",
+  expirationDate: "05/25",
+  holderName: "John Doe",
+} as const satisfies CreditCardDto;

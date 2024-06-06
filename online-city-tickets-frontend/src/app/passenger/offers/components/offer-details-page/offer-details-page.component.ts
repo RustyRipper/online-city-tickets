@@ -1,47 +1,32 @@
 import { Component } from "@angular/core";
-import { FormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { ButtonModule } from "primeng/button";
-import { DropdownModule } from "primeng/dropdown";
 
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
 import type { Offer } from "~/passenger/offers/types";
-import { WalletService } from "~/passenger/wallet/services/wallet.service";
+import { PaymentSheetComponent } from "~/passenger/payment/components/payment-sheet/payment-sheet.component";
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
-
-type PaymentMethodOption = { label: string; value: string };
+import { I18nService } from "~/shared/i81n/i18n.service";
 
 @Component({
   selector: "app-offer-details-page",
   standalone: true,
   imports: [
-    FormsModule,
-    ButtonModule,
-    DropdownModule,
     TopBarComponent,
     BackButtonComponent,
     OfferCardComponent,
+    PaymentSheetComponent,
   ],
   templateUrl: "./offer-details-page.component.html",
   styleUrl: "./offer-details-page.component.css",
 })
 export class OfferDetailsPageComponent {
-  protected readonly paymentMethodOptions: PaymentMethodOption[];
   protected readonly offer: Offer;
-  protected paymentMethod: string;
 
-  public constructor(activatedRoute: ActivatedRoute) {
-    const balance = (activatedRoute.snapshot.data["balance"] / 100).toFixed(2);
+  public constructor(
+    protected readonly i18n: I18nService,
+    activatedRoute: ActivatedRoute,
+  ) {
     this.offer = activatedRoute.snapshot.data["offer"];
-    this.paymentMethodOptions = [
-      {
-        label: `Wallet (${balance} ${WalletService.currency})`,
-        value: "wallet",
-      },
-      { label: "BLIK", value: "blik" },
-      { label: "Credit card", value: "credit-card" },
-    ];
-    this.paymentMethod = this.paymentMethodOptions[0].value;
   }
 }

@@ -14,8 +14,6 @@ import { AccountsApi } from "~/generated/api/services";
   providedIn: "root",
 })
 export class WalletService {
-  public static readonly currency = "zł";
-
   private readonly balanceGroszeSubject = new BehaviorSubject<number>(0);
   public readonly balanceGrosze$ = this.balanceGroszeSubject
     .asObservable()
@@ -23,9 +21,9 @@ export class WalletService {
 
   public constructor(private readonly accountsApi: AccountsApi) {}
 
-  public revalidate(optimistic?: number): void {
-    if (optimistic) {
-      this.balanceGroszeSubject.next(optimistic);
+  public revalidateBalanceGrosze(optimisticValue?: number): void {
+    if (optimisticValue) {
+      this.balanceGroszeSubject.next(optimisticValue);
     }
     this.accountsApi
       .getAccount()

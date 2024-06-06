@@ -2,7 +2,6 @@ import { Component, Input } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
 import type { Offer } from "~/passenger/offers/types";
-import { WalletService } from "~/passenger/wallet/services/wallet.service";
 import { I18nService } from "~/shared/i81n/i18n.service";
 
 @Component({
@@ -16,7 +15,7 @@ export class OfferCardComponent {
   @Input({ required: true }) public offer!: Offer;
   @Input() public linked: boolean = false;
 
-  public constructor(private readonly i18n: I18nService) {}
+  public constructor(protected readonly i18n: I18nService) {}
 
   public get routerLink(): string | null {
     return this.linked ? `/passenger/offers/${this.offer.id}` : null;
@@ -37,9 +36,5 @@ export class OfferCardComponent {
     })();
 
     return translated.replaceAll(" ", "\n");
-  }
-
-  public get offerPrice(): string {
-    return `${(this.offer.priceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
   }
 }

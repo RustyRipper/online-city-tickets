@@ -12,18 +12,18 @@
     @if (ticket.validFrom) {
       <div class="card">
         <h3>{{ i18n.t("ticket-details-page.valid-from") }}</h3>
-        {{ ticket.validFrom.toLocaleString() }}
+        {{ i18n.dateTime(ticket.validFrom) }}
       </div>
     }
     @if (ticket.validUntil) {
       <div class="card">
         <h3>{{ i18n.t("ticket-details-page.valid-until") }}</h3>
-        {{ ticket.validUntil.toLocaleString() }}
+        {{ i18n.dateTime(ticket.validUntil) }}
       </div>
     }
     <div class="card">
       <h3>{{ i18n.t("ticket-details-page.purchased-at") }}</h3>
-      {{ ticket.purchaseTime.toLocaleString() }}
+      {{ i18n.dateTime(ticket.purchaseTime) }}
     </div>
     @if (ticket.vehicleSideNumber) {
       <div class="card">
@@ -43,7 +43,7 @@
     }
     <div class="card">
       <h3>{{ i18n.t("ticket-details-page.price") }}</h3>
-      {{ ticketPrice }}
+      {{ i18n.currency(ticket.offer.priceGrosze) }}
     </div>
     <div class="card">
       <h3>{{ i18n.t("ticket-details-page.ticket-code") }}</h3>

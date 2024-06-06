@@ -5,7 +5,6 @@ import { TagModule } from "primeng/tag";
 
 import type { PassengerDto } from "~/generated/api/models";
 import { Ticket } from "~/passenger/tickets/model";
-import { WalletService } from "~/passenger/wallet/services/wallet.service";
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 import { I18nService } from "~/shared/i81n/i18n.service";
@@ -52,9 +51,5 @@ export class TicketDetailsPageComponent {
   protected get codeDataUrl(): string {
     const qrCode = new QRCodeSVG(this.ticket.code, { level: "H" });
     return qrCode.toDataUrl()!;
-  }
-
-  protected get ticketPrice(): string {
-    return `${(this.ticket.offer.priceGrosze / 100).toFixed(2)} ${WalletService.currency}`;
   }
 }

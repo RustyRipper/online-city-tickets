@@ -6,6 +6,8 @@ import { balanceResolver } from "~/passenger/wallet/resolvers/balance.resolver";
 import { hasRole } from "~/shared/auth/guards/has-role.guard";
 import { accountResolver } from "~/shared/auth/resolvers/account.resolver";
 
+import { creditCardResolver } from "./passenger/credit-cards/resolvers/credit-card.resolver";
+
 export const routes: Routes = [
   {
     path: "auth",
@@ -65,7 +67,7 @@ export const routes: Routes = [
           import(
             "~/passenger/offers/components/offer-details-page/offer-details-page.component"
           ).then((m) => m.OfferDetailsPageComponent),
-        resolve: { offer: offerResolver, balance: balanceResolver },
+        resolve: { offer: offerResolver },
       },
       {
         path: "tickets/:code",
@@ -81,6 +83,22 @@ export const routes: Routes = [
           import(
             "~/passenger/wallet/components/wallet-page/wallet-page.component"
           ).then((m) => m.WalletPageComponent),
+        resolve: { balance: balanceResolver },
+      },
+      {
+        path: "credit-cards",
+        loadComponent: () =>
+          import(
+            "~/passenger/credit-cards/components/card-list-page/card-list-page.component"
+          ).then((m) => m.CardListPageComponent),
+      },
+      {
+        path: "credit-cards/:id",
+        loadComponent: () =>
+          import(
+            "~/passenger/credit-cards/components/card-details-page/card-details-page.component"
+          ).then((m) => m.CardDetailsPageComponent),
+        resolve: { card: creditCardResolver },
       },
     ],
   },

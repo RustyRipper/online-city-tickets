@@ -12,7 +12,7 @@ describe(balanceResolver.name, () => {
 
   it("should return balance for passenger", async () => {
     const { result, mockHttp } = execute(balanceResolver, {
-      injects: (tb) => tb.inject(WalletService).revalidate(123),
+      injects: (tb) => tb.inject(WalletService).revalidateBalanceGrosze(123),
     });
     mockHttp("/account", { type: "passenger", walletBalanceGrosze: 123 });
 
