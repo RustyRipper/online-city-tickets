@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootTest
 @Transactional
-public class CreditCardInfoServiceTest {
+public class CreditCardInfoServiceIntegrationTest {
     @Autowired private AccountSetup accountSetup;
     @Autowired private CreditCardInfoSetup creditCardInfoSetup;
     @Autowired private CreditCardInfoMapper creditCardInfoMapper;

@@ -51,7 +51,7 @@ public class RechargeService {
             throw new CardExpired();
         }
 
-        if (CreditCardValidators.isCvcValid(dto.getCvc())) {
+        if (!CreditCardValidators.isCvcValid(dto.getCvc())) {
             throw new InvalidPaymentData();
         }
 
@@ -76,7 +76,7 @@ public class RechargeService {
             throw new InvalidPaymentData();
         }
 
-        if (CreditCardValidators.isCvcValid(dto.getCvc())) {
+        if (!CreditCardValidators.isCvcValid(dto.getCvc())) {
             throw new InvalidPaymentData();
         }
 
