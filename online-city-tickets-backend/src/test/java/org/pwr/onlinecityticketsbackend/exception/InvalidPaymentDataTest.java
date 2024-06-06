@@ -9,7 +9,7 @@ public class InvalidPaymentDataTest {
     private InvalidPaymentData sut = new InvalidPaymentData();
 
     @Test
-    public void shouldInvalidCardBeCorrect() {
+    public void exceptionDataShouldBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
         Assertions.assertThat(sut.getDescription()).isEqualTo("INVALID_PAYMENT_DATA");

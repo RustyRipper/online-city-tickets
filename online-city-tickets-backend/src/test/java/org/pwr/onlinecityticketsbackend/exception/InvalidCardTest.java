@@ -9,7 +9,7 @@ public class InvalidCardTest {
     private InvalidCard sut = new InvalidCard();
 
     @Test
-    public void shouldInvalidCardBeCorrect() {
+    public void exceptionDataShouldBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
         Assertions.assertThat(sut.getDescription()).isEqualTo("INVALID_CARD");

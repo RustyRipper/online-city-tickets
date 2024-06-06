@@ -45,10 +45,6 @@ public class CreditCardInfoService {
             throw new InvalidCard();
         }
 
-        if (!CreditCardValidators.isValidLuhn(saveCreditCardReqDto.getNumber())) {
-            throw new InvalidCard();
-        }
-
         if (creditCardValidators.isCreditCardExpired(saveCreditCardReqDto.getExpirationDate())) {
             throw new CardExpired();
         }

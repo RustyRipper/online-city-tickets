@@ -9,7 +9,7 @@ public class TicketOfferNotFoundTest {
     private TicketOfferNotFound sut = new TicketOfferNotFound();
 
     @Test
-    public void shouldTicketOfferNotFoundBeCorrect() {
+    public void exceptionDataShouldBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.NOT_FOUND);
         Assertions.assertThat(sut.getDescription()).isEqualTo("TICKET_OFFER_NOT_FOUND");

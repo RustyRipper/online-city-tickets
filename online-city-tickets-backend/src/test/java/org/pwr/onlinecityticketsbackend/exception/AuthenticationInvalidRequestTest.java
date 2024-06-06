@@ -9,7 +9,7 @@ class AuthenticationInvalidRequestTest {
     private AuthenticationInvalidRequest sut = new AuthenticationInvalidRequest();
 
     @Test
-    public void shouldAuthenticationEmailInUseBeCorrect() {
+    public void exceptionDataShouldBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
         Assertions.assertThat(sut.getDescription()).isEqualTo("INVALID_REQUEST_BODY");

@@ -31,7 +31,7 @@ public class RechargeService {
     public RechargeDto rechargeWithNewCreditCard(
             RechargeWithNewCreditCardReqDto dto, Account account)
             throws NotPassenger, InvalidPaymentData, InvalidCard, CardExpired {
-        if (!(account instanceof Passenger)) {
+        if (!(account instanceof Passenger passenger)) {
             throw new NotPassenger();
         }
 
@@ -43,10 +43,6 @@ public class RechargeService {
             throw new InvalidCard();
         }
 
-        if (!CreditCardValidators.isValidLuhn(dto.getNumber())) {
-            throw new InvalidCard();
-        }
-
         if (creditCardValidators.isCreditCardExpired(dto.getExpirationDate())) {
             throw new CardExpired();
         }
@@ -55,7 +51,6 @@ public class RechargeService {
             throw new InvalidPaymentData();
         }
 
-        var passenger = (Passenger) account;
         var newWalletBalanceGrosze = passenger.addGroszeToWalletBalance(dto.getAmountGrosze());
         accountRepository.save(passenger);
 
@@ -68,7 +63,7 @@ public class RechargeService {
     public RechargeDto rechargeWithSavedCreditCard(
             RechargeWithSavedCreditCardReqDto dto, Account account)
             throws NotPassenger, InvalidPaymentData, CardNotFound {
-        if (!(account instanceof Passenger)) {
+        if (!(account instanceof Passenger passenger)) {
             throw new NotPassenger();
         }
 
@@ -85,7 +80,6 @@ public class RechargeService {
                 .filter(c -> c.getOwner().equals(account))
                 .orElseThrow(CardNotFound::new);
 
-        var passenger = (Passenger) account;
         var newWalletBalanceGrosze = passenger.addGroszeToWalletBalance(dto.getAmountGrosze());
         accountRepository.save(passenger);
 
@@ -97,7 +91,7 @@ public class RechargeService {
 
     public RechargeDto rechargeWithBlik(RechargeWithBlikReqDto dto, Account account)
             throws NotPassenger, InvalidPaymentData {
-        if (!(account instanceof Passenger)) {
+        if (!(account instanceof Passenger passenger)) {
             throw new NotPassenger();
         }
 
@@ -109,7 +103,6 @@ public class RechargeService {
             throw new InvalidPaymentData();
         }
 
-        var passenger = (Passenger) account;
         var newWalletBalanceGrosze = passenger.addGroszeToWalletBalance(dto.getAmountGrosze());
         accountRepository.save(passenger);
 

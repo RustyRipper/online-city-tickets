@@ -13,9 +13,7 @@
   "paths": {
     "/auth/register/passenger": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Register a new passenger account.",
         "operationId": "registerAsPassenger",
         "requestBody": {
@@ -50,9 +48,7 @@
     },
     "/auth/register/inspector": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Register a new inspector account.",
         "operationId": "registerAsInspector",
         "requestBody": {
@@ -92,9 +88,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Log in to the system.",
         "description": "Returns a JWT, which should be included in the Authorization header of all subsequent requests.<br/>Can be used by both passengers and inspectors.",
         "operationId": "login",
@@ -127,9 +121,7 @@
     },
     "/account": {
       "get": {
-        "tags": [
-          "accounts"
-        ],
+        "tags": ["accounts"],
         "summary": "Get current account's details.",
         "operationId": "getAccount",
         "responses": {
@@ -157,9 +149,7 @@
         ]
       },
       "patch": {
-        "tags": [
-          "accounts"
-        ],
+        "tags": ["accounts"],
         "summary": "Update current account's details.",
         "operationId": "updateAccount",
         "requestBody": {
@@ -199,9 +189,7 @@
     },
     "/credit-cards": {
       "get": {
-        "tags": [
-          "cards"
-        ],
+        "tags": ["cards"],
         "summary": "List all saved credit cards of the current account.",
         "operationId": "listCreditCards",
         "responses": {
@@ -229,9 +217,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "cards"
-        ],
+        "tags": ["cards"],
         "summary": "Save a new credit card on the current account.",
         "operationId": "saveCreditCard",
         "requestBody": {
@@ -274,9 +260,7 @@
     },
     "/credit-cards/{id}": {
       "get": {
-        "tags": [
-          "cards"
-        ],
+        "tags": ["cards"],
         "summary": "Get details of a saved credit card.",
         "operationId": "getCreditCard",
         "responses": {
@@ -304,9 +288,7 @@
         ]
       },
       "patch": {
-        "tags": [
-          "cards"
-        ],
+        "tags": ["cards"],
         "summary": "Update details of a saved credit card.",
         "operationId": "updateCreditCard",
         "requestBody": {
@@ -347,9 +329,7 @@
         ]
       },
       "delete": {
-        "tags": [
-          "cards"
-        ],
+        "tags": ["cards"],
         "summary": "Delete a saved credit card.",
         "operationId": "deleteCreditCard",
         "responses": {
@@ -377,9 +357,7 @@
     },
     "/recharge/new-credit-card": {
       "post": {
-        "tags": [
-          "recharging"
-        ],
+        "tags": ["recharging"],
         "summary": "Recharge the virtual wallet using a new credit card.",
         "description": "This operation does not save the credit card on the account.<br/>Use the `/account/credit-cards` endpoint instead.<br/>This operation is propagated to the payment service.",
         "operationId": "rechargeWithNewCreditCard",
@@ -420,9 +398,7 @@
     },
     "/recharge/saved-credit-card": {
       "post": {
-        "tags": [
-          "recharging"
-        ],
+        "tags": ["recharging"],
         "summary": "Recharge the virtual wallet using a saved credit card.",
         "description": "This operation is propagated to the payment service.",
         "operationId": "rechargeWithSavedCreditCard",
@@ -466,9 +442,7 @@
     },
     "/recharge/blik": {
       "post": {
-        "tags": [
-          "recharging"
-        ],
+        "tags": ["recharging"],
         "summary": "Recharge the virtual wallet using BLIK.",
         "description": "This operation is propagated to the payment service.",
         "operationId": "rechargeWithBlik",
@@ -509,9 +483,7 @@
     },
     "/offers": {
       "get": {
-        "tags": [
-          "offers"
-        ],
+        "tags": ["offers"],
         "summary": "List all available ticket offers.",
         "operationId": "listTicketOffers",
         "responses": {
@@ -533,9 +505,7 @@
     },
     "/offers/{id}": {
       "get": {
-        "tags": [
-          "offers"
-        ],
+        "tags": ["offers"],
         "summary": "Get details of a single ticket offer.",
         "operationId": "getTicketOffer",
         "responses": {
@@ -562,9 +532,7 @@
     },
     "/tickets": {
       "get": {
-        "tags": [
-          "tickets"
-        ],
+        "tags": ["tickets"],
         "summary": "List all tickets of the current account.",
         "operationId": "listTickets",
         "responses": {
@@ -592,9 +560,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "tickets"
-        ],
+        "tags": ["tickets"],
         "summary": "Purchase a new ticket.",
         "description": "This operation charges the ticket price from the virtual wallet.",
         "operationId": "purchaseTicket",
@@ -641,9 +607,7 @@
     },
     "/tickets/{code}": {
       "get": {
-        "tags": [
-          "tickets"
-        ],
+        "tags": ["tickets"],
         "summary": "Get details of a single ticket of the current account.",
         "operationId": "getTicket",
         "responses": {
@@ -678,9 +642,7 @@
     },
     "/tickets/{code}/validate": {
       "post": {
-        "tags": [
-          "validation"
-        ],
+        "tags": ["validation"],
         "summary": "Validate a ticket.",
         "description": "Ensures that a single-fare or time-limited ticket becomes valid.",
         "operationId": "validateTicket",
@@ -724,9 +686,7 @@
     },
     "/tickets/{code}/inspect": {
       "post": {
-        "tags": [
-          "inspection"
-        ],
+        "tags": ["inspection"],
         "summary": "Inspect a ticket.",
         "description": "Checks if the ticket was correctly validated.",
         "operationId": "inspectTicket",
@@ -772,9 +732,7 @@
     },
     "/actuator/health": {
       "get": {
-        "tags": [
-          "server-info"
-        ],
+        "tags": ["server-info"],
         "summary": "Check the health of the server.",
         "operationId": "checkHealth",
         "responses": {
@@ -795,10 +753,7 @@
   "components": {
     "schemas": {
       "BaseAccountDto": {
-        "required": [
-          "fullName",
-          "email"
-        ],
+        "required": ["fullName", "email"],
         "type": "object",
         "properties": {
           "fullName": {
@@ -816,16 +771,11 @@
             "$ref": "#/components/schemas/BaseAccountDto"
           },
           {
-            "required": [
-              "type",
-              "walletBalanceGrosze"
-            ],
+            "required": ["type", "walletBalanceGrosze"],
             "properties": {
               "type": {
                 "type": "string",
-                "enum": [
-                  "passenger"
-                ]
+                "enum": ["passenger"]
               },
               "walletBalanceGrosze": {
                 "type": "integer",
@@ -844,15 +794,11 @@
             "$ref": "#/components/schemas/BaseAccountDto"
           },
           {
-            "required": [
-              "type"
-            ],
+            "required": ["type"],
             "properties": {
               "type": {
                 "type": "string",
-                "enum": [
-                  "inspector"
-                ]
+                "enum": ["inspector"]
               }
             }
           }
@@ -869,11 +815,7 @@
         ]
       },
       "RegisterAsPassengerReq": {
-        "required": [
-          "fullName",
-          "email",
-          "password"
-        ],
+        "required": ["fullName", "email", "password"],
         "type": "object",
         "properties": {
           "fullName": {
@@ -892,11 +834,7 @@
         }
       },
       "RegisterAsInspectorReq": {
-        "required": [
-          "fullName",
-          "email",
-          "password"
-        ],
+        "required": ["fullName", "email", "password"],
         "type": "object",
         "properties": {
           "fullName": {
@@ -912,10 +850,7 @@
         }
       },
       "LoginReq": {
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "type": "object",
         "properties": {
           "email": {
@@ -928,9 +863,7 @@
         }
       },
       "LoginRes": {
-        "required": [
-          "jwt"
-        ],
+        "required": ["jwt"],
         "type": "object",
         "properties": {
           "jwt": {
@@ -953,12 +886,7 @@
         }
       },
       "CreditCardDto": {
-        "required": [
-          "id",
-          "lastFourDigits",
-          "holderName",
-          "expirationDate"
-        ],
+        "required": ["id", "lastFourDigits", "holderName", "expirationDate"],
         "type": "object",
         "properties": {
           "id": {
@@ -981,11 +909,7 @@
         }
       },
       "SaveCreditCardReq": {
-        "required": [
-          "number",
-          "holderName",
-          "expirationDate"
-        ],
+        "required": ["number", "holderName", "expirationDate"],
         "type": "object",
         "properties": {
           "label": {
@@ -1045,11 +969,7 @@
         }
       },
       "RechargeWithSavedCreditCardReq": {
-        "required": [
-          "amountGrosze",
-          "creditCardId",
-          "cvc"
-        ],
+        "required": ["amountGrosze", "creditCardId", "cvc"],
         "type": "object",
         "properties": {
           "amountGrosze": {
@@ -1066,10 +986,7 @@
         }
       },
       "RechargeWithBlikReq": {
-        "required": [
-          "amountGrosze",
-          "blikCode"
-        ],
+        "required": ["amountGrosze", "blikCode"],
         "type": "object",
         "properties": {
           "amountGrosze": {
@@ -1084,10 +1001,7 @@
         }
       },
       "RechargeDto": {
-        "required": [
-          "time",
-          "newWalletBalanceGrosze"
-        ],
+        "required": ["time", "newWalletBalanceGrosze"],
         "type": "object",
         "properties": {
           "time": {
@@ -1124,10 +1038,7 @@
           },
           "kind": {
             "type": "string",
-            "enum": [
-              "standard",
-              "reduced"
-            ]
+            "enum": ["standard", "reduced"]
           },
           "priceGrosze": {
             "type": "integer",
@@ -1142,15 +1053,11 @@
             "$ref": "#/components/schemas/BaseTicketOfferDto"
           },
           {
-            "required": [
-              "scope"
-            ],
+            "required": ["scope"],
             "properties": {
               "scope": {
                 "type": "string",
-                "enum": [
-                  "single-fare"
-                ]
+                "enum": ["single-fare"]
               }
             }
           }
@@ -1162,16 +1069,11 @@
             "$ref": "#/components/schemas/BaseTicketOfferDto"
           },
           {
-            "required": [
-              "scope",
-              "durationMinutes"
-            ],
+            "required": ["scope", "durationMinutes"],
             "properties": {
               "scope": {
                 "type": "string",
-                "enum": [
-                  "time-limited"
-                ]
+                "enum": ["time-limited"]
               },
               "durationMinutes": {
                 "type": "integer",
@@ -1187,16 +1089,11 @@
             "$ref": "#/components/schemas/BaseTicketOfferDto"
           },
           {
-            "required": [
-              "scope",
-              "validDays"
-            ],
+            "required": ["scope", "validDays"],
             "properties": {
               "scope": {
                 "type": "string",
-                "enum": [
-                  "long-term"
-                ]
+                "enum": ["long-term"]
               },
               "validDays": {
                 "type": "integer",
@@ -1220,9 +1117,7 @@
         ]
       },
       "PurchaseTicketReq": {
-        "required": [
-          "offerId"
-        ],
+        "required": ["offerId"],
         "type": "object",
         "properties": {
           "offerId": {
@@ -1231,12 +1126,7 @@
         }
       },
       "TicketDto": {
-        "required": [
-          "code",
-          "purchaseTime",
-          "offer",
-          "ticketStatus"
-        ],
+        "required": ["code", "purchaseTime", "offer", "ticketStatus"],
         "type": "object",
         "properties": {
           "code": {
@@ -1254,17 +1144,12 @@
           },
           "ticketStatus": {
             "type": "string",
-            "enum": [
-              "ACTIVE",
-              "NOT_ACTIVE"
-            ]
+            "enum": ["ACTIVE", "NOT_ACTIVE"]
           }
         }
       },
       "ValidateTicketReq": {
-        "required": [
-          "vehicleSideNumber"
-        ],
+        "required": ["vehicleSideNumber"],
         "type": "object",
         "properties": {
           "vehicleSideNumber": {
@@ -1273,10 +1158,7 @@
         }
       },
       "ValidationDto": {
-        "required": [
-          "time",
-          "vehicleSideNumber"
-        ],
+        "required": ["time", "vehicleSideNumber"],
         "type": "object",
         "properties": {
           "time": {
@@ -1289,9 +1171,7 @@
         }
       },
       "InspectTicketReq": {
-        "required": [
-          "vehicleSideNumber"
-        ],
+        "required": ["vehicleSideNumber"],
         "type": "object",
         "properties": {
           "vehicleSideNumber": {
@@ -1300,31 +1180,22 @@
         }
       },
       "InspectTicketValidRes": {
-        "required": [
-          "status"
-        ],
+        "required": ["status"],
         "type": "object",
         "properties": {
           "status": {
             "type": "string",
-            "enum": [
-              "valid"
-            ]
+            "enum": ["valid"]
           }
         }
       },
       "InspectTicketInvalidRes": {
-        "required": [
-          "status",
-          "reason"
-        ],
+        "required": ["status", "reason"],
         "type": "object",
         "properties": {
           "status": {
             "type": "string",
-            "enum": [
-              "invalid"
-            ]
+            "enum": ["invalid"]
           },
           "reason": {
             "type": "string",
@@ -1393,16 +1264,12 @@
         "pattern": "^[A-Z]{3} [0-9]{5}$"
       },
       "HealthDto": {
-        "required": [
-          "status"
-        ],
+        "required": ["status"],
         "type": "object",
         "properties": {
           "status": {
             "type": "string",
-            "enum": [
-              "UP"
-            ]
+            "enum": ["UP"]
           }
         }
       }

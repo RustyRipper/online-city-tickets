@@ -24,7 +24,7 @@ public class CreditCardValidators {
                 || (expirationYear == currentYear && expirationMonth < currentMonth);
     }
 
-    public static boolean isValidLuhn(String number) {
+    private static boolean isValidLuhn(String number) {
         int n = number.length();
         int total = 0;
         boolean even = true;
@@ -52,7 +52,8 @@ public class CreditCardValidators {
         return (label == null || isLabelValid(label))
                 && (number != null && isNumberValid(number))
                 && (name != null && isHolderNameValid(name))
-                && (expiration != null && isExpirationDateValid(expiration));
+                && (expiration != null && isExpirationDateValid(expiration))
+                && isValidLuhn(number);
     }
 
     public static boolean isCreditCardUpdateValid(UpdateCreditCardReqDto updateCreditCardReqDto) {

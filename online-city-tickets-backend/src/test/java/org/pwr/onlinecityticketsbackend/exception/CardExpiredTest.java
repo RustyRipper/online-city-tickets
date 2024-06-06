@@ -9,7 +9,7 @@ public class CardExpiredTest {
     private CardExpired sut = new CardExpired();
 
     @Test
-    public void shouldCardExpiredBeCorrect() {
+    public void exceptionDataShouldBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
         Assertions.assertThat(sut.getDescription()).isEqualTo("CARD_EXPIRED");

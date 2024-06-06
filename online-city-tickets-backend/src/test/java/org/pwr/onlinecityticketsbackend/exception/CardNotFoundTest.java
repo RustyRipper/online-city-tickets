@@ -9,7 +9,7 @@ public class CardNotFoundTest {
     private CardNotFound sut = new CardNotFound();
 
     @Test
-    public void shouldCardNotFoundBeCorrect() {
+    public void exceptionDataShouldBeCorrect() {
         Assertions.assertThat(sut).isInstanceOf(RestApiException.class);
         Assertions.assertThat(sut.getHttpStatus()).isEqualTo(HttpStatus.NOT_FOUND);
         Assertions.assertThat(sut.getDescription()).isEqualTo("CARD_NOT_FOUND");
