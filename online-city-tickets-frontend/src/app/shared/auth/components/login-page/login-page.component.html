@@ -11,9 +11,9 @@
         required
       />
     </div>
-    <small *ngIf="form.showError('email')" class="error">
-      {{ i18n.t("login-page.invalid-email") }}
-    </small>
+    @if (form.showError("email")) {
+      <small class="error">{{ i18n.t("login-page.invalid-email") }}</small>
+    }
     <div class="field">
       <label for="password">{{ i18n.t("login-page.password") }}</label>
       <p-password
@@ -24,9 +24,9 @@
         required
       />
     </div>
-    <small *ngIf="form.showError('password')" class="error">
-      {{ i18n.t("login-page.password-short") }}
-    </small>
+    @if (form.showError("password")) {
+      <small class="error">{{ i18n.t("login-page.password-short") }}</small>
+    }
     <div class="center">
       <p-button
         [disabled]="form.isSubmitDisabled"
@@ -38,9 +38,11 @@
         iconPos="right"
       />
     </div>
-    <small *ngIf="form.isError" class="error">{{
-      i18n.t("login-page.invalid-credentials")
-    }}</small>
+    @if (form.isError) {
+      <small class="error">{{
+        i18n.t("login-page.invalid-credentials")
+      }}</small>
+    }
   </form>
   <p-divider [align]="'center'">{{ i18n.t("login-page.or") }}</p-divider>
   <div class="center">

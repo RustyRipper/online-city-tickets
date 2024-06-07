@@ -12,9 +12,9 @@
         required
       />
     </div>
-    <small *ngIf="form.showError('fullName')" class="error">
-      {{ i18n.t("register-page.invalid-name") }}
-    </small>
+    @if (form.showError("fullName")) {
+      <small class="error">{{ i18n.t("register-page.invalid-name") }}</small>
+    }
     <div class="field">
       <label for="email">{{ i18n.t("register-page.email") }}</label>
       <input
@@ -26,9 +26,9 @@
         required
       />
     </div>
-    <small *ngIf="form.showError('email')" class="error">
-      {{ i18n.t("register-page.invalid-email") }}
-    </small>
+    @if (form.showError("email")) {
+      <small class="error">{{ i18n.t("register-page.invalid-email") }}</small>
+    }
     <div class="field">
       <label for="password">{{ i18n.t("register-page.password") }}</label>
       <p-password
@@ -39,9 +39,9 @@
         required
       />
     </div>
-    <small *ngIf="form.showError('password')" class="error">
-      {{ i18n.t("register-page.password-short") }}
-    </small>
+    @if (form.showError("password")) {
+      <small class="error">{{ i18n.t("register-page.password-short") }}</small>
+    }
     <div class="field">
       <label for="repeat">{{ i18n.t("register-page.repeat") }}</label>
       <p-password
@@ -52,9 +52,11 @@
         required
       />
     </div>
-    <small *ngIf="form.showError('repeat')" class="error">
-      {{ i18n.t("register-page.password-mismatch") }}
-    </small>
+    @if (form.showError("repeat")) {
+      <small class="error">{{
+        i18n.t("register-page.password-mismatch")
+      }}</small>
+    }
     <div class="center">
       <p-button
         [disabled]="form.isSubmitDisabled"
@@ -66,9 +68,9 @@
         iconPos="right"
       />
     </div>
-    <small *ngIf="form.isError" class="error">{{
-      i18n.t("register-page.email-taken")
-    }}</small>
+    @if (form.isError) {
+      <small class="error">{{ i18n.t("register-page.email-taken") }}</small>
+    }
   </form>
   <p-divider [align]="'center'">{{ i18n.t("register-page.or") }}</p-divider>
   <div class="center">
