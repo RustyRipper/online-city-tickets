@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { SelectButtonModule } from "primeng/selectbutton";
@@ -21,7 +20,7 @@ type GroupOrder = Omit<OfferGroup, "offers">[];
 @Component({
   selector: "app-offer-list-page",
   standalone: true,
-  imports: [CommonModule, FormsModule, SelectButtonModule, OfferCardComponent],
+  imports: [FormsModule, SelectButtonModule, OfferCardComponent],
   templateUrl: "./offer-list-page.component.html",
   styleUrl: "./offer-list-page.component.css",
 })

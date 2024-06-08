@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
@@ -39,7 +38,6 @@ function modelToDto(model: Model): UpdateAccountReq {
   selector: "app-account-settings-page",
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,

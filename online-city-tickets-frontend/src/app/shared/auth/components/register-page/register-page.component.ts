@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import {
   FormBuilder,
@@ -24,7 +23,6 @@ const repeatValidator: (name: string) => ValidatorFn = (name) => (control) =>
   selector: "app-register-page",
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     ReactiveFormsModule,
     ButtonModule,

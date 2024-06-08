@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
@@ -15,7 +14,6 @@ import { ThemeService } from "~/shared/theme/services/theme.service";
   selector: "app-settings-page",
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     RouterModule,
     ButtonModule,
