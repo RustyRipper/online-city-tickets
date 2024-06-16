@@ -2,11 +2,9 @@ package org.pwr.onlinecityticketsbackend.dto.ticket;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class InspectTicketRes {
     public static InspectTicketRes valid() {
         return new InspectTicketRes("valid", "");

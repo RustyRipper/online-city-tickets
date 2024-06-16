@@ -1,6 +1,5 @@
 package org.pwr.onlinecityticketsbackend.service;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.pwr.onlinecityticketsbackend.auth.*;
@@ -69,7 +68,7 @@ public class AuthenticationService {
     }
 
     private AuthenticationResponseDto buildAuthenticationResponse(Account account) {
-        Claims claims = Jwts.claims().setSubject(account.getUsername());
+        var claims = Jwts.claims().setSubject(account.getUsername());
         claims.put("userId", account.getId().toString());
         claims.put("role", account.getAuthorities().stream().toList().get(0).getAuthority());
         return AuthenticationResponseDto.builder()
