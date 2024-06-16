@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -106,6 +107,7 @@ export class InspectorPageComponent implements AfterViewInit, OnDestroy {
   private state: keyof typeof this.messageStates = "VEHICLE_NOT_SELECTED";
 
   public constructor(
+    private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly inspectionApi: InspectionApi,
     protected readonly i18n: I18nService,
   ) {}
@@ -149,6 +151,7 @@ export class InspectorPageComponent implements AfterViewInit, OnDestroy {
         }
 
         this.state = "INSPECTING";
+        this.changeDetectorRef.detectChanges();
 
         firstValueFrom(
           this.inspectionApi.inspectTicket({
@@ -187,7 +190,8 @@ export class InspectorPageComponent implements AfterViewInit, OnDestroy {
             }
 
             this.state = "UNKNOWN_ERROR";
-          });
+          })
+          .finally(() => this.changeDetectorRef.detectChanges());
       },
     );
   }
