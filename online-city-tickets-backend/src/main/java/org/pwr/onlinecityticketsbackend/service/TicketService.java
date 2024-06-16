@@ -3,6 +3,7 @@ package org.pwr.onlinecityticketsbackend.service;
 import jakarta.transaction.Transactional;
 import java.time.Clock;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.pwr.onlinecityticketsbackend.dto.ticket.*;
@@ -122,33 +123,33 @@ public class TicketService {
                 .findBySideNumber(request.getVehicleSideNumber())
                 .orElseThrow(VehicleNotFound::new);
 
-        InspectTicketRes response = new InspectTicketRes();
-        var ticket = ticketRepository.findByCode(code);
-        if (ticket.isEmpty()) {
-            response.setStatus("invalid");
-            response.setReason("ticket-not-found");
-            return response;
+        return ticketRepository
+                .findByCode(code)
+                .map(t -> mapTicketToReason(t, request))
+                .orElse(Optional.of("ticket-not-found"))
+                .map(InspectTicketRes::invalid)
+                .orElse(InspectTicketRes.valid());
+    }
+
+    private Optional<String> mapTicketToReason(Ticket ticket, InspectTicketReq request) {
+        var isTicketSingleFareOffer = ticket.getOffer() instanceof SingleFareOffer;
+
+        if (isTicketSingleFareOffer && ticket.getValidation() == null) {
+            return Optional.of("ticket-not-validated");
         }
 
-        if (ticket.get().getIsActive(clock.instant(), request.getVehicleSideNumber())) {
-            response.setStatus("valid");
-            response.setReason("");
-        } else {
-            response.setStatus("invalid");
-            if (!ticket.get().getIsActive(clock.instant())) {
-                response.setReason("ticket-expired");
-            } else if (ticket.get().getOffer() instanceof SingleFareOffer) {
-                if (ticket.get().getValidation() == null) {
-                    response.setReason("ticket-not-validated");
-                } else if (!ticket.get()
-                        .getValidation()
+        if (isTicketSingleFareOffer
+                && !ticket.getValidation()
                         .getVehicle()
                         .getSideNumber()
                         .equals(request.getVehicleSideNumber())) {
-                    response.setReason("ticket-not-valid-for-vehicle");
-                }
-            }
+            return Optional.of("ticket-not-valid-for-vehicle");
         }
-        return response;
+
+        if (!ticket.getIsActive(clock.instant())) {
+            return Optional.of("ticket-expired");
+        }
+
+        return Optional.empty();
     }
 }

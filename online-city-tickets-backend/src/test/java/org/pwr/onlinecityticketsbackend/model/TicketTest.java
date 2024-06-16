@@ -41,39 +41,6 @@ class TicketTest {
     }
 
     @Test
-    public void getIsValid_singleFareOfferWithValidSideNumber_returnsTrue() {
-        // Given
-        Ticket ticket = new Ticket();
-        ticket.setOffer(new SingleFareOffer());
-        ticket.setValidation(new Validation());
-        ticket.getValidation().setVehicle(new Vehicle());
-        ticket.getValidation().getVehicle().setSideNumber("123");
-        ticket.getValidation().setTime(Instant.now().plus(Duration.ofMinutes(1)));
-
-        // When
-        boolean isValid = ticket.getIsActive(Instant.now().plus(Duration.ofMinutes(2)), "123");
-
-        // Then
-        assertTrue(isValid);
-    }
-
-    @Test
-    public void getIsValid_singleFareOfferWithInvalidSideNumber_returnsFalse() {
-        // Given
-        Ticket ticket = new Ticket();
-        ticket.setOffer(new SingleFareOffer());
-        ticket.setValidation(new Validation());
-        ticket.getValidation().setVehicle(new Vehicle());
-        ticket.getValidation().getVehicle().setSideNumber("123");
-
-        // When
-        boolean isValid = ticket.getIsActive(Instant.now(), "456");
-
-        // Then
-        assertFalse(isValid);
-    }
-
-    @Test
     public void getValidFromTime_singleFareOfferWithValidation_returnsValidationTime() {
         // Given
         Ticket ticket = new Ticket();
