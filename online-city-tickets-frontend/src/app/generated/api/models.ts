@@ -5,7 +5,7 @@ export { BaseAccountDto } from './models/base-account-dto';
 export { BaseTicketOfferDto } from './models/base-ticket-offer-dto';
 export { CreditCardDto } from './models/credit-card-dto';
 export { CreditCardNumber } from './models/credit-card-number';
-export { Csc } from './models/csc';
+export { Cvc } from './models/cvc';
 export { ExpirationDate } from './models/expiration-date';
 export { FullName } from './models/full-name';
 export { HealthDto } from './models/health-dto';

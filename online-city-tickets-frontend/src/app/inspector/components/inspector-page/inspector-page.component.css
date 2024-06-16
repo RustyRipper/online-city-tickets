@@ -1,0 +1,37 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 35rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.vehicle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  width: 9rem;
+}
+
+video {
+  max-width: 100%;
+  border-radius: 1rem;
+}
+
+.vehicle ::ng-deep .p-inputmask {
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+}

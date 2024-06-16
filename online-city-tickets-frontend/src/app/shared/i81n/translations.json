@@ -243,6 +243,10 @@
     "en-US": "Inspector",
     "pl-PL": "Kontroler"
   },
+  "inspector-page.vehicle": {
+    "en-US": "Vehicle",
+    "pl-PL": "Pojazd"
+  },
   "login-page.login": {
     "en-US": "Login",
     "pl-PL": "Logowanie"
