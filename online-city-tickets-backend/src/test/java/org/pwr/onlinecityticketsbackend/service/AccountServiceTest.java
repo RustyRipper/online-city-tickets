@@ -5,20 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.pwr.onlinecityticketsbackend.config.RequestContext;
-import org.pwr.onlinecityticketsbackend.dto.account.AccountDto;
 import org.pwr.onlinecityticketsbackend.dto.account.PassengerDto;
 import org.pwr.onlinecityticketsbackend.dto.account.UpdateAccountReqDto;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
@@ -30,9 +27,6 @@ import org.pwr.onlinecityticketsbackend.model.Passenger;
 import org.pwr.onlinecityticketsbackend.repository.AccountRepository;
 import org.pwr.onlinecityticketsbackend.repository.InspectorRepository;
 import org.pwr.onlinecityticketsbackend.repository.PassengerRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
@@ -116,7 +110,7 @@ public class AccountServiceTest {
     void shouldThrowAccountNotFoundWhenEmailNotExists() {
         // when
         when(accountRepository.findByEmail(anyString())).thenReturn(Optional.empty());
-        ThrowableAssert.ThrowingCallable resultCallable = () -> sut.getAccountByEmail("email");
+        ThrowingCallable resultCallable = () -> sut.getAccountByEmail("email");
 
         // then
         Assertions.assertThatThrownBy(resultCallable).isInstanceOf(UnauthorizedUser.class);
@@ -151,7 +145,7 @@ public class AccountServiceTest {
     void shouldThrowAccountNotFoundWhenIdNotExists() {
         // when
         when(accountRepository.findById(anyLong())).thenReturn(Optional.empty());
-        ThrowableAssert.ThrowingCallable resultCallable = () -> sut.getAccountById(1L);
+        ThrowingCallable resultCallable = () -> sut.getAccountById(1L);
 
         // then
         Assertions.assertThatThrownBy(resultCallable).isInstanceOf(UnauthorizedUser.class);
@@ -159,60 +153,42 @@ public class AccountServiceTest {
 
     @Test
     public void testGetCurrentAccountByEmail() throws UnauthorizedUser {
-        Passenger passenger = new Passenger();
+        var passenger = new Passenger();
         passenger.setEmail("test@test.com");
 
-        AccountDto accountDto = new PassengerDto();
+        var accountDto = new PassengerDto();
         accountDto.setEmail("test@test.com");
-
-        Authentication authentication = mock(Authentication.class);
-        SecurityContext securityContext = mock(SecurityContext.class);
-        SecurityContextHolder.setContext(securityContext);
-
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(authentication.getPrincipal()).thenReturn(passenger);
 
         when(accountRepository.findByEmail(passenger.getEmail()))
                 .thenReturn(Optional.of(passenger));
         when(accountMapper.toDto(passenger)).thenReturn(accountDto);
 
-        PassengerDto result = (PassengerDto) sut.getCurrentAccountByEmail();
+        var result = (PassengerDto) sut.getCurrentAccountByEmail(passenger);
 
         assertEquals("test@test.com", result.getEmail());
     }
 
     @Test
     public void testGetCurrentAccountByEmail_ThrowsAccountNotFound() throws UnauthorizedUser {
-        Admin admin = new Admin();
+        var admin = new Admin();
         admin.setEmail("admin@test.com");
 
-        Authentication authentication = mock(Authentication.class);
-        SecurityContext securityContext = mock(SecurityContext.class);
-        SecurityContextHolder.setContext(securityContext);
-
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(authentication.getPrincipal()).thenReturn(admin);
-
-        when(RequestContext.getAccountFromRequest()).thenReturn(admin);
-
-        assertThrows(UnauthorizedUser.class, () -> sut.getCurrentAccountByEmail());
+        assertThrows(UnauthorizedUser.class, () -> sut.getCurrentAccountByEmail(admin));
     }
 
     @Test
     void shouldUpdateAccount() throws AuthenticationInvalidRequest, UnauthorizedUser {
         // given
-        UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
+        var updateAccountReqDto = new UpdateAccountReqDto();
         updateAccountReqDto.setFullName("newFullName");
         updateAccountReqDto.setPhoneNumber("123123123");
 
-        Passenger passenger = new Passenger();
+        var passenger = new Passenger();
         passenger.setFullName("oldFullName");
         passenger.setPhoneNumber("876567987");
 
-        when(RequestContext.getAccountFromRequest()).thenReturn(passenger);
-
         // when
-        sut.updateAccount(updateAccountReqDto);
+        sut.updateAccount(updateAccountReqDto, passenger);
 
         // then
         assertEquals("newFullName", passenger.getFullName());
@@ -222,14 +198,11 @@ public class AccountServiceTest {
     @Test
     void shouldNotUpdateAccountWhenRoleIsAdmin() throws UnauthorizedUser {
         // given
-        UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
-        Admin admin = new Admin();
-
-        when(RequestContext.getAccountFromRequest()).thenReturn(admin);
+        var updateAccountReqDto = new UpdateAccountReqDto();
+        var admin = new Admin();
 
         // when
-        ThrowableAssert.ThrowingCallable resultCallable =
-                () -> sut.updateAccount(updateAccountReqDto);
+        ThrowingCallable resultCallable = () -> sut.updateAccount(updateAccountReqDto, admin);
 
         // then
         Assertions.assertThatThrownBy(resultCallable)
@@ -239,16 +212,13 @@ public class AccountServiceTest {
     @Test
     void shouldNotUpdatePhoneNumberWhenRoleIsInspector() throws UnauthorizedUser {
         // given
-        UpdateAccountReqDto updateAccountReqDto = new UpdateAccountReqDto();
+        var updateAccountReqDto = new UpdateAccountReqDto();
         updateAccountReqDto.setPhoneNumber("123456789");
 
-        Inspector inspector = new Inspector();
-
-        when(RequestContext.getAccountFromRequest()).thenReturn(inspector);
+        var inspector = new Inspector();
 
         // when
-        ThrowableAssert.ThrowingCallable resultCallable =
-                () -> sut.updateAccount(updateAccountReqDto);
+        ThrowingCallable resultCallable = () -> sut.updateAccount(updateAccountReqDto, inspector);
 
         // then
         Assertions.assertThatThrownBy(resultCallable)
