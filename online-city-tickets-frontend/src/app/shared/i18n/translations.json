@@ -243,6 +243,50 @@
     "en-US": "Inspector",
     "pl-PL": "Kontroler"
   },
+  "inspector-page.vehicle": {
+    "en-US": "Vehicle",
+    "pl-PL": "Pojazd"
+  },
+  "inspector-page.unknown-error": {
+    "en-US": "An unknown error occurred!",
+    "pl-PL": "Wystąpił nieznany błąd!"
+  },
+  "inspector-page.vehicle-not-selected": {
+    "en-US": "Select a vehicle!",
+    "pl-PL": "Wybierz pojazd!"
+  },
+  "inspector-page.vehicle-not-found": {
+    "en-US": "Vehicle not found!",
+    "pl-PL": "Pojazd nieznaleziony!"
+  },
+  "inspector-page.waiting": {
+    "en-US": "Waiting for a scan...",
+    "pl-PL": "Oczekiwanie na skan..."
+  },
+  "inspector-page.inspecting": {
+    "en-US": "Inspecting the ticket...",
+    "pl-PL": "Kontrolowanie biletu..."
+  },
+  "inspector-page.valid": {
+    "en-US": "The ticket is valid.",
+    "pl-PL": "Bilet jest aktywny."
+  },
+  "inspector-page.ticket-not-found": {
+    "en-US": "This code is invalid.",
+    "pl-PL": "Ten kod jest nieprawidłowy."
+  },
+  "inspector-page.ticket-not-validated": {
+    "en-US": "This ticket is not validated.",
+    "pl-PL": "Ten bilet nie został skasowany."
+  },
+  "inspector-page.ticket-expired": {
+    "en-US": "This ticket has expired.",
+    "pl-PL": "Ten bilet wygasł."
+  },
+  "inspector-page.ticket-not-valid-for-vehicle": {
+    "en-US": "This ticket was validated in another vehicle.",
+    "pl-PL": "Ten bilet był skasowany w innym pojeździe."
+  },
   "login-page.login": {
     "en-US": "Login",
     "pl-PL": "Logowanie"

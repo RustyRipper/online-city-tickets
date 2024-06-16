@@ -5,7 +5,7 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { OfferCardComponent } from "~/passenger/offers/components/offer-card/offer-card.component";
 import { OffersService } from "~/passenger/offers/services/offers.service";
 import { Offer } from "~/passenger/offers/types";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 
 type OfferKindItem = { label: string; value: Offer["kind"] };
 type OfferGroup = {

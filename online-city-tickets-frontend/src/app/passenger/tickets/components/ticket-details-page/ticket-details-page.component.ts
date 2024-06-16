@@ -7,7 +7,7 @@ import type { PassengerDto } from "~/generated/api/models";
 import { Ticket } from "~/passenger/tickets/model";
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 
 @Component({
   selector: "app-ticket-details-page",

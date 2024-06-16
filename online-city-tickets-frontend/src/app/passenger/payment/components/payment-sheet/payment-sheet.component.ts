@@ -7,7 +7,7 @@ import type { CreditCard } from "~/passenger/credit-cards/model";
 import { CreditCardService } from "~/passenger/credit-cards/services/credit-card.service";
 import type { PaymentId } from "~/passenger/payment/types";
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 
 type PaymentMethod = { id: PaymentId; name: string; icon: string };
 

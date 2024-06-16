@@ -4,7 +4,7 @@ import { MessageService } from "primeng/api";
 import { tap } from "rxjs";
 
 import { AuthService } from "~/shared/auth/services/auth.service";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const messageService = inject(MessageService);

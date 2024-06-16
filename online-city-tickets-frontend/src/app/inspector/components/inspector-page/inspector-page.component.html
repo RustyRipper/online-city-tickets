@@ -1,3 +1,15 @@
 <app-top-bar [title]="i18n.t('inspector-page.inspector')">
   <app-settings-link right />
 </app-top-bar>
+<main>
+  <p-messages [value]="[message]" enableService="false" closable="false" />
+  <video #video></video>
+  <div class="vehicle">
+    <label>{{ i18n.t("inspector-page.vehicle") }}</label>
+    <p-inputMask
+      mask="aaa 99999"
+      placeholder="ABC 12345"
+      [(ngModel)]="vehicleSideNumber"
+    />
+  </div>
+</main>

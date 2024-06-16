@@ -4,6 +4,7 @@ import {
 } from "@angular/common/http/testing";
 import { Component } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { ActivatedRoute, RouterModule } from "@angular/router";
 import { MessageService } from "primeng/api";
 
@@ -33,6 +34,7 @@ export function configureTestBed<I>({
 }: ConfigureTestBedOptions<I>): ConfigureTestBedResult<I> {
   const imports = [
     RouterModule.forRoot([{ path: "**", component: DummyComponent }]),
+    NoopAnimationsModule,
     HttpClientTestingModule,
   ];
 

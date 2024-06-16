@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
-import { Csc } from '../models/csc';
+import { Cvc } from '../models/cvc';
 import { Id } from '../models/id';
 export interface RechargeWithSavedCreditCardReq {
   amountGrosze: number;
   creditCardId: Id;
-  csc: Csc;
+  cvc: Cvc;
 }
