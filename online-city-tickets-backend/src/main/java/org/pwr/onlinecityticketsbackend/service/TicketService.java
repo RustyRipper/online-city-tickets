@@ -152,10 +152,6 @@ public class TicketService {
     }
 
     private InspectTicketRes determineInvalidReason(Ticket ticket, InspectTicketReq request) {
-        if (!ticket.getIsActive(Instant.now())) {
-            return createResponse("invalid", "ticket-expired");
-        }
-
         if (ticket.getOffer() instanceof SingleFareOffer) {
             if (ticket.getValidation() == null) {
                 return createResponse("invalid", "ticket-not-validated");
@@ -167,6 +163,10 @@ public class TicketService {
                     .equals(request.getVehicleSideNumber())) {
                 return createResponse("invalid", "ticket-not-valid-for-vehicle");
             }
+        }
+
+        if (!ticket.getIsActive(Instant.now())) {
+            return createResponse("invalid", "ticket-expired");
         }
 
         return createResponse("invalid", "unknown-reason");
