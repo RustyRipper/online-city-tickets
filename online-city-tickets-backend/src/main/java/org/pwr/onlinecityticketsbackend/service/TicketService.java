@@ -118,19 +118,13 @@ public class TicketService {
     }
 
     public InspectTicketRes inspectTicket(String code, InspectTicketReq request)
-            throws TicketNotFound, VehicleNotFound, UnauthorizedUser, AuthenticationInvalidRequest {
+            throws VehicleNotFound, UnauthorizedUser, AuthenticationInvalidRequest {
         Account account = RequestContext.getAccountFromRequest();
         if (!(account instanceof Inspector)) {
             throw new AuthenticationInvalidRequest();
         }
-        InspectTicketRes response = new InspectTicketRes();
 
         Optional<Ticket> ticket = ticketRepository.findByCode(code);
-        if (ticket.isEmpty()) {
-            response.setStatus("invalid");
-            response.setReason("ticket-not-found");
-            return response;
-        }
 
         Optional<Vehicle> vehicle =
                 vehicleRepository.findBySideNumber(request.getVehicleSideNumber());
@@ -138,25 +132,43 @@ public class TicketService {
             throw new VehicleNotFound();
         }
 
-        if (ticket.get().getIsActive(Instant.now(), request.getVehicleSideNumber())) {
-            response.setStatus("valid");
-            response.setReason("");
-        } else {
-            response.setStatus("invalid");
-            if (!ticket.get().getIsActive(Instant.now())) {
-                response.setReason("ticket-expired");
-            } else if (ticket.get().getOffer() instanceof SingleFareOffer) {
-                if (ticket.get().getValidation() == null) {
-                    response.setReason("ticket-not-validated");
-                } else if (!ticket.get()
-                        .getValidation()
-                        .getVehicle()
-                        .getSideNumber()
-                        .equals(request.getVehicleSideNumber())) {
-                    response.setReason("ticket-not-valid-for-vehicle");
-                }
+        if (ticket.isEmpty()) {
+            return createResponse("invalid", "ticket-not-found");
+        }
+
+        Ticket retrievedTicket = ticket.get();
+        if (retrievedTicket.getIsActive(Instant.now(), request.getVehicleSideNumber())) {
+            return createResponse("valid", "");
+        }
+
+        return determineInvalidReason(retrievedTicket, request);
+    }
+
+    private InspectTicketRes createResponse(String status, String reason) {
+        InspectTicketRes response = new InspectTicketRes();
+        response.setStatus(status);
+        response.setReason(reason);
+        return response;
+    }
+
+    private InspectTicketRes determineInvalidReason(Ticket ticket, InspectTicketReq request) {
+        if (!ticket.getIsActive(Instant.now())) {
+            return createResponse("invalid", "ticket-expired");
+        }
+
+        if (ticket.getOffer() instanceof SingleFareOffer) {
+            if (ticket.getValidation() == null) {
+                return createResponse("invalid", "ticket-not-validated");
+            }
+
+            if (!ticket.getValidation()
+                    .getVehicle()
+                    .getSideNumber()
+                    .equals(request.getVehicleSideNumber())) {
+                return createResponse("invalid", "ticket-not-valid-for-vehicle");
             }
         }
-        return response;
+
+        return createResponse("invalid", "unknown-reason");
     }
 }

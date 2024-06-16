@@ -49,7 +49,7 @@ public class TicketController {
     @PostMapping("/{code}/inspect")
     public ResponseEntity<InspectTicketRes> inspectTicket(
             @PathVariable String code, @RequestBody InspectTicketReq request)
-            throws AuthenticationInvalidRequest, VehicleNotFound, TicketNotFound, UnauthorizedUser {
+            throws AuthenticationInvalidRequest, VehicleNotFound, UnauthorizedUser {
         return ResponseEntity.ok(ticketService.inspectTicket(code, request));
     }
 }

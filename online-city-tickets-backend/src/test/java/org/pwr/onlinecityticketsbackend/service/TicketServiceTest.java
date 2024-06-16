@@ -220,6 +220,8 @@ public class TicketServiceTest {
         Account account = new Inspector();
         when(RequestContext.getAccountFromRequest()).thenReturn(account);
         when(ticketRepository.findByCode(anyString())).thenReturn(Optional.empty());
+        when(vehicleRepository.findBySideNumber(anyString()))
+                .thenReturn(Optional.of(new Vehicle()));
 
         InspectTicketReq request = new InspectTicketReq();
         request.setVehicleSideNumber("123");
