@@ -5,7 +5,7 @@ import { CardModule } from "primeng/card";
 
 import { BackButtonComponent } from "~/shared/components/back-button/back-button.component";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 
 import type { CreditCard } from "../../model";
 import { CreditCardService } from "../../services/credit-card.service";

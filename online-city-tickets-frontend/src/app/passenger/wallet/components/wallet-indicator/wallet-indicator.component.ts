@@ -3,7 +3,7 @@ import { RouterModule } from "@angular/router";
 import { ChipModule } from "primeng/chip";
 
 import { WalletService } from "~/passenger/wallet/services/wallet.service";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 
 @Component({
   selector: "app-wallet-indicator",

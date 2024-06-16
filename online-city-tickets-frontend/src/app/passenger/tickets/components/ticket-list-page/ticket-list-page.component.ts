@@ -5,7 +5,7 @@ import { ButtonModule } from "primeng/button";
 import { TicketCardComponent } from "~/passenger/tickets/components/ticket-card/ticket-card.component";
 import { Ticket, TicketStatus } from "~/passenger/tickets/model";
 import { TicketsService } from "~/passenger/tickets/services/tickets.service";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 
 type StatusList = { [status in TicketStatus]: Ticket[] };
 

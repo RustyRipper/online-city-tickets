@@ -2,11 +2,7 @@
   <app-settings-link right />
 </app-top-bar>
 <main>
-  <p-messages
-    [value]="[{ severity: 'error', detail: 'content' }]"
-    enableService="false"
-    closable="false"
-  />
+  <p-messages [value]="[message]" enableService="false" closable="false" />
   <video #video></video>
   <div class="vehicle">
     <label>{{ i18n.t("inspector-page.vehicle") }}</label>
@@ -14,7 +10,6 @@
       mask="aaa 99999"
       placeholder="ABC 12345"
       [(ngModel)]="vehicleSideNumber"
-      (ngModelChange)="onVehicleChange()"
     />
   </div>
 </main>

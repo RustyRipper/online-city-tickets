@@ -4,7 +4,7 @@ import { TabMenuModule } from "primeng/tabmenu";
 
 import { WalletIndicatorComponent } from "~/passenger/wallet/components/wallet-indicator/wallet-indicator.component";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 import { SettingsLinkComponent } from "~/shared/settings/components/settings-link/settings-link.component";
 
 @Component({

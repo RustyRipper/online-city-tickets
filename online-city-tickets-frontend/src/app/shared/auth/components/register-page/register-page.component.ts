@@ -14,7 +14,7 @@ import { PasswordModule } from "primeng/password";
 import { AuthService } from "~/shared/auth/services/auth.service";
 import { TopBarComponent } from "~/shared/components/top-bar/top-bar.component";
 import { Form } from "~/shared/forms/form";
-import { I18nService } from "~/shared/i81n/i18n.service";
+import { I18nService } from "~/shared/i18n/i18n.service";
 
 const repeatValidator: (name: string) => ValidatorFn = (name) => (control) =>
   control.value === control.parent?.get(name)?.value ? null : { repeat: true };

@@ -16,17 +16,22 @@ main {
   gap: 2rem;
 }
 
+main ::ng-deep p-messages {
+  height: 4rem;
+}
+
 .vehicle {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   width: 9rem;
 }
 
 video {
   max-width: 100%;
+  max-height: 50vh;
   border-radius: 1rem;
 }
 
