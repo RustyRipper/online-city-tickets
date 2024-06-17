@@ -1,6 +1,6 @@
+import { Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 import { InputGroupModule } from "primeng/inputgroup";
 import { InputMaskModule } from "primeng/inputmask";
@@ -57,7 +57,7 @@ export class CardAdditionPageComponent {
 
   public constructor(
     private readonly creditCardService: CreditCardService,
-    private readonly router: Router,
+    private readonly location: Location,
     protected readonly i18n: I18nService,
   ) {}
 
@@ -147,7 +147,7 @@ export class CardAdditionPageComponent {
 
       await this.creditCardService.addCard(body);
 
-      this.router.navigateByUrl("/passenger/credit-cards");
+      this.location.back();
     } catch {
       this.error = this.i18n.t("card-addition-page.error");
     } finally {
