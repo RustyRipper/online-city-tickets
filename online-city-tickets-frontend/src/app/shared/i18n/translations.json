@@ -414,5 +414,17 @@
   "card-details-page.delete": {
     "en-US": "Delete",
     "pl-PL": "Usuń"
+  },
+  "card-addition-page.add-card": {
+    "en-US": "Add card",
+    "pl-PL": "Dodaj kartę"
+  },
+  "card-display.expiration-date-template": {
+    "en-US": "MM/YY",
+    "pl-PL": "MM/RR"
+  },
+  "card-display.holder-name-placeholder": {
+    "en-US": "Holder Name",
+    "pl-PL": "Imię Nazwisko"
   }
 }

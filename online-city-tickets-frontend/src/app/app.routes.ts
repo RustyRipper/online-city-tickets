@@ -93,6 +93,13 @@ export const routes: Routes = [
           ).then((m) => m.CardListPageComponent),
       },
       {
+        path: "credit-cards/add",
+        loadComponent: () =>
+          import(
+            "~/passenger/credit-cards/components/card-addition-page/card-addition-page.component"
+          ).then((m) => m.CardAdditionPageComponent),
+      },
+      {
         path: "credit-cards/:id",
         loadComponent: () =>
           import(

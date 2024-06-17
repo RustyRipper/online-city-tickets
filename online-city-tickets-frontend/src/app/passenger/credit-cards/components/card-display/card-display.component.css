@@ -1,0 +1,52 @@
+.perspective {
+  transform: perspective(25rem);
+  transform-style: preserve-3d;
+  padding: 2rem;
+}
+
+@keyframes sway {
+  from {
+    transform: rotateX(5deg) rotateY(5deg);
+  }
+  to {
+    transform: rotateX(5deg) rotateY(-5deg);
+  }
+}
+
+svg {
+  max-width: 25rem;
+  margin: 0 auto;
+  display: block;
+  animation: sway 5s infinite alternate;
+  outline: 1px solid transparent;
+  filter: drop-shadow(0 0 1rem rgba(0, 0, 0, 0.5));
+}
+
+.background {
+  fill: url(#placeholder);
+}
+
+.background[data-provider="mastercard"] {
+  fill: url(#mastercard);
+}
+
+.background[data-provider="amex"] {
+  fill: url(#amex);
+}
+
+.background[data-provider="visa"] {
+  fill: url(#visa);
+}
+
+.background[data-provider="discover"] {
+  fill: url(#discover);
+}
+
+.text {
+  dominant-baseline: hanging;
+  font-family: monospace;
+  font-weight: bold;
+  letter-spacing: 0.1ch;
+  fill: white;
+  stroke: black;
+}
