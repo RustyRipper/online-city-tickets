@@ -47,17 +47,6 @@ public class Ticket {
 
     private static final Duration SINGLE_FARE_TICKET_DURATION = Duration.ofHours(4);
 
-    public boolean getIsActive(Instant now, String sideNumber) {
-
-        return switch (offer) {
-            case null -> throw new IllegalStateException("Offer cannot be null");
-            case SingleFareOffer ignored when validation == null
-                            || !validation.getVehicle().getSideNumber().equals(sideNumber) ->
-                    false;
-            default -> getIsActive(now);
-        };
-    }
-
     public boolean getIsActive(Instant now) {
         Instant validFromTime = getValidFromTime();
         Instant validUntilTime = getValidUntilTime();

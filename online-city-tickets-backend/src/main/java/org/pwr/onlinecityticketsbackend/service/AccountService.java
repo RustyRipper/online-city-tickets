@@ -2,7 +2,6 @@ package org.pwr.onlinecityticketsbackend.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.account.AccountDto;
 import org.pwr.onlinecityticketsbackend.dto.account.UpdateAccountReqDto;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
@@ -30,24 +29,29 @@ public class AccountService {
 
     public Passenger createPassenger(
             String email, String fullname, String phoneNumber, String password) {
-        Passenger passenger = new Passenger();
-        passenger.setFullName(fullname);
-        passenger.setEmail(email);
-        passenger.setPhoneNumber(phoneNumber);
-        passenger.setPassword(passwordEncoder.encode(password));
+        var passenger =
+                Passenger.builder()
+                        .email(email)
+                        .fullName(fullname)
+                        .phoneNumber(phoneNumber)
+                        .password(passwordEncoder.encode(password))
+                        .build();
+
         return passengerRepository.save(passenger);
     }
 
     public Inspector createInspector(String email, String fullname, String password) {
-        Inspector inspector = new Inspector();
-        inspector.setEmail(email);
-        inspector.setFullName(fullname);
-        inspector.setPassword(passwordEncoder.encode(password));
+        var inspector =
+                Inspector.builder()
+                        .email(email)
+                        .fullName(fullname)
+                        .password(passwordEncoder.encode(password))
+                        .build();
+
         return inspectorRepository.save(inspector);
     }
 
-    public AccountDto getCurrentAccountByEmail() throws UnauthorizedUser {
-        Account account = RequestContext.getAccountFromRequest();
+    public AccountDto getCurrentAccountByEmail(Account account) throws UnauthorizedUser {
         if (account instanceof Admin) {
             throw new UnauthorizedUser();
         }
@@ -66,9 +70,8 @@ public class AccountService {
         return accountRepository.findById(id).orElseThrow(UnauthorizedUser::new);
     }
 
-    public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto)
-            throws AuthenticationInvalidRequest, UnauthorizedUser {
-        Account account = RequestContext.getAccountFromRequest();
+    public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto, Account account)
+            throws AuthenticationInvalidRequest {
         if (account instanceof Admin) {
             throw new AuthenticationInvalidRequest();
         }

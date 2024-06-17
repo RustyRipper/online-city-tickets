@@ -18,7 +18,6 @@ public class TicketSeeder {
     private final PassengerRepository passengerRepository;
     private final TicketOfferRepository ticketOfferRepository;
     private final ValidationRepository validationRepository;
-    private final VehicleRepository vehicleRepository;
 
     public void seedTickets() {
         Optional<Passenger> richGuy = passengerRepository.findByEmail("richGuy@tickets.pl");
@@ -45,21 +44,6 @@ public class TicketSeeder {
 
             ticketRepository.save(ticket);
         }
-        Vehicle ve = Vehicle.builder().sideNumber("WAW 12345").isActive(true).build();
-        vehicleRepository.save(ve);
-        Validation validation =
-                Validation.builder()
-                        .time(Instant.now().plus(Duration.ofSeconds(1)))
-                        .vehicle(ve)
-                        .build();
-        Validation validation2 =
-                Validation.builder()
-                        .time(Instant.now().minus(Duration.ofDays(1)).plus(Duration.ofSeconds(1)))
-                        .vehicle(ve)
-                        .build();
-
-        validationRepository.save(validation);
-        validationRepository.save(validation2);
 
         Ticket ticket =
                 Ticket.builder()
@@ -67,7 +51,7 @@ public class TicketSeeder {
                         .passenger(richGuy.get())
                         .offer(ticketOffers.getFirst())
                         .purchaseTime(Instant.now())
-                        .validation(validation)
+                        .validation(validationRepository.findAll().get(0))
                         .build();
         Ticket ticket2 =
                 Ticket.builder()
@@ -75,7 +59,7 @@ public class TicketSeeder {
                         .passenger(richGuy.get())
                         .offer(ticketOffers.getFirst())
                         .purchaseTime(Instant.now().minus(Duration.ofDays(1)))
-                        .validation(validation2)
+                        .validation(validationRepository.findAll().get(1))
                         .build();
 
         ticketRepository.save(ticket);

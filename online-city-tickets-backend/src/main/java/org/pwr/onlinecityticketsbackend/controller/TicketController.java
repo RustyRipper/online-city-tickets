@@ -2,9 +2,8 @@ package org.pwr.onlinecityticketsbackend.controller;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.ticket.*;
-import org.pwr.onlinecityticketsbackend.dto.ticket.PurchaseTicketReqDto;
-import org.pwr.onlinecityticketsbackend.dto.ticket.TicketDto;
 import org.pwr.onlinecityticketsbackend.exception.*;
 import org.pwr.onlinecityticketsbackend.service.TicketService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,8 @@ public class TicketController {
     @GetMapping
     public ResponseEntity<List<TicketDto>> listTickets()
             throws UnauthorizedUser, AuthenticationInvalidRequest {
-        return ResponseEntity.ok(ticketService.listTickets());
+        var account = RequestContext.getAccountFromRequest();
+        return ResponseEntity.ok(ticketService.listTickets(account));
     }
 
     @PostMapping
@@ -30,13 +30,16 @@ public class TicketController {
                     UnauthorizedUser,
                     TicketOfferNotFound,
                     AuthenticationInvalidRequest {
-        return ResponseEntity.status(201).body(ticketService.purchaseTicket(purchaseTicketReq));
+        var account = RequestContext.getAccountFromRequest();
+        return ResponseEntity.status(201)
+                .body(ticketService.purchaseTicket(purchaseTicketReq, account));
     }
 
     @GetMapping("/{code}")
     public ResponseEntity<TicketDto> getTicket(@PathVariable String code)
             throws UnauthorizedUser, TicketNotFound, AuthenticationInvalidRequest {
-        return ResponseEntity.ok(ticketService.getTicket(code));
+        var account = RequestContext.getAccountFromRequest();
+        return ResponseEntity.ok(ticketService.getTicket(code, account));
     }
 
     @PostMapping("/{code}/validate")
@@ -49,7 +52,8 @@ public class TicketController {
     @PostMapping("/{code}/inspect")
     public ResponseEntity<InspectTicketRes> inspectTicket(
             @PathVariable String code, @RequestBody InspectTicketReq request)
-            throws AuthenticationInvalidRequest, VehicleNotFound, TicketNotFound, UnauthorizedUser {
-        return ResponseEntity.ok(ticketService.inspectTicket(code, request));
+            throws AuthenticationInvalidRequest, VehicleNotFound, UnauthorizedUser {
+        var account = RequestContext.getAccountFromRequest();
+        return ResponseEntity.ok(ticketService.inspectTicket(code, request, account));
     }
 }

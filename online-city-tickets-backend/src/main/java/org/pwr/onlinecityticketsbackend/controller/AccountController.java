@@ -1,6 +1,7 @@
 package org.pwr.onlinecityticketsbackend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.pwr.onlinecityticketsbackend.config.RequestContext;
 import org.pwr.onlinecityticketsbackend.dto.account.UpdateAccountReqDto;
 import org.pwr.onlinecityticketsbackend.exception.AuthenticationInvalidRequest;
 import org.pwr.onlinecityticketsbackend.exception.UnauthorizedUser;
@@ -18,13 +19,15 @@ public class AccountController {
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'INSPECTOR')")
     @GetMapping
     public ResponseEntity<?> getAccount() throws UnauthorizedUser {
-        return ResponseEntity.ok(accountService.getCurrentAccountByEmail());
+        var account = RequestContext.getAccountFromRequest();
+        return ResponseEntity.ok(accountService.getCurrentAccountByEmail(account));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'PASSENGER', 'INSPECTOR')")
     @PatchMapping
     public ResponseEntity<?> updateAccount(@RequestBody UpdateAccountReqDto updateAccountReqDto)
             throws AuthenticationInvalidRequest, UnauthorizedUser {
-        return ResponseEntity.ok(accountService.updateAccount(updateAccountReqDto));
+        var account = RequestContext.getAccountFromRequest();
+        return ResponseEntity.ok(accountService.updateAccount(updateAccountReqDto, account));
     }
 }
