@@ -24,8 +24,7 @@ public class TicketService {
     private final VehicleRepository vehicleRepository;
     private final Clock clock;
 
-    public List<TicketDto> listTickets(Account account)
-            throws UnauthorizedUser, AuthenticationInvalidRequest {
+    public List<TicketDto> listTickets(Account account) throws AuthenticationInvalidRequest {
         if (!(account instanceof Passenger passenger)) {
             throw new AuthenticationInvalidRequest();
         }
@@ -37,10 +36,7 @@ public class TicketService {
 
     @Transactional
     public TicketDto purchaseTicket(PurchaseTicketReqDto purchaseTicketReqDto, Account account)
-            throws TicketInsufficientFunds,
-                    UnauthorizedUser,
-                    TicketOfferNotFound,
-                    AuthenticationInvalidRequest {
+            throws TicketInsufficientFunds, TicketOfferNotFound, AuthenticationInvalidRequest {
         if (!(account instanceof Passenger passenger)) {
             throw new AuthenticationInvalidRequest();
         }
@@ -71,7 +67,7 @@ public class TicketService {
     }
 
     public TicketDto getTicket(String code, Account account)
-            throws UnauthorizedUser, TicketNotFound, AuthenticationInvalidRequest {
+            throws TicketNotFound, AuthenticationInvalidRequest {
         if (!(account instanceof Passenger passenger)) {
             throw new AuthenticationInvalidRequest();
         }
@@ -114,7 +110,7 @@ public class TicketService {
     }
 
     public InspectTicketRes inspectTicket(String code, InspectTicketReq request, Account account)
-            throws VehicleNotFound, UnauthorizedUser, AuthenticationInvalidRequest {
+            throws VehicleNotFound, AuthenticationInvalidRequest {
         if (!(account instanceof Inspector)) {
             throw new AuthenticationInvalidRequest();
         }

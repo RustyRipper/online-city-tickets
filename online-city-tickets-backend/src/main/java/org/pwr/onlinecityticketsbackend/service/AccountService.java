@@ -71,7 +71,7 @@ public class AccountService {
     }
 
     public AccountDto updateAccount(UpdateAccountReqDto updateAccountReqDto, Account account)
-            throws AuthenticationInvalidRequest, UnauthorizedUser {
+            throws AuthenticationInvalidRequest {
         if (account instanceof Admin) {
             throw new AuthenticationInvalidRequest();
         }
