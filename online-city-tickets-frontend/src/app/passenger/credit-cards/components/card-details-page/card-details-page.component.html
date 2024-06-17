@@ -9,12 +9,13 @@
     </div>
     <div class="field">
       <label for="expirationDate">{{
-        i18n.t("card-details-page.expiration")
+        i18n.t("card-details-page.expiration-date")
       }}</label>
       <p-inputMask
         formControlName="expirationDate"
         id="expirationDate"
         mask="99/99"
+        [placeholder]="i18n.t('card-details-page.expiration-date-template')"
         autoClear="false"
         required
       />

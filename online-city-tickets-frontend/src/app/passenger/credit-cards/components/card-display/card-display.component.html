@@ -1,0 +1,51 @@
+<div class="perspective">
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 856 534">
+    <defs>
+      <linearGradient id="placeholder" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#cacce3" />
+        <stop offset="100%" stop-color="#595963" />
+      </linearGradient>
+      <linearGradient id="mastercard" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f79e1b" />
+        <stop offset="50%" stop-color="#eb001b" />
+        <stop offset="100%" stop-color="#231f20" />
+      </linearGradient>
+      <linearGradient id="amex" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="50%" stop-color="#006fcf" />
+        <stop offset="100%" stop-color="#006fcf" />
+      </linearGradient>
+      <linearGradient id="visa" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#fafafa" />
+        <stop offset="33%" stop-color="#f7b600" />
+        <stop offset="66%" stop-color="#1a1f71" />
+        <stop offset="100%" stop-color="#1a1f71" />
+      </linearGradient>
+      <linearGradient id="discover" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f9a021" />
+        <stop offset="50%" stop-color="#e55c20" />
+        <stop offset="100%" stop-color="#000000" />
+      </linearGradient>
+    </defs>
+    <rect
+      [attr.data-provider]="cardProvider"
+      class="background"
+      x="0"
+      y="0"
+      width="856"
+      height="534"
+      rx="30"
+    ></rect>
+    <image href="assets/chip.png" x="80" y="140" height="100" />
+    <image href="assets/wireless.png" x="230" y="160" height="60" />
+    <text class="text" x="80" y="280" font-size="60">
+      {{ numberDisplay }}
+    </text>
+    <text class="text" x="80" y="360" font-size="50">
+      {{ expirationDateDisplay }}
+    </text>
+    <text class="text" x="80" y="430" font-size="50">
+      {{ holderNameDisplay }}
+    </text>
+  </svg>
+</div>
