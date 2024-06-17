@@ -395,9 +395,13 @@
     "en-US": "Label",
     "pl-PL": "Etykieta"
   },
-  "card-details-page.expiration": {
-    "en-US": "Expiration",
-    "pl-PL": "Ważność"
+  "card-details-page.expiration-date": {
+    "en-US": "Expiration date",
+    "pl-PL": "Data ważności"
+  },
+  "card-details-page.expiration-date-template": {
+    "en-US": "MM/YY",
+    "pl-PL": "MM/RR"
   },
   "card-details-page.invalid-expiration": {
     "en-US": "This is not a valid expiration.",
@@ -418,6 +422,30 @@
   "card-addition-page.add-card": {
     "en-US": "Add card",
     "pl-PL": "Dodaj kartę"
+  },
+  "card-addition-page.card-number": {
+    "en-US": "Card number",
+    "pl-PL": "Numer karty"
+  },
+  "card-addition-page.holder-name": {
+    "en-US": "Holder name",
+    "pl-PL": "Imię i nazwisko"
+  },
+  "card-addition-page.expiration-date": {
+    "en-US": "Expiration date",
+    "pl-PL": "Data ważności"
+  },
+  "card-addition-page.expiration-date-template": {
+    "en-US": "MM/YY",
+    "pl-PL": "MM/RR"
+  },
+  "card-addition-page.label": {
+    "en-US": "Label",
+    "pl-PL": "Etykieta"
+  },
+  "card-addition-page.save": {
+    "en-US": "Save",
+    "pl-PL": "Zapisz"
   },
   "card-display.expiration-date-template": {
     "en-US": "MM/YY",

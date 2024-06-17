@@ -3,4 +3,103 @@
 </app-top-bar>
 <main>
   <app-card-display number="" holderName="" expirationDate="" />
+  <p-stepper orientation="vertical" [linear]="true">
+    <p-stepperPanel [header]="i18n.t('card-addition-page.card-number')">
+      <ng-template pTemplate="content" let-nextCallback="nextCallback">
+        <p-inputGroup>
+          <p-inputMask
+            mask="9999 9999 9999 9999"
+            placeholder="0000 0000 0000 0000"
+            autoClear="false"
+            required
+          />
+          <button
+            type="button"
+            pButton
+            icon="pi pi-arrow-right"
+            (click)="nextCallback.emit()"
+          ></button>
+        </p-inputGroup>
+      </ng-template>
+    </p-stepperPanel>
+    <p-stepperPanel [header]="i18n.t('card-addition-page.holder-name')">
+      <ng-template
+        pTemplate="content"
+        let-prevCallback="prevCallback"
+        let-nextCallback="nextCallback"
+      >
+        <p-inputGroup>
+          <button
+            type="button"
+            pButton
+            icon="pi pi-arrow-left"
+            severity="secondary"
+            (click)="prevCallback.emit()"
+          ></button>
+          <input
+            type="text"
+            pInputText
+            [placeholder]="i18n.t('card-addition-page.holder-name')"
+            required
+          />
+          <button
+            type="button"
+            pButton
+            icon="pi pi-arrow-right"
+            (click)="nextCallback.emit()"
+          ></button>
+        </p-inputGroup>
+      </ng-template>
+    </p-stepperPanel>
+    <p-stepperPanel [header]="i18n.t('card-addition-page.expiration-date')">
+      <ng-template
+        pTemplate="content"
+        let-prevCallback="prevCallback"
+        let-nextCallback="nextCallback"
+      >
+        <p-inputGroup>
+          <button
+            type="button"
+            pButton
+            icon="pi pi-arrow-left"
+            severity="secondary"
+            (click)="prevCallback.emit()"
+          ></button>
+          <p-inputMask
+            mask="99/99"
+            placeholder="MM/YY"
+            autoClear="false"
+            required
+          />
+          <button
+            type="button"
+            pButton
+            icon="pi pi-arrow-right"
+            (click)="nextCallback.emit()"
+          ></button>
+        </p-inputGroup>
+      </ng-template>
+    </p-stepperPanel>
+    <p-stepperPanel [header]="i18n.t('card-addition-page.label')">
+      <ng-template pTemplate="content" let-prevCallback="prevCallback">
+        <p-inputGroup>
+          <button
+            type="button"
+            pButton
+            icon="pi pi-arrow-left"
+            severity="secondary"
+            (click)="prevCallback.emit()"
+          ></button>
+          <input
+            type="text"
+            pInputText
+            [placeholder]="i18n.t('card-addition-page.label')"
+          />
+          <button type="button" pButton>
+            {{ i18n.t("card-addition-page.save") }}
+          </button>
+        </p-inputGroup>
+      </ng-template>
+    </p-stepperPanel>
+  </p-stepper>
 </main>

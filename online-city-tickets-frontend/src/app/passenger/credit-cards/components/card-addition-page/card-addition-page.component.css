@@ -3,3 +3,15 @@ main {
   max-width: 35rem;
   margin: 0 auto;
 }
+
+:host ::ng-deep .p-inputgroup :where(input, p-inputmask) {
+  flex: 1;
+  width: 100%;
+}
+
+:host ::ng-deep .p-inputgroup input {
+  border: 1px solid var(--main-border);
+  border-radius: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+}

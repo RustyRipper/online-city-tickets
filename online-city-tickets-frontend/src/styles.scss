@@ -44,3 +44,12 @@ app-root {
 .dark .p-divider-content {
   background-color: #1c1b22;
 }
+
+.dark input {
+  background-color: #09090b;
+}
+
+.p-inputgroup .p-inputtext,
+.p-fluid .p-inputgroup .p-inputtext {
+  width: 100% !important;
+}
