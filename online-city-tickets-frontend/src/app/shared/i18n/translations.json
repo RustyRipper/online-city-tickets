@@ -447,6 +447,10 @@
     "en-US": "Save",
     "pl-PL": "Zapisz"
   },
+  "card-addition-page.error": {
+    "en-US": "Could not add the card!",
+    "pl-PL": "Nie można dodać karty!"
+  },
   "card-display.expiration-date-template": {
     "en-US": "MM/YY",
     "pl-PL": "MM/RR"

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, catchError, firstValueFrom } from "rxjs";
 
-import { UpdateCreditCardReq } from "~/generated/api/models";
+import { SaveCreditCardReq, UpdateCreditCardReq } from "~/generated/api/models";
 import { CardsApi } from "~/generated/api/services";
 import { CreditCard } from "~/passenger/credit-cards/model";
 
@@ -42,5 +42,13 @@ export class CreditCardService {
   public async deleteCard(id: number): Promise<void> {
     await firstValueFrom(this.cardsApi.deleteCreditCard({ id: String(id) }));
     this.revalidateCards(this.cardsSubject.value.filter((c) => c.id !== id));
+  }
+
+  public async addCard(body: SaveCreditCardReq): Promise<void> {
+    const card = await firstValueFrom(this.cardsApi.saveCreditCard({ body }));
+    this.revalidateCards([
+      ...this.cardsSubject.value,
+      CreditCard.deserialize(card),
+    ]);
   }
 }

@@ -19,8 +19,9 @@ export class CardDisplayComponent {
   public constructor(private readonly i18n: I18nService) {}
 
   protected get numberDisplay(): string {
-    const template = "XXXX XXXX XXXX XXXX";
-    return this.number + template.slice(this.number.length);
+    const template = "•••• •••• •••• ••••";
+    const number = this.number.replaceAll("_", "•");
+    return number + template.slice(number.length);
   }
 
   protected get holderNameDisplay(): string {

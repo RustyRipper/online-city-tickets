@@ -2,7 +2,11 @@
   <app-back-button left />
 </app-top-bar>
 <main>
-  <app-card-display number="" holderName="" expirationDate="" />
+  <app-card-display
+    [number]="number"
+    [holderName]="holderName"
+    [expirationDate]="expirationDate"
+  />
   <p-stepper orientation="vertical" [linear]="true">
     <p-stepperPanel [header]="i18n.t('card-addition-page.card-number')">
       <ng-template pTemplate="content" let-nextCallback="nextCallback">
@@ -12,12 +16,14 @@
             placeholder="0000 0000 0000 0000"
             autoClear="false"
             required
+            [(ngModel)]="number"
           />
           <button
             type="button"
             pButton
             icon="pi pi-arrow-right"
             (click)="nextCallback.emit()"
+            [disabled]="fails('parseNumber')"
           ></button>
         </p-inputGroup>
       </ng-template>
@@ -41,12 +47,14 @@
             pInputText
             [placeholder]="i18n.t('card-addition-page.holder-name')"
             required
+            [(ngModel)]="holderName"
           />
           <button
             type="button"
             pButton
             icon="pi pi-arrow-right"
             (click)="nextCallback.emit()"
+            [disabled]="fails('parseHolderName')"
           ></button>
         </p-inputGroup>
       </ng-template>
@@ -70,12 +78,14 @@
             placeholder="MM/YY"
             autoClear="false"
             required
+            [(ngModel)]="expirationDate"
           />
           <button
             type="button"
             pButton
             icon="pi pi-arrow-right"
             (click)="nextCallback.emit()"
+            [disabled]="fails('parseExpirationDate')"
           ></button>
         </p-inputGroup>
       </ng-template>
@@ -94,11 +104,21 @@
             type="text"
             pInputText
             [placeholder]="i18n.t('card-addition-page.label')"
+            [(ngModel)]="label"
           />
-          <button type="button" pButton>
+          <button
+            type="button"
+            pButton
+            (click)="onSubmit()"
+            [disabled]="fails('parseForm')"
+            [loading]="isLoading"
+          >
             {{ i18n.t("card-addition-page.save") }}
           </button>
         </p-inputGroup>
+        @if (error.length > 0) {
+          <p class="error">{{ error }}</p>
+        }
       </ng-template>
     </p-stepperPanel>
   </p-stepper>
