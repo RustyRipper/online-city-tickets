@@ -33,7 +33,7 @@ export class OfferDetailsPageComponent {
     this.offer = activatedRoute.snapshot.data["offer"];
   }
 
-  public async purchase(): Promise<void> {
+  protected async purchase(): Promise<void> {
     const ticket = await this.ticketsService.purchaseTicket(this.offer.id);
     this.router.navigateByUrl(`/passenger/tickets/${ticket.code}`);
   }
