@@ -4,11 +4,12 @@ import {
   EMPTY,
   catchError,
   distinctUntilChanged,
+  firstValueFrom,
   mergeMap,
   of,
 } from "rxjs";
 
-import { AccountsApi } from "~/generated/api/services";
+import { AccountsApi, RechargingApi } from "~/generated/api/services";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +20,33 @@ export class WalletService {
     .asObservable()
     .pipe(distinctUntilChanged());
 
-  public constructor(private readonly accountsApi: AccountsApi) {}
+  public constructor(
+    private readonly accountsApi: AccountsApi,
+    private readonly rechargingApi: RechargingApi,
+  ) {}
+
+  public async rechargeWithCard(
+    amountGrosze: number,
+    creditCardId: number,
+    cvc: string,
+  ): Promise<void> {
+    const { newWalletBalanceGrosze } = await firstValueFrom(
+      this.rechargingApi.rechargeWithSavedCreditCard({
+        body: { amountGrosze, creditCardId, cvc },
+      }),
+    );
+    this.revalidateBalanceGrosze(newWalletBalanceGrosze);
+  }
+
+  public async rechargeWithBlik(
+    amountGrosze: number,
+    blikCode: string,
+  ): Promise<void> {
+    const { newWalletBalanceGrosze } = await firstValueFrom(
+      this.rechargingApi.rechargeWithBlik({ body: { amountGrosze, blikCode } }),
+    );
+    this.revalidateBalanceGrosze(newWalletBalanceGrosze);
+  }
 
   public revalidateBalanceGrosze(optimisticValue?: number): void {
     if (optimisticValue) {

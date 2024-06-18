@@ -171,6 +171,18 @@
     "en-US": "Submit",
     "pl-PL": "Zatwierdź"
   },
+  "payment-sheet.recharge-error": {
+    "en-US": "Payment failed!",
+    "pl-PL": "Płatność się nie powiodła!"
+  },
+  "payment-sheet.purchase-error": {
+    "en-US": "Purchase failed!",
+    "pl-PL": "Zakup się nie powiódł!"
+  },
+  "payment-sheet.purchase-success": {
+    "en-US": "Purchase successful!",
+    "pl-PL": "Zakup zakończony sukcesem!"
+  },
   "settings-page.settings": {
     "en-US": "Settings",
     "pl-PL": "Ustawienia"

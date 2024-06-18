@@ -10,7 +10,11 @@
     />
     <div class="select">
       <label>{{ i18n.t("payment-sheet.payment-method") }}:</label>
-      <p-dropdown [options]="allowedPaymentIds" [(ngModel)]="paymentId">
+      <p-dropdown
+        [options]="allowedPaymentIds"
+        [ngModel]="paymentId"
+        (ngModelChange)="onPaymentIdChange($event)"
+      >
         <ng-template pTemplate="selectedItem">
           <i [class]="['pi', method(paymentId).icon]"></i>
           {{ method(paymentId).name }}

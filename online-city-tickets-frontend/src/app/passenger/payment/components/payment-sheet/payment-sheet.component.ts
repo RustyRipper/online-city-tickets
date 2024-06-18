@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { DialogModule } from "primeng/dialog";
 import { DropdownModule } from "primeng/dropdown";
@@ -32,7 +33,7 @@ export class PaymentSheetComponent implements OnInit {
   private walletBalanceGrosze = 0;
   private creditCards: CreditCard[] = [];
 
-  protected paymentId: PaymentId = "blik";
+  protected paymentId: Exclude<PaymentId, "new-card"> = "blik";
   protected state: State = "idle";
   protected otp: string = "";
 
@@ -42,6 +43,7 @@ export class PaymentSheetComponent implements OnInit {
 
   public constructor(
     private readonly router: Router,
+    private readonly messageService: MessageService,
     private readonly walletService: WalletService,
     private readonly creditCardService: CreditCardService,
     protected readonly i18n: I18nService,
@@ -71,6 +73,15 @@ export class PaymentSheetComponent implements OnInit {
     ];
   }
 
+  protected onPaymentIdChange(id: PaymentId) {
+    if (id === "new-card") {
+      this.router.navigateByUrl("/passenger/credit-cards/add");
+      return;
+    }
+
+    this.paymentId = id;
+  }
+
   protected method(id: PaymentId): PaymentMethod {
     switch (id) {
       case "wallet":
@@ -95,13 +106,19 @@ export class PaymentSheetComponent implements OnInit {
         };
     }
 
-    const cardId = parseInt(id.slice("card#".length), 10);
-    const card = this.creditCards.find((c) => c.id === cardId);
     return {
       id,
-      name: card?.labelWithDigits ?? "",
+      name: this.getCard(id)?.labelWithDigits ?? "",
       icon: "pi-credit-card",
     };
+  }
+
+  private getCard(id: PaymentId): CreditCard | null {
+    if (!id.startsWith("card#")) {
+      return null;
+    }
+    const cardId = parseInt(id.slice("card#".length), 10);
+    return this.creditCards.find((c) => c.id === cardId) ?? null;
   }
 
   protected get dialogVisible(): boolean {
@@ -112,14 +129,7 @@ export class PaymentSheetComponent implements OnInit {
     if (this.paymentId === "blik") {
       return this.i18n.t("payment-sheet.blik");
     }
-    if (this.paymentId.startsWith("card#")) {
-      const cardId = parseInt(this.paymentId.slice("card#".length), 10);
-      const card = this.creditCards.find((c) => c.id === cardId);
-      return card?.labelWithDigits ?? "";
-    }
-
-    // Other payment methods lack a dialog
-    return "";
+    return this.getCard(this.paymentId)?.labelWithDigits ?? "";
   }
 
   protected onDialogClose(): void {
@@ -153,17 +163,12 @@ export class PaymentSheetComponent implements OnInit {
   }
 
   protected async onFinalizeStart(): Promise<void> {
+    if (this.paymentId === "wallet") {
+      return this.onPurchaseStart();
+    }
+
     this.state = "finalizing";
     this.otp = "";
-
-    if (this.paymentId === "new-card") {
-      this.router.navigateByUrl("/passenger/credit-cards/add");
-      return;
-    }
-
-    if (this.paymentId === "wallet") {
-      return await this.onPurchaseStart();
-    }
   }
 
   protected get rechargeDisabled(): boolean {
@@ -175,10 +180,48 @@ export class PaymentSheetComponent implements OnInit {
   }
 
   protected async onRechargeStart(): Promise<void> {
-    this.state = "recharging";
+    try {
+      this.state = "recharging";
+
+      const card = this.getCard(this.paymentId);
+      if (this.paymentId === "blik") {
+        await this.walletService.rechargeWithBlik(this.costGrosze, this.otp);
+      } else if (card) {
+        await this.walletService.rechargeWithCard(
+          this.costGrosze,
+          card.id,
+          this.otp,
+        );
+      } else {
+        throw new Error("unreachable");
+      }
+
+      return this.onPurchaseStart();
+    } catch {
+      this.messageService.add({
+        severity: "error",
+        summary: this.i18n.t("payment-sheet.recharge-error"),
+      });
+      this.state = "finalizing";
+      this.otp = "";
+    }
   }
 
   private async onPurchaseStart(): Promise<void> {
-    this.state = "purchasing";
+    try {
+      this.state = "purchasing";
+      await this.afterRecharge?.();
+      this.messageService.add({
+        severity: "success",
+        summary: this.i18n.t("payment-sheet.purchase-success"),
+      });
+    } catch {
+      this.messageService.add({
+        severity: "error",
+        summary: this.i18n.t("payment-sheet.purchase-error"),
+      });
+    } finally {
+      this.state = "idle";
+    }
   }
 }
