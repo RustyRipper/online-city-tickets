@@ -39,7 +39,7 @@ export class PaymentSheetComponent implements OnInit {
 
   @Input({ required: true }) public actionName!: string;
   @Input({ required: true }) public costGrosze!: number;
-  @Input() public afterRecharge: (() => Promise<void>) | null = null;
+  @Input() public afterRecharge: (() => Promise<unknown>) | null = null;
 
   public constructor(
     private readonly router: Router,
@@ -211,6 +211,7 @@ export class PaymentSheetComponent implements OnInit {
     try {
       this.state = "purchasing";
       await this.afterRecharge?.();
+      this.walletService.revalidateBalanceGrosze();
       this.messageService.add({
         severity: "success",
         summary: this.i18n.t("payment-sheet.purchase-success"),
