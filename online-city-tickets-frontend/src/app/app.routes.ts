@@ -2,7 +2,6 @@ import type { Routes } from "@angular/router";
 
 import { offerResolver } from "~/passenger/offers/resolvers/offer.resolver";
 import { ticketResolver } from "~/passenger/tickets/resolvers/ticket.resolver";
-import { balanceResolver } from "~/passenger/wallet/resolvers/balance.resolver";
 import { hasRole } from "~/shared/auth/guards/has-role.guard";
 import { accountResolver } from "~/shared/auth/resolvers/account.resolver";
 
@@ -83,7 +82,6 @@ export const routes: Routes = [
           import(
             "~/passenger/wallet/components/wallet-page/wallet-page.component"
           ).then((m) => m.WalletPageComponent),
-        resolve: { balance: balanceResolver },
       },
       {
         path: "credit-cards",

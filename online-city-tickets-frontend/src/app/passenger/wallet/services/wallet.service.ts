@@ -35,7 +35,7 @@ export class WalletService {
         body: { amountGrosze, creditCardId, cvc },
       }),
     );
-    this.revalidateBalanceGrosze(newWalletBalanceGrosze);
+    this.balanceGroszeSubject.next(newWalletBalanceGrosze);
   }
 
   public async rechargeWithBlik(
@@ -45,13 +45,10 @@ export class WalletService {
     const { newWalletBalanceGrosze } = await firstValueFrom(
       this.rechargingApi.rechargeWithBlik({ body: { amountGrosze, blikCode } }),
     );
-    this.revalidateBalanceGrosze(newWalletBalanceGrosze);
+    this.balanceGroszeSubject.next(newWalletBalanceGrosze);
   }
 
-  public revalidateBalanceGrosze(optimisticValue?: number): void {
-    if (optimisticValue) {
-      this.balanceGroszeSubject.next(optimisticValue);
-    }
+  public revalidateBalanceGrosze(): void {
     this.accountsApi
       .getAccount()
       .pipe(
