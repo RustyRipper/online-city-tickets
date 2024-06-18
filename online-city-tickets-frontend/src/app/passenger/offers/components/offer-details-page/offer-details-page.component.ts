@@ -29,4 +29,8 @@ export class OfferDetailsPageComponent {
   ) {
     this.offer = activatedRoute.snapshot.data["offer"];
   }
+
+  public async purchase(): Promise<void> {
+    console.log("Purchasing offer", this.offer);
+  }
 }

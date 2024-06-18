@@ -45,3 +45,10 @@
   width: 1rem;
   margin-right: 0.5rem;
 }
+
+:host ::ng-deep .p-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
