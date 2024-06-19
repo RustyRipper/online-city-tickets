@@ -8,5 +8,6 @@
   <app-payment-sheet
     [actionName]="i18n.t('offer-details-page.purchase')"
     [costGrosze]="offer.priceGrosze"
+    [afterRecharge]="purchase.bind(this)"
   />
 </main>

@@ -31,23 +31,12 @@ describe(WalletService.name, () => {
     expect(await firstValueFrom(sut.balanceGrosze$)).toBe(200);
   });
 
-  it("should perform optimistic revalidation", () => {
-    const { sut, mockHttp } = provide(WalletService);
-    const balances: number[] = [];
-    sut.balanceGrosze$.subscribe((b) => balances.push(b));
-
-    sut.revalidateBalanceGrosze(123);
-    mockHttp("/account", { type: "passenger", walletBalanceGrosze: 456 });
-
-    expect(balances).toEqual([0, 123, 456]);
-  });
-
   it("should not produce duplicate balance updates", async () => {
     const { sut, mockHttp } = provide(WalletService);
     const balances: number[] = [];
     sut.balanceGrosze$.subscribe((b) => balances.push(b));
 
-    sut.revalidateBalanceGrosze(0);
+    sut.revalidateBalanceGrosze();
     mockHttp("/account", { type: "passenger", walletBalanceGrosze: 0 });
 
     expect(balances).toEqual([0]);
