@@ -24,6 +24,9 @@ services:
     build: ./online-city-tickets-frontend
     ports:
       - "8000:80"
+      - "443:443"
     stdin_open: true
+    volumes:
+      - ./ssl:/etc/nginx/certs
     depends_on:
       - springboot

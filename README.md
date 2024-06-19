@@ -2,9 +2,16 @@
 
 ## Run app - docker-compose
 
-```bash
-docker-compose up --build -d 
-```
+1. Install `mkcert`
+2. Run `mkcert -install`
+3. Run `mkcert localhost 127.0.0.1 ::1`
+4. Copy `localhost.pem` and `localhost-key.pem` to `online-city-tickets-frontend/ssl`
+5. Run the following command:
+    ```bash
+    docker-compose up --build -d 
+    ```
+6. Open `https://localhost` in your browser
+
 
 ## Backend
 
