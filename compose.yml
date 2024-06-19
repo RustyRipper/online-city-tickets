@@ -1,15 +1,13 @@
-version: '3'
+version: "3"
 services:
   postgresql:
-    image: 'postgres'
-    container_name: postgresql
+    image: postgres
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres
   springboot:
-    container_name: springboot
     image: spring
     build: ./online-city-tickets-backend
     ports:
@@ -19,7 +17,6 @@ services:
 
   angular:
     restart: always
-    container_name: angular
     image: angular
     build: ./online-city-tickets-frontend
     ports:
